@@ -16,7 +16,7 @@ public class BodySourceManager : MonoBehaviour
 
     void Start()
     {
-        _Sensor; = KinectSensor.GetDefault();
+        _Sensor = KinectSensor.GetDefault();
 
         if (_Sensor != null)
         {
