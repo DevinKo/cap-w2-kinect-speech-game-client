@@ -14,6 +14,8 @@ namespace Assets.Toolbox
         // Should use some sort of dependency injection here.
         protected AbstractAppDataManager _appDataManager;
         protected AbstractDataServerClient _dataServerClient;
+        protected BodySourceManager _bodySourceManager;
+        protected BodySnapshotCollector _bodySnapshotCollector;
 
         public AbstractAppDataManager AppDataManager
         {
@@ -31,6 +33,22 @@ namespace Assets.Toolbox
             }
         }
 
+        public BodySourceManager BodySourceManager
+        {
+            get
+            {
+                return _bodySourceManager;
+            }
+        }
+
+        public BodySnapshotCollector BodySnapshotCollector
+        {
+            get
+            {
+                return _bodySnapshotCollector;
+            }
+        }
+
         void Awake()
         {
             // initialization code here
@@ -39,7 +57,8 @@ namespace Assets.Toolbox
             //RegisterComponent<DataServerProxy>();
             _appDataManager = gameObject.AddComponent<AppDataManager>();
             _dataServerClient = gameObject.AddComponent<DataServerProxy>();
-            
+            _bodySourceManager = gameObject.AddComponent<BodySourceManager>();
+            _bodySnapshotCollector = gameObject.AddComponent<BodySnapshotCollector>();
         }
 
         // allow runtime registration of global objects

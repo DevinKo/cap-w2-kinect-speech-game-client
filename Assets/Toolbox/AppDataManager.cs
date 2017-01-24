@@ -22,7 +22,7 @@ namespace Assets.Toolbox
             if (_bodySnapshots.Count >= 2)
             {
                 var dataClient = toolbox.DataServerProxy;
-                dataClient.Send(_bodySnapshots.ToArray());
+                dataClient.SendAsFile(_bodySnapshots.ToArray());
                 _bodySnapshots = new List<BodySnapshot>();
             }
         }

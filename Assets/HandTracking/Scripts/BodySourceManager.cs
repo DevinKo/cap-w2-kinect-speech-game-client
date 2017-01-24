@@ -67,4 +67,40 @@ public class BodySourceManager : MonoBehaviour
             _Sensor = null;
         }
     }
+
+    public Body GetFirstTrackedBody()
+    {
+        /*if (_bodySourceManager == null)
+        {
+            return null;
+        }*/
+
+
+        //_bodyManager = _bodySourceManager.GetComponent<BodySourceManager>();
+        /*if (bodyManager == null)
+        {
+            return null;
+        }*/
+
+        Body[] data = GetData();
+        if (data == null)
+        {
+            return null;
+        }
+
+        // get the first tracked body...
+        foreach (var body in data)
+        {
+            if (body == null)
+            {
+                continue;
+            }
+
+            if (body.IsTracked)
+            {
+                return body;
+            }
+        }
+        return null;
+    }
 }
