@@ -11,7 +11,7 @@ namespace Assets.Toolbox
 {
     public class DataServerProxy : AbstractDataServerClient
     {
-        private string url = "http://localhost:81";
+        private string url = "http://localhost:3000/api/v1/sessions";
 
         public override bool Send(BodySnapshot[] data)
         {
@@ -35,9 +35,11 @@ namespace Assets.Toolbox
 
             var json = JsonUtility.ToJson(file);
             var bytes = Encoding.UTF8.GetBytes(json);
-            var form = new WWWForm();
-            form.AddBinaryData("file", bytes, "fileName", "application/javascript");
-            var request = new WWW(url, form);
+
+            var postHeader = new Dictionary<string, string>();
+            postHeader.Add("Content-Type", "application/json");
+
+            var request = new WWW(url, bytes, postHeader);
             File.WriteAllBytes(@"C:\Users\barto\Documents\Snapshots.json", bytes);
             Debug.Log("Writing file");
             StartCoroutine("WaitAsync", request);

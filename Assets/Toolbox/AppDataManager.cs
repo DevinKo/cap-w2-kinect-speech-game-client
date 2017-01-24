@@ -15,16 +15,20 @@ namespace Assets.Toolbox
             toolbox = gameObject.GetComponent<Toolbox>();
         }
 
-        public override void Save(BodySnapshot data)
+        public void Update()
         {
-            _bodySnapshots.Add(data);
-
-            if (_bodySnapshots.Count >= 2)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 var dataClient = toolbox.DataServerProxy;
                 dataClient.SendAsFile(_bodySnapshots.ToArray());
                 _bodySnapshots = new List<BodySnapshot>();
             }
+        }
+
+        public override void Save(BodySnapshot data)
+        {
+            _bodySnapshots.Add(data);
+
         }
 
     }
