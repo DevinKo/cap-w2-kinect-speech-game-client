@@ -27,10 +27,10 @@ namespace Assets.Toolbox
             while (true)
             {
                 ////////// Test
-                var s = Assets.MockDataContracts.MockSnapshots.BodySnapshot1;
-                s.Time = Time.time;
-                _toolbox.AppDataManager.Save(s);
-                yield return new WaitForSeconds(3);
+                //var s = Assets.MockDataContracts.MockSnapshots.BodySnapshot1;
+                //s.Time = Time.time;
+                //_toolbox.AppDataManager.Save(s);
+                //yield return new WaitForSeconds(3);
                 ////////////// Test
                 if (_toolbox.BodySourceManager == null)
                 {
@@ -65,7 +65,7 @@ namespace Assets.Toolbox
                 };
 
                 _toolbox.AppDataManager.Save(snapshot);
-                yield return new WaitForSeconds(3);
+                yield return new WaitForSeconds(0.5f);
             }
         }
     }
