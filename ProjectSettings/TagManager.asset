@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - zone_collider
+  - pointing_object
   layers:
   - Default
   - TransparentFX
