@@ -9,6 +9,6 @@ namespace Assets.DataContracts
     public class BodySnapshot
     {
         public Joint[] Joints;
-        public float Time;
+        public DateTime Time;
     }
 }

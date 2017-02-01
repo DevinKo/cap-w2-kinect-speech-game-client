@@ -36,7 +36,19 @@ namespace Assets.Toolbox
         /// <summary>
         /// Number of audio samples represented by each column of pixels in wave bitmap.
         /// </summary>
-        private const int SamplesPerColumn = 1000;
+        private const int SamplesPerColumn = 40;
+
+        // The most recent collected decibel
+        private float _decibel = 0;
+
+        // The most recent collected decibel
+        public float Decibel
+        {
+            get
+            {
+                return _decibel;
+            }
+        }
 
         /// <summary>
         /// Sum of squares of audio samples being accumulated to compute the next energy value.
@@ -85,6 +97,8 @@ namespace Assets.Toolbox
             {
                 //_Reader = _Sensor.AudioSource.OpenReader();
 
+                _Reader = _Sensor.AudioSource.OpenReader();
+
                 // Get its audio source
                 var audioSource = _Sensor.AudioSource;
 
@@ -97,6 +111,8 @@ namespace Assets.Toolbox
                 //audioSource.AudioBeams[0].AudioBeamMode = AudioBeamMode.Manual;
                 //audioSource.AudioBeams[0].BeamAngle = 0;
 
+                //_Reader.FrameArrived +=
+
                 if (!_Sensor.IsOpen)
                 {
                     _Sensor.Open();
@@ -107,7 +123,6 @@ namespace Assets.Toolbox
 
         public void Update()
         {
-            _Reader = _Sensor.AudioSource.OpenReader();
             
             var audioBeamFrames = _Reader.AcquireLatestBeamFrames();
             
@@ -161,9 +176,12 @@ namespace Assets.Toolbox
                     {
                         energy = (float)(10.0 * Math.Log10(meanSquare));
                     }
+
+                    _decibel = energy;
                     
                     // Normalize values to the range [0, 1] for display
                     this.energy.AddFirst((MinEnergy - energy) / MinEnergy);
+                    
                     //Debug.Log((MinEnergy - energy) / MinEnergy);
                     if (this.energy.Count >= EnergyStreamLength)
                     {
