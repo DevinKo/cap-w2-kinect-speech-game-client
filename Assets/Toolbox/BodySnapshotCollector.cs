@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Windows.Kinect;
 using Assets.DataContracts;
 using UnityEngine;
+using System;
 
 namespace Assets.Toolbox
 {
@@ -57,15 +58,15 @@ namespace Assets.Toolbox
                         Z = pos.Z
                     });
                 }
-                
+
                 var snapshot = new BodySnapshot()
                 {
                     Joints = joints.ToArray(),
-                    Time = Time.time
+                    Time = DateTime.Now,
                 };
 
                 _toolbox.AppDataManager.Save(snapshot);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.1f);
             }
         }
     }

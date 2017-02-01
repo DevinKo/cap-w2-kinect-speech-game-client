@@ -16,6 +16,7 @@ namespace Assets.Toolbox
         protected AbstractDataServerClient _dataServerClient;
         protected BodySourceManager _bodySourceManager;
         protected BodySnapshotCollector _bodySnapshotCollector;
+        protected VolumeCollector _volumeCollector;
 
         public AbstractAppDataManager AppDataManager
         {
@@ -49,6 +50,14 @@ namespace Assets.Toolbox
             }
         }
 
+        public VolumeCollector VolumeCollector
+        {
+            get
+            {
+                return _volumeCollector;
+            }
+        }
+
         void Awake()
         {
             // initialization code here
@@ -59,6 +68,7 @@ namespace Assets.Toolbox
             _dataServerClient = gameObject.AddComponent<DataServerProxy>();
             _bodySourceManager = gameObject.AddComponent<BodySourceManager>();
             _bodySnapshotCollector = gameObject.AddComponent<BodySnapshotCollector>();
+            _volumeCollector = gameObject.AddComponent<VolumeCollector>();
         }
 
         // allow runtime registration of global objects
