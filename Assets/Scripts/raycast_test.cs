@@ -11,17 +11,24 @@ public class raycast_test : MonoBehaviour {
     bool isComplete=false;
     float timeLeft;
 
+    [SerializeField]
+    protected KinectUIHandType _handType;
+    protected KinectInputData _data;
+
+    private Vector3 offset;
+
     // Use this for initialization
     void Start () {
 
          timeLeft = pointing_zone_timer;
-		
-	}
+
+        _data = KinectInputModule.instance.GetHandData(_handType);
+        offset = new Vector3(681.5f, 296.5f);
+    }
 	
 	// Update is called once per frame
 	void Update () {
-
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        ray = Camera.main.ScreenPointToRay(new Vector3(_data.GetHandScreenPosition().x, (2 * offset.y) - _data.GetHandScreenPosition().y, _data.GetHandScreenPosition().z));
         if (isComplete) { }
         else if (Physics.Raycast(ray, out hit))
         {
