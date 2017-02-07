@@ -63,6 +63,7 @@ namespace Assets.Toolbox
                 {
                     Joints = joints.ToArray(),
                     Time = DateTime.Now,
+					Intensity = _toolbox.VolumeCollector.Decibel,
                 };
 
                 _toolbox.AppDataManager.Save(snapshot);

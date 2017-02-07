@@ -10,5 +10,6 @@ namespace Assets.DataContracts
     {
         public Joint[] Joints;
         public DateTime Time;
+		public Toolbox.VolumeCollector Intensity;
     }
 }
