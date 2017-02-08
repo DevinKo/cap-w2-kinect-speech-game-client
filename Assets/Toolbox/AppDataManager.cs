@@ -8,6 +8,7 @@ namespace Assets.Toolbox
     public class AppDataManager : AbstractAppDataManager
     {
         private List<BodySnapshot> _bodySnapshots = new List<BodySnapshot>();
+        private List<AudioSnapshot> _audioSnapshots = new List<AudioSnapshot>();
         private Toolbox toolbox;
 
         private void Start()
@@ -20,7 +21,11 @@ namespace Assets.Toolbox
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 var dataClient = toolbox.DataServerProxy;
-                dataClient.SendAsFile(_bodySnapshots.ToArray());
+                dataClient.SendAsFile(new BodySnapshotJsonFile()
+                {
+                    Snapshots = _bodySnapshots.ToArray(),
+                    AudioSnapshots = _audioSnapshots.ToArray(),
+                });
                 _bodySnapshots = new List<BodySnapshot>();
             }
         }
@@ -29,6 +34,11 @@ namespace Assets.Toolbox
         {
             _bodySnapshots.Add(data);
 
+        }
+
+        public override void Save(AudioSnapshot data)
+        {
+            _audioSnapshots.Add(data);
         }
 
     }

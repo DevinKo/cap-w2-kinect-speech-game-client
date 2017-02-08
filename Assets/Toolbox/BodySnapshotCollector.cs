@@ -23,6 +23,25 @@ namespace Assets.Toolbox
             
         }
 
+        public IEnumerator RecordAudioSnapshots()
+        {
+            while (true)
+            {
+                if (!_toolbox.VolumeCollector)
+                {
+                    yield return null;
+                    continue;
+                }
+                var audioSnapshot = new AudioSnapshot()
+                {
+                    Intensity = _toolbox.VolumeCollector.Decibel,
+                    Time = DateTime.Now,
+                };
+                _toolbox.AppDataManager.Save(audioSnapshot);
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+
         public IEnumerator RecordSnapshot()
         {
             while (true)
@@ -63,7 +82,6 @@ namespace Assets.Toolbox
                 {
                     Joints = joints.ToArray(),
                     Time = DateTime.Now,
-					Intensity = _toolbox.VolumeCollector.Decibel,
                 };
 
                 _toolbox.AppDataManager.Save(snapshot);

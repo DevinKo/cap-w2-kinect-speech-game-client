@@ -6,9 +6,9 @@ using System.Text;
 namespace Assets.DataContracts
 {
     [Serializable]
-    public class BodySnapshot
+    public class AudioSnapshot
     {
-        public Joint[] Joints;
+        public float Intensity;
         public DateTime Time;
     }
 }

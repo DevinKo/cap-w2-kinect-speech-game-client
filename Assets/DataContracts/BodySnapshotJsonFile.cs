@@ -9,5 +9,6 @@ namespace Assets.DataContracts
     public class BodySnapshotJsonFile
     {
         public BodySnapshot[] Snapshots;
+        public AudioSnapshot[] AudioSnapshots;
     }
 }
