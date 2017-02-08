@@ -26,13 +26,8 @@ namespace Assets.Toolbox
             return true;
         }
 
-        public override void SendAsFile(BodySnapshot[] snapshots)
+        public override void SendAsFile(BodySnapshotJsonFile file)
         {
-            var file = new BodySnapshotJsonFile()
-            {
-                Snapshots = snapshots,
-            };
-
             var json = JsonUtility.ToJson(file);
             var bytes = Encoding.UTF8.GetBytes(json);
 
