@@ -8,7 +8,7 @@ namespace Assets.DataContracts
     [Serializable]
     public class BodySnapshotJsonFile
     {
-        public BodySnapshot[] Snapshots;
+        public BodySnapshot[] BodySnapshots;
         public AudioSnapshot[] AudioSnapshots;
     }
 }

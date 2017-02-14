@@ -23,7 +23,7 @@ namespace Assets.Toolbox
                 var dataClient = toolbox.DataServerProxy;
                 dataClient.SendAsFile(new BodySnapshotJsonFile()
                 {
-                    Snapshots = _bodySnapshots.ToArray(),
+                    BodySnapshots = _bodySnapshots.ToArray(),
                     AudioSnapshots = _audioSnapshots.ToArray(),
                 });
                 _bodySnapshots = new List<BodySnapshot>();
