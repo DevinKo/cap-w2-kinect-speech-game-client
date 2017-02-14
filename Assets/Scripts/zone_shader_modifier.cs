@@ -13,6 +13,7 @@ public class zone_shader_modifier : MonoBehaviour {
         newColor.a = 0.5f;
         mat.color = newColor;
         GetComponent<Renderer>().material = mat;
+        GetComponent<MeshRenderer>().enabled = false;
 
     }
 	

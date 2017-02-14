@@ -9,6 +9,7 @@ public class raycast_mouse_cursor : MonoBehaviour {
     Ray ray;
     RaycastHit hit;
     bool isComplete = false;
+    bool isFound = false;
     float timeLeft;
 
     // Use this for initialization
@@ -29,7 +30,16 @@ public class raycast_mouse_cursor : MonoBehaviour {
         {
             if (hit.collider.tag == "zone_collider")
             {
-                print(hit.collider.name);
+                if (!isFound)
+                {
+                    var listOfZones = GameObject.FindGameObjectsWithTag("zone_collider");
+                    for (int i = 0; i < listOfZones.Length; i++)
+                    {
+                        listOfZones[i].GetComponent<MeshRenderer>().enabled = true;
+                    }
+                    isFound = true;
+                }
+                
                 pointing_zone_timer -= Time.deltaTime;
                 print(pointing_zone_timer);
 
