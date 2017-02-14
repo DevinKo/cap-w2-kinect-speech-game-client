@@ -8,7 +8,7 @@ public class raycast_mouse_cursor : MonoBehaviour {
 
     Ray ray;
     RaycastHit hit;
-    bool isComplete = false;
+    public bool isComplete = false;
     bool isFound = false;
     float timeLeft;
 
