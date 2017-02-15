@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Windows.Kinect;
+using Assets.Scripts;
 using Assets.DataContracts;
 using UnityEngine;
 using System;
@@ -16,6 +17,7 @@ namespace Assets.Toolbox
         {
             _toolbox = FindObjectOfType<Toolbox>();
             StartCoroutine("RecordSnapshot");
+            StartCoroutine("RecordAudioSnapshots");
         }
 
         public void Update()
@@ -35,7 +37,7 @@ namespace Assets.Toolbox
                 var audioSnapshot = new AudioSnapshot()
                 {
                     Intensity = _toolbox.VolumeCollector.Decibel,
-                    Time = DateTime.Now,
+                    Time = DateTime.Now.ToJavaScriptMilliseconds().ToString(),
                 };
                 _toolbox.AppDataManager.Save(audioSnapshot);
                 yield return new WaitForSeconds(0.1f);
@@ -81,7 +83,7 @@ namespace Assets.Toolbox
                 var snapshot = new BodySnapshot()
                 {
                     Joints = joints.ToArray(),
-                    Time = DateTime.Now,
+                    Time = DateTime.Now.ToJavaScriptMilliseconds().ToString(),
                 };
 
                 _toolbox.AppDataManager.Save(snapshot);
