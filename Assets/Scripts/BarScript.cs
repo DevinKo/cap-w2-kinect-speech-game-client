@@ -34,7 +34,6 @@ public class BarScript : MonoBehaviour {
     private void HandleBar()
     {
         totalVolume += _player.getLastSound() * 1000;
-        Debug.Log(_player.getLastSound() * 1000);
         fillAmount = Map(totalVolume, 0, 2000);
         content.fillAmount = fillAmount;
     }
