@@ -37,7 +37,7 @@ namespace Assets.Toolbox
                 var audioSnapshot = new AudioSnapshot()
                 {
                     Intensity = _toolbox.VolumeCollector.Decibel,
-                    Time = DateTime.Now.ToJavaScriptMilliseconds().ToString(),
+                    Time = DateTime.Now.ToString("s"),
                 };
                 _toolbox.AppDataManager.Save(audioSnapshot);
                 yield return new WaitForSeconds(0.1f);
@@ -83,7 +83,7 @@ namespace Assets.Toolbox
                 var snapshot = new BodySnapshot()
                 {
                     Joints = joints.ToArray(),
-                    Time = DateTime.Now.ToJavaScriptMilliseconds().ToString(),
+                    Time = DateTime.Now.ToString("s"),
                 };
 
                 _toolbox.AppDataManager.Save(snapshot);
