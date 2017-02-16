@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Toolbox;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class raycast_test : MonoBehaviour
 {
 
     public float pointing_zone_timer;
+    private Toolbox _toolbox;
 
     Ray ray;
     RaycastHit hit;
@@ -29,7 +31,7 @@ public class raycast_test : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        _toolbox = FindObjectOfType<Toolbox>();
         timeLeft = pointing_zone_timer;
 
         _rightData = KinectInputModule.instance.GetHandData(KinectUIHandType.Right);
@@ -41,6 +43,7 @@ public class raycast_test : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var audio = _toolbox.VolumeCollector.Decibel;
         //ray = Camera.main.ScreenPointToRay(new Vector3(_data.GetHandScreenPosition().x, (2 * offset.y) - _data.GetHandScreenPosition().y, _data.GetHandScreenPosition().z));
 
         checkTouching();
@@ -93,5 +96,10 @@ public class raycast_test : MonoBehaviour
 
         isTouching = (leftTouch || rightTouch);
 
+    }
+
+    public float getLastSound()
+    {
+        return _toolbox.VolumeCollector.RawEnergy;
     }
 }
