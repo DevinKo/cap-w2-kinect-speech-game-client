@@ -11,11 +11,19 @@ public class BarScript : MonoBehaviour {
     [SerializeField]
     private Image content;
 
+    [SerializeField]
+    private Camera _mainCamera;
+
+    private raycast_test _player;
+
+    private float totalVolume;
+
 	// Use this for initialization
 	void Start ()
     {
-        
-	}
+        fillAmount = 0;
+        _player = FindObjectOfType<raycast_test>();
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -25,12 +33,14 @@ public class BarScript : MonoBehaviour {
 
     private void HandleBar()
     {
-        content.fillAmount = Map(0, 0, 100);
+        totalVolume += _player.getLastSound() * 1000;
+        fillAmount = Map(totalVolume, 0, 2000);
+        content.fillAmount = fillAmount;
     }
 
     private float Map(float value, float inMin, float inMax)
     {
 
-        return (value - inMin) / (inMin - inMax);
+        return (value - inMin) / (inMax - inMin);
     }
 }

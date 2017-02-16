@@ -34,9 +34,23 @@ namespace Assets.Toolbox
         private const int EnergyStreamLength = 100;
 
         /// <summary>
-        /// Number of audio samples represented by each column of pixels in wave bitmap.
+        /// Number of 
+        /// ;udio samples represented by each column of pixels in wave bitmap.
         /// </summary>
         private const int SamplesPerColumn = 40;
+
+        /// <summary>
+        /// The mean square of recently collected audioframes
+        /// </summary>
+        private float _rawEnergy = 0;
+
+        public float RawEnergy
+        {
+            get
+            {
+                return _rawEnergy;
+            }
+        }
 
         // The most recent collected decibel
         private float _decibel = 0;
@@ -161,13 +175,13 @@ namespace Assets.Toolbox
                     }
 
                     float meanSquare = this.accumulatedSquareSum / SamplesPerColumn;
-
+                    /*
                     if (meanSquare > 1.0f)
                     {
                         // A loud audio source right next to the sensor may result in mean square values
                         // greater than 1.0. Cap it at 1.0f for display purposes.
                         meanSquare = 1.0f;
-                    }
+                    }*/
 
                     // Calculate energy in dB, in the range [MinEnergy, 0], where MinEnergy < 0
                     float energy = MinEnergy;
@@ -176,7 +190,7 @@ namespace Assets.Toolbox
                     {
                         energy = (float)(10.0 * Math.Log10(meanSquare));
                     }
-
+                    _rawEnergy = meanSquare;
                     _decibel = energy;
                     
                     // Normalize values to the range [0, 1] for display
