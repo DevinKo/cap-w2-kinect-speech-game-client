@@ -6,6 +6,9 @@ TagManager:
   tags:
   - zone_collider
   - pointing_object
+  - TextImport
+  - DialogManager
+  - GameDataCollector
   layers:
   - Default
   - TransparentFX
