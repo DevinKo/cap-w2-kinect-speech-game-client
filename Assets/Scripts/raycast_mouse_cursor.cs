@@ -41,7 +41,6 @@ public class raycast_mouse_cursor : MonoBehaviour {
                 }
                 
                 pointing_zone_timer -= Time.deltaTime;
-                print(pointing_zone_timer);
 
                 if (pointing_zone_timer < 0)
                 {
