@@ -13,6 +13,25 @@ namespace Assets.Toolbox
         private BodySourceManager _bodyManager;
         private Toolbox _toolbox;
 
+        private List<JointType> JointsOfInterest = new List<JointType>{JointType.ElbowLeft,
+            JointType.ElbowRight,
+            JointType.HandLeft,
+            JointType.HandRight,
+            JointType.HandTipLeft,
+            JointType.HandTipRight,
+            JointType.Head,
+            JointType.Neck,
+            JointType.ShoulderLeft,
+            JointType.ShoulderRight,
+            JointType.SpineBase,
+            JointType.SpineMid,
+            JointType.SpineShoulder,
+            JointType.ThumbLeft,
+            JointType.ThumbRight,
+            JointType.WristLeft,
+            JointType.WristRight
+        };
+
         public void Start()
         {
             _toolbox = FindObjectOfType<Toolbox>();
@@ -22,7 +41,8 @@ namespace Assets.Toolbox
 
         public void Update()
         {
-            
+           
+
         }
 
         public IEnumerator RecordAudioSnapshots()
@@ -68,12 +88,13 @@ namespace Assets.Toolbox
 
                 var joints = new List<Assets.DataContracts.Joint>();
 
-                foreach (var joint in body.Joints)
+                foreach (var jointType in JointsOfInterest)
                 {
-                    var pos = joint.Value.Position;
+                    var joint = body.Joints[jointType];
+                    var pos = joint.Position;
                     joints.Add(new DataContracts.Joint()
                     {
-                        JointType = joint.Key.ToString(),
+                        JointType = jointType.ToString(),
                         X = pos.X,
                         Y = pos.Y,
                         Z = pos.Z
@@ -89,6 +110,49 @@ namespace Assets.Toolbox
                 _toolbox.AppDataManager.Save(snapshot);
                 yield return new WaitForSeconds(0.1f);
             }
+        }
+
+        /// <summary>
+        /// Returns 0 if value can not be determined. value is the distance bewteen
+        /// the players hands in meters.
+        /// </summary>
+        /// <returns></returns>
+        public float GetHandSeparation()
+        {
+            if (_toolbox.BodySourceManager == null)
+            {
+                return 0;
+            }
+
+            var body = _toolbox.BodySourceManager.GetFirstTrackedBody();
+            if (body == null)
+            {
+                return 0;
+            }
+
+            var handRight = body.Joints[JointType.HandRight];
+            var handLeft = body.Joints[JointType.HandLeft];
+            if (handRight.TrackingState == TrackingState.NotTracked
+                || handLeft.TrackingState == TrackingState.NotTracked)
+            {
+                return 0;
+            }
+
+            var handLeftVec = new Vector3
+            {
+                x = handLeft.Position.X,
+                y = handLeft.Position.Y,
+                z = handLeft.Position.Z
+            };
+            var handRightVec = new Vector3
+            {
+                x = handRight.Position.X,
+                y = handRight.Position.Y,
+                z = handRight.Position.Z,
+            };
+            
+            return Vector3.Distance(handLeftVec, handRightVec);
+
         }
     }
 }
