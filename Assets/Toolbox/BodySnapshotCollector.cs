@@ -22,7 +22,7 @@ namespace Assets.Toolbox
 
         public void Update()
         {
-            
+
         }
 
         public IEnumerator RecordAudioSnapshots()
@@ -89,6 +89,49 @@ namespace Assets.Toolbox
                 _toolbox.AppDataManager.Save(snapshot);
                 yield return new WaitForSeconds(0.1f);
             }
+        }
+
+        /// <summary>
+        /// Returns 0 if value can not be determined. value is the distance bewteen
+        /// the players hands in meters.
+        /// </summary>
+        /// <returns></returns>
+        public float GetHandSeparation()
+        {
+            if (_toolbox.BodySourceManager == null)
+            {
+                return 0;
+            }
+
+            var body = _toolbox.BodySourceManager.GetFirstTrackedBody();
+            if (body == null)
+            {
+                return 0;
+            }
+
+            var handRight = body.Joints[JointType.HandRight];
+            var handLeft = body.Joints[JointType.HandLeft];
+            if (handRight.TrackingState == TrackingState.NotTracked
+                || handLeft.TrackingState == TrackingState.NotTracked)
+            {
+                return 0;
+            }
+
+            var handLeftVec = new Vector3
+            {
+                x = handLeft.Position.X,
+                y = handLeft.Position.Y,
+                z = handLeft.Position.Z
+            };
+            var handRightVec = new Vector3
+            {
+                x = handRight.Position.X,
+                y = handRight.Position.Y,
+                z = handRight.Position.Z,
+            };
+            
+            return Vector3.Distance(handLeftVec, handRightVec);
+
         }
     }
 }
