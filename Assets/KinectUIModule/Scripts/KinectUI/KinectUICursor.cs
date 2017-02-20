@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using Windows.Kinect;
+using Assets.Toolbox;
 
 public class KinectUICursor : AbstractKinectUICursor
 {
@@ -12,20 +13,54 @@ public class KinectUICursor : AbstractKinectUICursor
 
     private Vector3 _initScale;
     private Vector3 offset;
+    private Toolbox _toolbox;
+    private JointType _handJoint;
+    private Canvas _UiCanvas;
+    private RectTransform _UiCanvasRectTransform;
+    // These values will be set by the calibration stage. Distance in 
+    // meters from hand to shoulder spine joint.
+    private float _maxReachX = 0.6f;
+    private float _maxReachY = 0.5f;
+    // A value for scaling kinect position to screen position
+    private Vector3 _reachScalar;
 
     public override void Start()
     {
         base.Start();
         _initScale = transform.localScale;
-        _image.color = new Color(1f, 1f, 1f, 0f);
+        //_image.color = new Color(1f, 1f, 1f, 0f);
         offset = new Vector3(681.5f, 296.5f);
+        //offset = new Vector3(10, 10);
+        _toolbox = FindObjectOfType<Toolbox>();
+        _handJoint = _handType == KinectUIHandType.Right ? JointType.HandRight : JointType.HandLeft;
+        _UiCanvas = FindObjectOfType<Canvas>();
+        _UiCanvasRectTransform = _UiCanvas.GetComponent<RectTransform>();
+        _reachScalar = new Vector3(
+            (_UiCanvasRectTransform.rect.width/2)/_maxReachX,
+            (_UiCanvasRectTransform.rect.height/2)/_maxReachY,
+            0);
     }
 
     public override void ProcessData()
     {
-        // update pos
-        transform.position = new Vector3(_data.GetHandScreenPosition().x, (2 * offset.y) - _data.GetHandScreenPosition().y, _data.GetHandScreenPosition().z);
+        if (_toolbox.BodySourceManager == null) return;
 
+        // Get joints
+        var body = _toolbox.BodySourceManager.GetFirstTrackedBody();
+        if (body == null) return;
+        var hand = body.Joints[_handJoint];
+        var centerJoint = body.Joints[JointType.SpineShoulder];
+
+        // calculate hand position relative to shoulder spine joint
+        var distanceX = hand.Position.X - centerJoint.Position.X;
+        var distanceY = hand.Position.Y - centerJoint.Position.Y;
+        
+        // update pos
+        transform.position = new Vector3(
+            _UiCanvasRectTransform.rect.width/2 + distanceX*_reachScalar.x, 
+            _UiCanvasRectTransform.rect.height/2 + distanceY*_reachScalar.y,
+            hand.Position.Z);
+        /*
         if (_data.IsPressing)
         {
             _image.color = clickColor;
@@ -40,6 +75,6 @@ public class KinectUICursor : AbstractKinectUICursor
         {
             _image.color = normalColor;
         }
-        _image.transform.localScale = _initScale;
+        _image.transform.localScale = _initScale;*/
     }
 }
