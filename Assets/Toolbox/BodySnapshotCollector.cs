@@ -13,6 +13,25 @@ namespace Assets.Toolbox
         private BodySourceManager _bodyManager;
         private Toolbox _toolbox;
 
+        private List<JointType> JointsOfInterest = new List<JointType>{JointType.ElbowLeft,
+            JointType.ElbowRight,
+            JointType.HandLeft,
+            JointType.HandRight,
+            JointType.HandTipLeft,
+            JointType.HandTipRight,
+            JointType.Head,
+            JointType.Neck,
+            JointType.ShoulderLeft,
+            JointType.ShoulderRight,
+            JointType.SpineBase,
+            JointType.SpineMid,
+            JointType.SpineShoulder,
+            JointType.ThumbLeft,
+            JointType.ThumbRight,
+            JointType.WristLeft,
+            JointType.WristRight
+        };
+
         public void Start()
         {
             _toolbox = FindObjectOfType<Toolbox>();
@@ -22,6 +41,7 @@ namespace Assets.Toolbox
 
         public void Update()
         {
+           
 
         }
 
@@ -68,12 +88,13 @@ namespace Assets.Toolbox
 
                 var joints = new List<Assets.DataContracts.Joint>();
 
-                foreach (var joint in body.Joints)
+                foreach (var jointType in JointsOfInterest)
                 {
-                    var pos = joint.Value.Position;
+                    var joint = body.Joints[jointType];
+                    var pos = joint.Position;
                     joints.Add(new DataContracts.Joint()
                     {
-                        JointType = joint.Key.ToString(),
+                        JointType = jointType.ToString(),
                         X = pos.X,
                         Y = pos.Y,
                         Z = pos.Z
