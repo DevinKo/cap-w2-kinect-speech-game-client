@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class raycast_test : MonoBehaviour
+public class playerController : MonoBehaviour
 {
 
     public float pointing_zone_timer;
@@ -21,8 +21,7 @@ public class raycast_test : MonoBehaviour
     bool isComplete = false;
     float timeLeft;
     bool isTouching = false;
-
-    private KinectUIHandType _handType = KinectUIHandType.Right;
+    
     protected KinectInputData _rightData;
     private KinectInputData _leftData;
 
@@ -72,9 +71,11 @@ public class raycast_test : MonoBehaviour
     {
         rightRay = Camera.main.ScreenPointToRay(new Vector3(_rightData.GetHandScreenPosition().x, (2 * offset.y) - _rightData.GetHandScreenPosition().y, _rightData.GetHandScreenPosition().z));
         leftRay = Camera.main.ScreenPointToRay(new Vector3(_leftData.GetHandScreenPosition().x, (2 * offset.y) - _leftData.GetHandScreenPosition().y, _leftData.GetHandScreenPosition().z));
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         bool leftTouch = false;
         bool rightTouch = false;
+        bool mouseTouch = false;
 
         if (Physics.Raycast(rightRay, out rightHit))
         {
@@ -93,8 +94,16 @@ public class raycast_test : MonoBehaviour
                 leftTouch = true;
             }
         }
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.collider.tag == "zone_collider")
+            {
+                print("Mouse on Target");
+                mouseTouch = true;
+            }
+        }
 
-        isTouching = (leftTouch || rightTouch);
+        isTouching = (leftTouch || rightTouch || mouseTouch);
 
     }
 
