@@ -25,19 +25,16 @@ public class raycast_mouse_cursor : MonoBehaviour {
     {
 
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (isComplete) { }
+        if (isComplete) {
+            hit.collider.gameObject.GetComponent<zone_shader_modifier>().moveParent();
+        }
         else if (Physics.Raycast(ray, out hit))
         {
             if (hit.collider.tag == "zone_collider")
             {
                 if (!isFound)
                 {
-                    var listOfZones = GameObject.FindGameObjectsWithTag("zone_collider");
-                    for (int i = 0; i < listOfZones.Length; i++)
-                    {
-                        listOfZones[i].GetComponent<MeshRenderer>().enabled = true;
-                    }
-                    isFound = true;
+                    hit.collider.gameObject.GetComponent<zone_shader_modifier>().gotHit();
                 }
                 
                 pointing_zone_timer -= Time.deltaTime;

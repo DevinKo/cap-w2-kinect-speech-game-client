@@ -46,8 +46,30 @@ public class GameSequence : MonoBehaviour {
 
         Vector3 camPos = cameraObject.transform.position;
 
+        float camDir = cameraObject.transform.rotation.y;
+
         Vector3 targetPos = camPos;
-        targetPos.z += 0.5f;
+
+        switch ((int)camDir)
+        {
+            case -180:
+                targetPos.z -= .5f;
+                break;
+
+            case 0:
+                targetPos.z += .5f;
+                break;
+
+            case 90:
+                targetPos.x += .5f;
+                break;
+
+            case -90:
+                targetPos.x -= .5f;
+                break;
+        }
+        
+        //targetPos.z += 0.5f;
 
         float step = 1.5f * Time.deltaTime;
 
