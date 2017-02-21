@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour
 {
+    public bool _useLeftHand = false;
+    public bool _useRightHand = false;
+    public bool _useCursor = false;
 
     public float pointing_zone_timer;
     private Toolbox _toolbox;
@@ -22,8 +25,9 @@ public class playerController : MonoBehaviour
     float timeLeft;
     bool isTouching = false;
     
-    protected KinectInputData _rightData;
-    private KinectInputData _leftData;
+    protected KinectUICursor _UiHandLeft;
+    protected KinectUICursor _UiHandRight;
+
 
     private Vector3 offset;
 
@@ -33,8 +37,13 @@ public class playerController : MonoBehaviour
         _toolbox = FindObjectOfType<Toolbox>();
         timeLeft = pointing_zone_timer;
 
-        _rightData = KinectInputModule.instance.GetHandData(KinectUIHandType.Right);
-        _leftData = KinectInputModule.instance.GetHandData(KinectUIHandType.Left);
+        
+        var handLeft = GameObject.FindGameObjectWithTag("UIHandLeft");
+        _UiHandLeft = handLeft.GetComponent<KinectUICursor>();
+         
+        var handRight = GameObject.FindGameObjectWithTag("UIHandRight");
+        _UiHandRight = handRight.GetComponent<KinectUICursor>();
+
 
         offset = new Vector3(681.5f, 296.5f);
     }
@@ -74,41 +83,52 @@ public class playerController : MonoBehaviour
 
     void checkTouching()
     {
-        rightRay = Camera.main.ScreenPointToRay(new Vector3(_rightData.GetHandScreenPosition().x, (2 * offset.y) - _rightData.GetHandScreenPosition().y, _rightData.GetHandScreenPosition().z));
-        leftRay = Camera.main.ScreenPointToRay(new Vector3(_leftData.GetHandScreenPosition().x, (2 * offset.y) - _leftData.GetHandScreenPosition().y, _leftData.GetHandScreenPosition().z));
+        rightRay = Camera.main.ScreenPointToRay(_UiHandRight.CurrentPosition);
+        leftRay = Camera.main.ScreenPointToRay(_UiHandLeft.CurrentPosition);
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         bool leftTouch = false;
         bool rightTouch = false;
         bool mouseTouch = false;
 
-        if (Physics.Raycast(rightRay, out rightHit))
+        if (_useRightHand)
         {
-            if (rightHit.collider.tag == "zone_collider")
+            if (Physics.Raycast(rightRay, out hit))
             {
-                print("Right Hand on Target");
-                rightTouch = true;
+                if (hit.collider.tag == "zone_collider")
+                {
+                    print("Right Hand on Target");
+                    rightTouch = true;
+                }
             }
         }
-        if (Physics.Raycast(leftRay, out leftHit))
+        if (_useLeftHand)
         {
+            if (Physics.Raycast(leftRay, out hit))
+            {
 
-            if (leftHit.collider.tag == "zone_collider")
-            {
-                print("Left Hand on Target");
-                leftTouch = true;
+                if (hit.collider.tag == "zone_collider")
+                {
+                    print("Left Hand on Target");
+                    leftTouch = true;
+                }
             }
         }
-        if (Physics.Raycast(ray, out hit))
+        if (_useCursor)
         {
-            if (hit.collider.tag == "zone_collider")
+            if (Physics.Raycast(ray, out hit))
             {
-                print("Mouse on Target");
-                mouseTouch = true;
+                if (hit.collider.tag == "zone_collider")
+                {
+                    print("Mouse on Target");
+                    mouseTouch = true;
+                }
             }
         }
-
-        isTouching = (leftTouch || rightTouch || mouseTouch);
+        isTouching = ((leftTouch && _useLeftHand && !_useRightHand)
+            || (rightTouch && _useRightHand && !_useLeftHand)
+            || (mouseTouch && _useCursor))
+            || (leftTouch && rightTouch && _useLeftHand && _useRightHand);
 
     }
 
