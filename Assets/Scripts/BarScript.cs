@@ -14,7 +14,7 @@ public class BarScript : MonoBehaviour {
     [SerializeField]
     private Camera _mainCamera;
 
-    private raycast_test _player;
+    private playerController _player;
 
     private float totalVolume;
 
@@ -22,7 +22,7 @@ public class BarScript : MonoBehaviour {
 	void Start ()
     {
         fillAmount = 0;
-        _player = FindObjectOfType<raycast_test>();
+        _player = FindObjectOfType<playerController>();
     }
 	
 	// Update is called once per frame

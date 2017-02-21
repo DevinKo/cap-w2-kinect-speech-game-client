@@ -27,6 +27,7 @@ namespace Assets.Toolbox
                     AudioSnapshots = _audioSnapshots.ToArray(),
                 });
                 _bodySnapshots = new List<BodySnapshot>();
+                _audioSnapshots = new List<AudioSnapshot>();
             }
         }
 

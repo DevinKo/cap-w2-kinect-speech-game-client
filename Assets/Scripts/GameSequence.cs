@@ -48,33 +48,6 @@ public class GameSequence : MonoBehaviour {
 
     }
 
-    IEnumerator bringPointingObjToCam()
-    {
-        doneMoving = false;
-        GameObject pointObjRef = GameObject.FindGameObjectWithTag("pointing_object");
-
-        Vector3 camPos = cameraObject.transform.position;
-
-        Vector3 targetPos = camPos;
-        targetPos.z += 0.5f;
-
-        float step = 1.5f * Time.deltaTime;
-
-        while (true)
-        {
-            Vector3 currentPos = pointObjRef.transform.position;
-            if (currentPos == targetPos)
-            {
-                yield break;
-            }
-
-            pointObjRef.transform.position = Vector3.MoveTowards(pointObjRef.transform.position, targetPos, step);
-
-            yield return null;
-        }
-    }
-    
-
     public void CheckCurrentObjective()
     {
         GameDataStorage.OBJECTIVE CurrentSessionObjective = Session.GetCurrentObjective();
@@ -157,9 +130,6 @@ public class GameSequence : MonoBehaviour {
             {
                 listOfZones[i].GetComponent<MeshRenderer>().enabled = false;
             }
-
-            // bring pointing object to the camera
-            StartCoroutine(bringPointingObjToCam());
 
             // prompt player to indicate size
             dialogManagerRef.GetComponent<DialogManager>().updateDialogBox((int)DialogManager.PROMPT.HowBig);
