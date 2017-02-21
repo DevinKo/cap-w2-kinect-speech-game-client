@@ -24,6 +24,15 @@ public class KinectUICursor : AbstractKinectUICursor
     // A value for scaling kinect position to screen position
     private Vector3 _reachScalar;
 
+    private Vector3 _currentPosition;
+    public Vector3 CurrentPosition
+    {
+        get
+        {
+            return _currentPosition;
+        }
+    }
+
     public override void Start()
     {
         base.Start();
@@ -56,10 +65,11 @@ public class KinectUICursor : AbstractKinectUICursor
         var distanceY = hand.Position.Y - centerJoint.Position.Y;
         
         // update pos
-        transform.position = new Vector3(
-            _UiCanvasRectTransform.rect.width/2 + distanceX*_reachScalar.x, 
-            _UiCanvasRectTransform.rect.height/2 + distanceY*_reachScalar.y,
+        _currentPosition = new Vector3(
+            _UiCanvasRectTransform.rect.width / 2 + distanceX * _reachScalar.x,
+            _UiCanvasRectTransform.rect.height / 2 + distanceY * _reachScalar.y,
             hand.Position.Z);
+        transform.position = _currentPosition;
         /*
         if (_data.IsPressing)
         {
