@@ -63,7 +63,7 @@ public class zone_shader_modifier : MonoBehaviour {
                 break;
         }
 
-        targetPos.z = 1.132f;
+        //targetPos.z = 1.132f;
 
         while (true)
         {

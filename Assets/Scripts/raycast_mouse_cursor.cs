@@ -35,6 +35,7 @@ public class raycast_mouse_cursor : MonoBehaviour {
                 if (!isFound)
                 {
                     hit.collider.gameObject.GetComponent<zone_shader_modifier>().gotHit();
+                    isFound = true;
                 }
                 
                 pointing_zone_timer -= Time.deltaTime;
