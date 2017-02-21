@@ -49,11 +49,11 @@ public class playerController : MonoBehaviour
 
         if (isComplete)
         {
-            hit.collider.gameObject.GetComponent<zone_shader_modifier>().moveParent();
+           // hit.collider.gameObject.GetComponent<zone_shader_modifier>().moveParent();
         }
         else if (isTouching)
         {
-            hit.collider.gameObject.GetComponent<zone_shader_modifier>().gotHit();
+           // hit.collider.gameObject.GetComponent<zone_shader_modifier>().gotHit();
 
             print(pointing_zone_timer);
             pointing_zone_timer -= Time.deltaTime;

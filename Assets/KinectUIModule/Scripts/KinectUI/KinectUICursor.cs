@@ -54,7 +54,9 @@ public class KinectUICursor : AbstractKinectUICursor
         // calculate hand position relative to shoulder spine joint
         var distanceX = hand.Position.X - centerJoint.Position.X;
         var distanceY = hand.Position.Y - centerJoint.Position.Y;
-        
+
+        //Debug.Log(distanceX + " " + distanceY);
+
         // update pos
         transform.position = new Vector3(
             _UiCanvasRectTransform.rect.width/2 + distanceX*_reachScalar.x, 
