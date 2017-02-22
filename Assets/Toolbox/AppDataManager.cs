@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.GameScripts;
 using Assets.DataContracts;
+using Windows.Kinect;
 
 namespace Assets.Toolbox
 {
@@ -9,6 +10,8 @@ namespace Assets.Toolbox
     {
         private List<BodySnapshot> _bodySnapshots = new List<BodySnapshot>();
         private List<AudioSnapshot> _audioSnapshots = new List<AudioSnapshot>();
+        private Dictionary<JointType, MaxReach> _maxReach = new Dictionary<JointType, MaxReach>();
+
         private Toolbox toolbox;
 
         private void Start()
@@ -29,6 +32,17 @@ namespace Assets.Toolbox
                 _bodySnapshots = new List<BodySnapshot>();
                 _audioSnapshots = new List<AudioSnapshot>();
             }
+        }
+
+        public override void Save(MaxReach maxReach, JointType joint)
+        {
+            _maxReach.Add(joint, maxReach);
+        }
+
+        public override MaxReach GetMaxReach(JointType joint)
+        {
+            if (!_maxReach.ContainsKey(joint)) return null;
+            return _maxReach[joint];
         }
 
         public override void Save(BodySnapshot data)

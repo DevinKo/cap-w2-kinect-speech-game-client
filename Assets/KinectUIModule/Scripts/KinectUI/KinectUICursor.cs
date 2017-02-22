@@ -36,6 +36,13 @@ public class KinectUICursor : AbstractKinectUICursor
     public override void Start()
     {
         base.Start();
+        var maxReach = _toolbox.AppDataManager.GetMaxReach(JointType.HandLeft);
+        if (maxReach != null)
+        {
+            _maxReachX = maxReach.X;
+            _maxReachY = maxReach.Y;
+
+        }
         _initScale = transform.localScale;
         //_image.color = new Color(1f, 1f, 1f, 0f);
         offset = new Vector3(681.5f, 296.5f);
