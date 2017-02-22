@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Toolbox;
 using Windows.Kinect;
+using Assets.DataContracts;
 
 public class CalibrationReach : MonoBehaviour {
 
@@ -50,7 +51,9 @@ public class CalibrationReach : MonoBehaviour {
         {
             _maxReachY = distanceY;
         }
-
+        _toolbox.AppDataManager.Save(
+            new MaxReach { X = _maxReachX, Y = _maxReachY }, JointType.HandRight);
+        
 	}
 
     void printReach()

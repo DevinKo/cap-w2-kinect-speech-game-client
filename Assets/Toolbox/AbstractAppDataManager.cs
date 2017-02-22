@@ -1,5 +1,6 @@
 ﻿using Assets.DataContracts;
 using UnityEngine;
+using Windows.Kinect;
 
 namespace Assets.Toolbox
 {
@@ -7,5 +8,7 @@ namespace Assets.Toolbox
     {
         public abstract void Save(BodySnapshot data);
         public abstract void Save(AudioSnapshot data);
+        public abstract void Save(MaxReach maxReach, JointType joint);
+        public abstract MaxReach GetMaxReach(JointType joint);
     }
 }
