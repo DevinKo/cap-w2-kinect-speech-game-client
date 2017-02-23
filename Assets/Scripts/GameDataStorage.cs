@@ -85,19 +85,6 @@ public class GameDataStorage : MonoBehaviour {
             EndTime = System.DateTime.Now;
         }
 
-        public void NewTrial()
-        {
-            Trials.Add(new Trial(System.DateTime.Now));
-            currentTrial = Trials.Count - 1;
-            currentObjective = OBJECTIVE.NONE;
-        }
-
-        public void StartObjective(OBJECTIVE ObjectiveType)
-        {
-            currentObjective = ObjectiveType;
-            Trials[currentTrial].Objectives[(int)ObjectiveType].StartTime = System.DateTime.Now;
-        }
-
         public List<BodySnapshot> GetCurrentObjectiveBodySnapshotList()
         {
             return Trials[currentTrial].Objectives[(int)currentObjective].BodySnapshots;
@@ -110,8 +97,25 @@ public class GameDataStorage : MonoBehaviour {
 
         public void SetZoneActiviationTime()
         {
-            LocateObjective tempRef = (LocateObjective)Trials[currentTrial].Objectives[(int)OBJECTIVE.LOCATE]; // this isn't right...
-            tempRef.ActivationTime = System.DateTime.Now;
+            LocateObjective tempRef = Trials[currentTrial].Objectives[(int)OBJECTIVE.LOCATE] as LocateObjective;
+            if (tempRef != null)
+                tempRef.ActivationTime = System.DateTime.Now;
+            else
+                print("failed LocateObjective Casting in SetZoneActivationTime()");
+        }
+
+        // ADDITIONAL METHODS
+        public void NewTrial()
+        {
+            Trials.Add(new Trial(System.DateTime.Now));
+            currentTrial = Trials.Count - 1;
+            currentObjective = OBJECTIVE.NONE;
+        }
+
+        public void StartObjective(OBJECTIVE ObjectiveType)
+        {
+            currentObjective = ObjectiveType;
+            Trials[currentTrial].Objectives[(int)ObjectiveType].StartTime = System.DateTime.Now;
         }
 
     }
