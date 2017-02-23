@@ -10,7 +10,6 @@ public abstract class AbstractKinectUICursor : MonoBehaviour {
 
     [SerializeField]
     protected KinectUIHandType _handType;
-    protected KinectInputData _data;
     protected Image _image;
 
     public virtual void Start()
@@ -20,7 +19,6 @@ public abstract class AbstractKinectUICursor : MonoBehaviour {
 
     protected void Setup()
     {
-        _data = KinectInputModule.instance.GetHandData(_handType);
         // Make sure we dont block raycasts
         GetComponent<CanvasGroup>().blocksRaycasts = false;
         GetComponent<CanvasGroup>().interactable = false;
