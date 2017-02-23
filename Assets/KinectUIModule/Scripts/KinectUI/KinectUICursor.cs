@@ -12,6 +12,7 @@ public class KinectUICursor : AbstractKinectUICursor
     public Vector3 clickScale = new Vector3(.8f, .8f, .8f);
 
     private Vector3 _initScale;
+    private Vector3 offset;
     private Toolbox _toolbox;
     private JointType _handJoint;
     private Canvas _UiCanvas;
@@ -35,7 +36,7 @@ public class KinectUICursor : AbstractKinectUICursor
     public override void Start()
     {
         base.Start();
-        var maxReach = _toolbox.AppDataManager.GetMaxReach(_handJoint);
+        var maxReach = _toolbox.AppDataManager.GetMaxReach(JointType.HandLeft);
         if (maxReach != null)
         {
             _maxReachX = maxReach.X;
@@ -43,6 +44,8 @@ public class KinectUICursor : AbstractKinectUICursor
 
         }
         _initScale = transform.localScale;
+        //_image.color = new Color(1f, 1f, 1f, 0f);
+        offset = new Vector3(681.5f, 296.5f);
         //offset = new Vector3(10, 10);
         _toolbox = FindObjectOfType<Toolbox>();
         _handJoint = _handType == KinectUIHandType.Right ? JointType.HandRight : JointType.HandLeft;
