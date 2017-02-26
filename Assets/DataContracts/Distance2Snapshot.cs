@@ -13,6 +13,13 @@ namespace Assets.DataContracts
         private float HandToHandDistance;
         private float HandsToSpineDistance;
         private System.DateTime Time;
+
+        public void setSnapshot(float handToHandDist, float handToSpineDist)
+        {
+            HandToHandDistance = handToHandDist;
+            HandsToSpineDistance = handToSpineDist;
+            Time = System.DateTime.Now;
+        }
     }
 
 }
