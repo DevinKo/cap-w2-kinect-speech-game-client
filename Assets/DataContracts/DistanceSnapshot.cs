@@ -11,6 +11,12 @@ namespace Assets.DataContracts {
     {
         private float Distance;
         private System.DateTime Time;
+
+        public void setSnapshot(float distance)
+        {
+            Distance = distance;
+            Time = System.DateTime.Now;
+        }
     }
 
 }

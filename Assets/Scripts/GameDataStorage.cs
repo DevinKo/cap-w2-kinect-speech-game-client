@@ -118,6 +118,26 @@ public class GameDataStorage : MonoBehaviour {
             Trials[currentTrial].Objectives[(int)ObjectiveType].StartTime = System.DateTime.Now;
         }
 
+        public void CollectDistanceSnapshot(float distance)
+        {
+            LocateObjective tempRef = Trials[currentTrial].Objectives[(int)OBJECTIVE.LOCATE] as LocateObjective;
+
+            DistanceSnapshot distanceSnapshot = new DistanceSnapshot();
+            distanceSnapshot.setSnapshot(distance);
+
+            tempRef.DistanceSnapshots.Add(distanceSnapshot);
+        }
+
+        public void CollectDistance2Snapshot(float dist1, float dist2)
+        {
+            DescribeObjective tempRef = Trials[currentTrial].Objectives[(int)OBJECTIVE.DESCRIBE] as DescribeObjective;
+
+            Distance2Snapshot distance2Snapshot = new Distance2Snapshot();
+            distance2Snapshot.setSnapshot(dist1, dist2);
+
+            tempRef.Distance2Snapshot.Add(distance2Snapshot);
+        }
+
     }
 
     public class Trial
@@ -150,14 +170,14 @@ public class GameDataStorage : MonoBehaviour {
         public System.DateTime ActivationTime;
 
         // distance from the hands mid-point to the object to identify
-        public DistanceSnapshot Distance;
+        public List<DistanceSnapshot> DistanceSnapshots = new List<DistanceSnapshot>();
     }
 
     public class DescribeObjective : Objectives
     {
         string kind = "DescribeObjective";
 
-        Distance2Snapshot Distance2Snapshot;
+        public List<Distance2Snapshot> Distance2Snapshot = new List<Distance2Snapshot>();
     }
 
     public static IEnumerator CollectAudioSnapshots(Toolbox toolBox, List<AudioSnapshot> AudioSnapshotList)

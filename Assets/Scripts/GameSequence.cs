@@ -80,7 +80,8 @@ public class GameSequence : MonoBehaviour {
     {
         while (true)
         {
-            // collect distance information            
+            // collect distance information
+            
             yield return null;
         }
     }
