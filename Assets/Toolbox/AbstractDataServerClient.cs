@@ -7,5 +7,6 @@ namespace Assets.Toolbox
     {
         public abstract bool Send(BodySnapshot[] data);
         public abstract void SendAsFile(BodySnapshotJsonFile message);
+        public abstract void SendSession(Session session);
     }
 }
