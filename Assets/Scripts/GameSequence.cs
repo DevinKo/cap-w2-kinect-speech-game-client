@@ -69,7 +69,7 @@ public class GameSequence : MonoBehaviour {
         else if (CurrentState == GameDataStorage.OBJECTIVE.DESCRIBE && CurrentSessionObjective == GameDataStorage.OBJECTIVE.LOCATE)
         {
             StopAllCoroutines();
-            StartCoroutine(CollectDistance2Snapshot());
+            StartCoroutine(GameDataStorage.CollectDistance2Snapshot(ToolBox, Session.GetCurrentDistance2SnapshotList()));
             Session.StartObjective(GameDataStorage.OBJECTIVE.DESCRIBE);
             StartCoroutine(GameDataStorage.CollectBodySnapshot(ToolBox, Session.GetCurrentObjectiveBodySnapshotList()));
             StartCoroutine(GameDataStorage.CollectAudioSnapshots(ToolBox, Session.GetCurrentObjectiveAudioSnapshotList()));
@@ -87,15 +87,6 @@ public class GameSequence : MonoBehaviour {
         {
             // collect distance information
             
-            yield return null;
-        }
-    }
-
-    public IEnumerator CollectDistance2Snapshot()
-    {
-        while (true)
-        {
-            // collect distance2 information
             yield return null;
         }
     }
