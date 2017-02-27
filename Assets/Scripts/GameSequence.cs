@@ -37,15 +37,20 @@ public class GameSequence : MonoBehaviour {
         // add a new trial to current session
         Session.NewTrial();
         CurrentState = GameDataStorage.OBJECTIVE.LOCATE;
-
+        
     }
 	
 	// Update is called once per frame
 	void Update () {
-
+        
         CheckCurrentObjective();
         CheckForLocateObjectiveComplete();
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            var dataClient = ToolBox.DataServerProxy;
+            var sessionContract = GameDataStorage.ConvertToDataContract(Session);
+            dataClient.SendSession(sessionContract);
+        }
     }
 
     public void CheckCurrentObjective()

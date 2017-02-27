@@ -21,17 +21,7 @@ namespace Assets.Toolbox
 
         public void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                var dataClient = toolbox.DataServerProxy;
-                dataClient.SendAsFile(new BodySnapshotJsonFile()
-                {
-                    BodySnapshots = _bodySnapshots.ToArray(),
-                    AudioSnapshots = _audioSnapshots.ToArray(),
-                });
-                _bodySnapshots = new List<BodySnapshot>();
-                _audioSnapshots = new List<AudioSnapshot>();
-            }
+            
         }
 
         public override void Save(MaxReach maxReach, JointType joint)

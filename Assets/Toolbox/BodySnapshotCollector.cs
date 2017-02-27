@@ -35,14 +35,11 @@ namespace Assets.Toolbox
         public void Start()
         {
             _toolbox = FindObjectOfType<Toolbox>();
-            StartCoroutine("RecordSnapshot");
-            StartCoroutine("RecordAudioSnapshots");
         }
 
         public void Update()
         {
            
-
         }
 
         public IEnumerator RecordAudioSnapshots()

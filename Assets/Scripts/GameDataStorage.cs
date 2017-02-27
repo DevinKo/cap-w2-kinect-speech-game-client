@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.DataContracts;
 using Assets.Toolbox;
 using UnityEngine;
+using System;
 
 public class GameDataStorage : MonoBehaviour {
 
@@ -43,13 +44,13 @@ public class GameDataStorage : MonoBehaviour {
     }
 
     // --------------------------- NEW DATA STRUCTURE ----------------------------------
-
+    
     public class PlayerSession
     {
-        string Email;
-        string Password;
-        System.DateTime StartTime;
-        System.DateTime EndTime;
+        public string Email;
+        public string Password;
+        public System.DateTime StartTime;
+        public System.DateTime EndTime;
 
         public List<Trial> Trials = new List<Trial>();
 
@@ -160,24 +161,50 @@ public class GameDataStorage : MonoBehaviour {
         public System.DateTime EndTime;
         public List<BodySnapshot> BodySnapshots = new List<BodySnapshot>();
         public List<AudioSnapshot> AudioSnapshots = new List<AudioSnapshot>();
+        public virtual Assets.DataContracts.Objectives ToDataContract() { return null; }
     }
 
     public class LocateObjective : Objectives
     {
-        string kind = "LocateObjective";
+        public string kind = "LocateObjective";
 
         // time at which the pointing zone was activated
         public System.DateTime ActivationTime;
 
         // distance from the hands mid-point to the object to identify
         public List<DistanceSnapshot> DistanceSnapshots = new List<DistanceSnapshot>();
+
+        public override Assets.DataContracts.Objectives ToDataContract()
+        {
+            var objectiveContract = new Assets.DataContracts.LocateObjective();
+            objectiveContract.StartTime = StartTime.ToString("s");
+            objectiveContract.EndTime = EndTime.ToString("s");
+            objectiveContract.AudioSnapshots = AudioSnapshots.ToArray();
+            objectiveContract.BodySnapshots = BodySnapshots.ToArray();
+            objectiveContract.kind = kind;
+            objectiveContract.DistanceSnapshots = DistanceSnapshots.ToArray();
+            objectiveContract.ActivationTime = ActivationTime.ToString("s");
+            return objectiveContract;
+        }        
     }
 
     public class DescribeObjective : Objectives
     {
-        string kind = "DescribeObjective";
+        public string kind = "DescribeObjective";
 
         public List<Distance2Snapshot> Distance2Snapshot = new List<Distance2Snapshot>();
+
+        public override Assets.DataContracts.Objectives ToDataContract()
+        {
+            var objectiveContract = new Assets.DataContracts.DescribeObjective();
+            objectiveContract.StartTime = StartTime.ToString("s");
+            objectiveContract.EndTime = EndTime.ToString("s");
+            objectiveContract.AudioSnapshots = AudioSnapshots.ToArray();
+            objectiveContract.BodySnapshots = BodySnapshots.ToArray();
+            objectiveContract.kind = kind;
+            objectiveContract.Distance2Snapshot = Distance2Snapshot.ToArray();
+            return objectiveContract;
+        }
     }
 
     public static IEnumerator CollectAudioSnapshots(Toolbox toolBox, List<AudioSnapshot> AudioSnapshotList)
@@ -245,5 +272,34 @@ public class GameDataStorage : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         }
     }
+
+    public static Assets.DataContracts.Session ConvertToDataContract(PlayerSession session)
+    {
+        var sessionContract = new Assets.DataContracts.Session();
+        sessionContract.StartTime = session.StartTime.ToString("s");
+        sessionContract.EndTime = session.EndTime.ToString("s");
+        sessionContract.Email = session.Email;
+        sessionContract.Password = session.Password;
+        var trialContractList = new List<Assets.DataContracts.Trial>();
+        foreach (var trial in session.Trials)
+        {
+            var trialContract = new Assets.DataContracts.Trial();
+            trialContract.StartTime = trial.StartTime.ToString("s");
+            trialContract.EndTime = trial.EndTime.ToString("s");
+            trialContract.Difficulty = trial.Difficulty;
+            var objectiveContractList = new List<Assets.DataContracts.Objectives>();
+            foreach (var objective in trial.Objectives)
+            {
+                var objectiveContract = objective.ToDataContract();
+                
+                objectiveContractList.Add(objectiveContract);
+            }
+            trialContract.Objectives = objectiveContractList.ToArray();
+            trialContractList.Add(trialContract);
+        }
+        sessionContract.Trials = trialContractList.ToArray();
+
+        return sessionContract;
+    } 
 
 }
