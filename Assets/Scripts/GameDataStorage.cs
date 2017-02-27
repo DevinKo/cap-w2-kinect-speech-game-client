@@ -119,24 +119,16 @@ public class GameDataStorage : MonoBehaviour {
             Trials[currentTrial].Objectives[(int)ObjectiveType].StartTime = System.DateTime.Now;
         }
 
-        public void CollectDistanceSnapshot(float distance)
+        public List<DistanceSnapshot> GetCurrentDistanceSnapshotList()
         {
             LocateObjective tempRef = Trials[currentTrial].Objectives[(int)OBJECTIVE.LOCATE] as LocateObjective;
-
-            DistanceSnapshot distanceSnapshot = new DistanceSnapshot();
-            distanceSnapshot.setSnapshot(distance);
-
-            tempRef.DistanceSnapshots.Add(distanceSnapshot);
+            return tempRef.DistanceSnapshots;
         }
 
-        public void CollectDistance2Snapshot(float dist1, float dist2)
+        public List<Distance2Snapshot> GetCurrentDistance2SnapshotList()
         {
             DescribeObjective tempRef = Trials[currentTrial].Objectives[(int)OBJECTIVE.DESCRIBE] as DescribeObjective;
-
-            Distance2Snapshot distance2Snapshot = new Distance2Snapshot();
-            distance2Snapshot.setSnapshot(dist1, dist2);
-
-            tempRef.Distance2Snapshot.Add(distance2Snapshot);
+            return tempRef.Distance2Snapshots;
         }
 
     }
@@ -192,7 +184,7 @@ public class GameDataStorage : MonoBehaviour {
     {
         public string kind = "DescribeObjective";
 
-        public List<Distance2Snapshot> Distance2Snapshot = new List<Distance2Snapshot>();
+        public List<Distance2Snapshot> Distance2Snapshots = new List<Distance2Snapshot>();
 
         public override Assets.DataContracts.Objectives ToDataContract()
         {
@@ -202,7 +194,7 @@ public class GameDataStorage : MonoBehaviour {
             objectiveContract.AudioSnapshots = AudioSnapshots.ToArray();
             objectiveContract.BodySnapshots = BodySnapshots.ToArray();
             objectiveContract.kind = kind;
-            objectiveContract.Distance2Snapshot = Distance2Snapshot.ToArray();
+            objectiveContract.Distance2Snapshot = Distance2Snapshots.ToArray();
             return objectiveContract;
         }
     }
@@ -273,6 +265,41 @@ public class GameDataStorage : MonoBehaviour {
         }
     }
 
+    public static IEnumerator CollectDistance2Snapshot(Toolbox toolBox, List<Distance2Snapshot> Distance2SnapshotList)
+    {
+        while (true)
+        {
+            if (toolBox.BodySourceManager == null)
+            {
+                yield return null;
+                continue;
+            }
+            var body = toolBox.BodySourceManager.GetFirstTrackedBody();
+            if (body == null)
+            {
+                yield return null;
+                continue;
+            }
+
+            var rightHand = body.Joints[Windows.Kinect.JointType.HandRight];
+            var leftHand = body.Joints[Windows.Kinect.JointType.HandLeft];
+            var upperSpine = body.Joints[Windows.Kinect.JointType.SpineShoulder];
+
+            Vector3 rightHandPos = new Vector3(rightHand.Position.X, rightHand.Position.Y, rightHand.Position.Z);
+            Vector3 leftHandPos = new Vector3(leftHand.Position.X, leftHand.Position.Y, leftHand.Position.Z);
+            Vector3 upperSpinePos = new Vector3(upperSpine.Position.X, upperSpine.Position.Y, upperSpine.Position.Z);
+
+            Vector3 handsMidpoint = Vector3.Lerp(rightHandPos, leftHandPos, 0.5f);
+
+            Distance2Snapshot dist2Snapshot = new Distance2Snapshot();
+            dist2Snapshot.setSnapshot(Vector3.Distance(rightHandPos, leftHandPos), Vector3.Distance(handsMidpoint, upperSpinePos));
+
+            Distance2SnapshotList.Add(dist2Snapshot);
+
+            yield return null;
+        }
+    }
+
     public static Assets.DataContracts.Session ConvertToDataContract(PlayerSession session)
     {
         var sessionContract = new Assets.DataContracts.Session();
@@ -300,6 +327,6 @@ public class GameDataStorage : MonoBehaviour {
         sessionContract.Trials = trialContractList.ToArray();
 
         return sessionContract;
-    } 
+    }
 
 }
