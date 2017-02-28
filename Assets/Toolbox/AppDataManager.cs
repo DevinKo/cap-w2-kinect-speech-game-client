@@ -12,6 +12,8 @@ namespace Assets.Toolbox
         private List<AudioSnapshot> _audioSnapshots = new List<AudioSnapshot>();
         private Dictionary<JointType, MaxReach> _maxReach = new Dictionary<JointType, MaxReach>();
 
+        private GameSession _session = new GameSession("", "");
+
         private Toolbox toolbox;
 
         private void Start()
