@@ -11,6 +11,8 @@ TagManager:
   - GameDataCollector
   - DescribeController
   - DescribeObject
+  - UIHandLeft
+  - UIHandRight
   layers:
   - Default
   - TransparentFX
