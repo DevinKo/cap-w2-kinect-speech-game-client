@@ -8,12 +8,12 @@ namespace Assets.DataContracts
     [Serializable]
     public class Session
     {
-        public string Email;
-        public string Password;
+        public string email;
+        public string password;
         public string StartTime;
         public string EndTime;
 
-		public Calibration _Calibration;
+		public CalibrationData CalibrationData;
 
         public Trial[] Trials;
     }

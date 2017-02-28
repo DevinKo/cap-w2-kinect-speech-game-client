@@ -15,7 +15,7 @@ namespace Assets.DataContracts
 
         public string kind;
 
-        public Distance2Snapshot[] Distance2Snapshot;
+        public Distance2Snapshot[] Distance2Snapshots;
 
         // time at which the pointing zone was activated
         public string ActivationTime;

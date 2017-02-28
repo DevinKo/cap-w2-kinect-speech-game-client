@@ -12,13 +12,14 @@ public class GameSequence : MonoBehaviour {
     GameObject gameData;
 
     // Define Session variables
-    GameDataStorage.PlayerSession Session = new GameDataStorage.PlayerSession("prashant", "qwerty");
+    GameDataStorage.PlayerSession Session = new GameDataStorage.PlayerSession("p.mcpatientface@email.com", "mFjDhCdzCw");
     GameDataStorage.OBJECTIVE CurrentState;
 
     // Data collector instances
     Toolbox ToolBox;
 
     private bool doneMoving = false;
+    private bool[] coroutinesRunning = new bool[] { false, false };
 
     // Use this for initialization
     void Start () {
@@ -57,7 +58,7 @@ public class GameSequence : MonoBehaviour {
     {
         GameDataStorage.OBJECTIVE CurrentSessionObjective = Session.GetCurrentObjective();
 
-        if (CurrentState == GameDataStorage.OBJECTIVE.LOCATE && CurrentSessionObjective == GameDataStorage.OBJECTIVE.NONE)
+        if (CurrentState == GameDataStorage.OBJECTIVE.LOCATE && !coroutinesRunning[0])
         {
             Session.StartObjective(GameDataStorage.OBJECTIVE.LOCATE);
             StartCoroutine(CheckForIsFound());
@@ -65,15 +66,18 @@ public class GameSequence : MonoBehaviour {
             StartCoroutine(GameDataStorage.CollectBodySnapshot(ToolBox, Session.GetCurrentObjectiveBodySnapshotList()));
             StartCoroutine(GameDataStorage.CollectAudioSnapshots(ToolBox, Session.GetCurrentObjectiveAudioSnapshotList()));
             print("running locate objective coroutines\n");
+            coroutinesRunning[0] = true;
         }
-        else if (CurrentState == GameDataStorage.OBJECTIVE.DESCRIBE && CurrentSessionObjective == GameDataStorage.OBJECTIVE.LOCATE)
+        else if (CurrentState == GameDataStorage.OBJECTIVE.DESCRIBE && !coroutinesRunning[1])
         {
             StopAllCoroutines();
-            StartCoroutine(GameDataStorage.CollectDistance2Snapshot(ToolBox, Session.GetCurrentDistance2SnapshotList()));
             Session.StartObjective(GameDataStorage.OBJECTIVE.DESCRIBE);
+            StartCoroutine(GameDataStorage.CollectDistance2Snapshot(ToolBox, Session.GetCurrentDistance2SnapshotList()));
             StartCoroutine(GameDataStorage.CollectBodySnapshot(ToolBox, Session.GetCurrentObjectiveBodySnapshotList()));
             StartCoroutine(GameDataStorage.CollectAudioSnapshots(ToolBox, Session.GetCurrentObjectiveAudioSnapshotList()));
             print("running describe objective coroutines\n");
+            coroutinesRunning[0] = false;
+            coroutinesRunning[1] = true;
         }
         else
         {

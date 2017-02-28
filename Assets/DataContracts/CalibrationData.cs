@@ -7,7 +7,7 @@ using System.Text;
 namespace Assets.DataContracts
 {
 	[Serializable]
-	public class Calibration
+	public class CalibrationData
 	{
 		public string StartTime;
 		public string EndTime;
