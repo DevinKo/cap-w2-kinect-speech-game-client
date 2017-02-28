@@ -10,7 +10,6 @@ namespace Assets.Toolbox
 {
     public class BodySnapshotCollector : MonoBehaviour
     {
-        private BodySourceManager _bodyManager;
         private Toolbox _toolbox;
 
         public List<JointType> JointsOfInterest = new List<JointType>{JointType.ElbowLeft,
@@ -42,35 +41,10 @@ namespace Assets.Toolbox
            
         }
 
-        public IEnumerator RecordAudioSnapshots()
+        public IEnumerator CollectBodySnapshots(List<BodySnapshot> bodySnapshotList)
         {
             while (true)
             {
-                if (!_toolbox.VolumeCollector)
-                {
-                    yield return null;
-                    continue;
-                }
-                var audioSnapshot = new AudioSnapshot()
-                {
-                    Intensity = _toolbox.VolumeCollector.Decibel,
-                    Time = DateTime.Now.ToString("s"),
-                };
-                _toolbox.AppDataManager.Save(audioSnapshot);
-                yield return new WaitForSeconds(0.1f);
-            }
-        }
-
-        public IEnumerator RecordSnapshot()
-        {
-            while (true)
-            {
-                ////////// Test
-                //var s = Assets.MockDataContracts.MockSnapshots.BodySnapshot1;
-                //s.Time = Time.time;
-                //_toolbox.AppDataManager.Save(s);
-                //yield return new WaitForSeconds(3);
-                ////////////// Test
                 if (_toolbox.BodySourceManager == null)
                 {
                     yield return null;
@@ -104,7 +78,8 @@ namespace Assets.Toolbox
                     Time = DateTime.Now.ToString("s"),
                 };
 
-                _toolbox.AppDataManager.Save(snapshot);
+                bodySnapshotList.Add(snapshot);
+
                 yield return new WaitForSeconds(0.1f);
             }
         }

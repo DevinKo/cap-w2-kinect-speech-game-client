@@ -54,7 +54,7 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var audio = _toolbox.VolumeCollector.Decibel;
+        var audio = _toolbox.VolumeSourceManager.Decibel;
         //ray = Camera.main.ScreenPointToRay(new Vector3(_data.GetHandScreenPosition().x, (2 * offset.y) - _data.GetHandScreenPosition().y, _data.GetHandScreenPosition().z));
 
         if (state == GameDataStorage.OBJECTIVE.LOCATE)
@@ -195,7 +195,7 @@ public class playerController : MonoBehaviour
 
     public float getLastSound()
     {
-        return _toolbox.VolumeCollector.RawEnergy;
+        return _toolbox.VolumeSourceManager.RawEnergy;
     }
 
     public void setState(GameDataStorage.OBJECTIVE newState)

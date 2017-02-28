@@ -14,6 +14,6 @@ namespace Assets.DataContracts
         public string ActivationTime;
 
         // distance from the hands mid-point to the object to identify
-        public DistanceSnapshot[] DistanceSnapshots;
+        public LocateDistanceSnapshot[] DistanceSnapshots;
     }
 }

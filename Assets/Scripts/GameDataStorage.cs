@@ -112,7 +112,7 @@ public class GameDataStorage : MonoBehaviour {
             Trials[currentTrial].Objectives[(int)ObjectiveType].StartTime = System.DateTime.Now;
         }
 
-        public List<DistanceSnapshot> GetCurrentDistanceSnapshotList()
+        public List<LocateDistanceSnapshot> GetCurrentDistanceSnapshotList()
         {
             LocateObjective tempRef = Trials[currentTrial].Objectives[(int)OBJECTIVE.LOCATE] as LocateObjective;
             return tempRef.DistanceSnapshots;
@@ -175,7 +175,7 @@ public class GameDataStorage : MonoBehaviour {
         public System.DateTime ActivationTime;
 
         // distance from the hands mid-point to the object to identify
-        public List<DistanceSnapshot> DistanceSnapshots = new List<DistanceSnapshot>();
+        public List<LocateDistanceSnapshot> DistanceSnapshots = new List<LocateDistanceSnapshot>();
 
         public override Assets.DataContracts.Objectives ToDataContract()
         {
@@ -226,14 +226,14 @@ public class GameDataStorage : MonoBehaviour {
     {
         while (true)
         {
-            if (!toolBox.VolumeCollector)
+            if (!toolBox.VolumeSourceManager)
             {
                 yield return null;
                 continue;
             }
             var audioSnapshot = new AudioSnapshot()
             {
-                Intensity = toolBox.VolumeCollector.Decibel,
+                Intensity = toolBox.VolumeSourceManager.Decibel,
                 Time = System.DateTime.Now.ToString("s"),
             };
             AudioSnapshotList.Add(audioSnapshot);
@@ -301,11 +301,11 @@ public class GameDataStorage : MonoBehaviour {
         }
     }
 
-    public static IEnumerator CollectDistanceSnapshot(List<DistanceSnapshot> DistanceSnapshotList)
+    public static IEnumerator CollectDistanceSnapshot(List<LocateDistanceSnapshot> DistanceSnapshotList)
     {
         while (true)
         {
-            var distSnap = new DistanceSnapshot();
+            var distSnap = new LocateDistanceSnapshot();
 
             distSnap.setSnapshot(0f);
 

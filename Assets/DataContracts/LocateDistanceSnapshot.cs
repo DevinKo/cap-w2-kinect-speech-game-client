@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Assets.DataContracts {
 
 	[System.Serializable]
-    public class DistanceSnapshot
+    public class LocateDistanceSnapshot
     {
         public float Distance;
         public string Time;

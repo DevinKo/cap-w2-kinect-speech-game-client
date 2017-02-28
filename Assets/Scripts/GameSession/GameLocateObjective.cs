@@ -9,7 +9,7 @@ public class GameLocateObjective : GameObjective {
     public string kind = "LocateObjective";
     public DateTime ActivationTime;
 
-    public List<DistanceSnapshot> DistanceSnapshots = new List<DistanceSnapshot>();
+    public List<LocateDistanceSnapshot> DistanceSnapshots = new List<LocateDistanceSnapshot>();
 
     public override Objectives ToDataContract()
     {
