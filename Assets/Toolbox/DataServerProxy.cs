@@ -50,7 +50,7 @@ namespace Assets.Toolbox
             postHeader.Add("Content-Type", "application/json");
 
             var request = new WWW(url, bytes, postHeader);
-            File.WriteAllBytes(@"C:\Users\Prashant\Documents\Capstone\test\Snapshots.json", bytes);
+            File.WriteAllBytes(@"C:\Snapshots.json", bytes);
             Debug.Log("Writing file");
             StartCoroutine("WaitAsync", request);
         }

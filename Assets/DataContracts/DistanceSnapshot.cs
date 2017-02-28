@@ -12,6 +12,16 @@ namespace Assets.DataContracts {
         public float Distance;
         public string Time;
 
+        public Distances ToDataContract()
+        {
+            var dist = new Distances()
+            {
+                Distance = Distance,
+                Time = Time,
+            };
+            return dist;
+        }
+
         public void setSnapshot(float distance)
         {
             Distance = distance;

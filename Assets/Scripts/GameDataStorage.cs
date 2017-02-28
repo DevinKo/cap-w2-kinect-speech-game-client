@@ -214,7 +214,12 @@ public class GameDataStorage : MonoBehaviour {
             objectiveContract.AudioSnapshots = AudioSnapshots.ToArray();
             objectiveContract.BodySnapshots = BodySnapshots.ToArray();
             objectiveContract.kind = kind;
-            objectiveContract.DistanceSnapshots = DistanceSnapshots.ToArray();
+            var distList = new List<Distances>();
+            foreach(var dist in DistanceSnapshots)
+            {
+                distList.Add(dist.ToDataContract());
+            }
+            objectiveContract.Distances = distList.ToArray();
             objectiveContract.ActivationTime = ActivationTime.ToString("s");
             return objectiveContract;
         }        
@@ -234,7 +239,14 @@ public class GameDataStorage : MonoBehaviour {
             objectiveContract.AudioSnapshots = AudioSnapshots.ToArray();
             objectiveContract.BodySnapshots = BodySnapshots.ToArray();
             objectiveContract.kind = kind;
-            objectiveContract.Distance2Snapshots = Distance2Snapshots.ToArray();
+            var distList = new List<Distances>();
+            foreach (var dist in Distance2Snapshots)
+            {
+                distList.Add(dist.ToDataContract());
+            }
+            objectiveContract.Distances = distList.ToArray();
+            objectiveContract.ActivationTime = DateTime.Now.ToString("s");
+            
             return objectiveContract;
         }
     }
