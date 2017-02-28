@@ -34,37 +34,6 @@ public class GameDataStorage : MonoBehaviour {
             JointType.WristLeft,
             JointType.WristRight
         };
-
-    public class Session
-    {
-        public Session() { }
-
-        private float identifyObjectTime;
-        private float indicateSizeTime;
-
-        public int currentTask;
-
-        // setters, getters
-        public void setIdentifyObjectTime(float time)
-        {
-            identifyObjectTime = time;
-        }
-        public float getIdentifyObjectTime()
-        {
-            return identifyObjectTime;
-        }
-
-        public void setIndicateSizeTime(float time)
-        {
-            indicateSizeTime = time;
-        }
-        public float getIndicateSizeTime()
-        {
-            return indicateSizeTime;
-        }
-    }
-
-    // --------------------------- NEW DATA STRUCTURE ----------------------------------
     
     public class PlayerSession
     {
@@ -169,7 +138,9 @@ public class GameDataStorage : MonoBehaviour {
 
 		public Calibration(System.DateTime currentTime)
 		{
-			this.StartTime = currentTime;
+            //this.StartTime = currentTime;
+            this.StartTime = DateTime.Now;
+            this.EndTime = DateTime.Now;
 		}
 	}
 
@@ -326,6 +297,20 @@ public class GameDataStorage : MonoBehaviour {
             };
 
             BodySnapshotList.Add(snapshot);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    public static IEnumerator CollectDistanceSnapshot(List<DistanceSnapshot> DistanceSnapshotList)
+    {
+        while (true)
+        {
+            var distSnap = new DistanceSnapshot();
+
+            distSnap.setSnapshot(0f);
+
+            DistanceSnapshotList.Add(distSnap);
+
             yield return new WaitForSeconds(0.1f);
         }
     }

@@ -62,7 +62,7 @@ public class GameSequence : MonoBehaviour {
         {
             Session.StartObjective(GameDataStorage.OBJECTIVE.LOCATE);
             StartCoroutine(CheckForIsFound());
-            StartCoroutine(CollectDistanceSnapshot());
+            StartCoroutine(GameDataStorage.CollectDistanceSnapshot(Session.GetCurrentDistanceSnapshotList()));
             StartCoroutine(GameDataStorage.CollectBodySnapshot(ToolBox, Session.GetCurrentObjectiveBodySnapshotList()));
             StartCoroutine(GameDataStorage.CollectAudioSnapshots(ToolBox, Session.GetCurrentObjectiveAudioSnapshotList()));
             print("running locate objective coroutines\n");
@@ -82,16 +82,6 @@ public class GameSequence : MonoBehaviour {
         else
         {
             //StopAllCoroutines();
-        }
-    }
-
-    public IEnumerator CollectDistanceSnapshot()
-    {
-        while (true)
-        {
-            // collect distance information
-            
-            yield return null;
         }
     }
 
