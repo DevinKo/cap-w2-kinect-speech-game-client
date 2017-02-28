@@ -13,7 +13,7 @@ namespace Assets.Toolbox
         private BodySourceManager _bodyManager;
         private Toolbox _toolbox;
 
-        private List<JointType> JointsOfInterest = new List<JointType>{JointType.ElbowLeft,
+        public List<JointType> JointsOfInterest = new List<JointType>{JointType.ElbowLeft,
             JointType.ElbowRight,
             JointType.HandLeft,
             JointType.HandRight,

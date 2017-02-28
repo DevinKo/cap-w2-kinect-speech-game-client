@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Assets.DataContracts;
 using Assets.Toolbox;
 using UnityEngine;
+using Windows.Kinect;
 using System;
 
 public class GameDataStorage : MonoBehaviour {
@@ -13,6 +14,26 @@ public class GameDataStorage : MonoBehaviour {
         DESCRIBE,
         NONE
     }
+
+    // Desired Joint Types
+    public static List<JointType> JointsOfInterest = new List<JointType>{JointType.ElbowLeft,
+            JointType.ElbowRight,
+            JointType.HandLeft,
+            JointType.HandRight,
+            JointType.HandTipLeft,
+            JointType.HandTipRight,
+            JointType.Head,
+            JointType.Neck,
+            JointType.ShoulderLeft,
+            JointType.ShoulderRight,
+            JointType.SpineBase,
+            JointType.SpineMid,
+            JointType.SpineShoulder,
+            JointType.ThumbLeft,
+            JointType.ThumbRight,
+            JointType.WristLeft,
+            JointType.WristRight
+        };
 
     public class Session
     {
@@ -213,7 +234,7 @@ public class GameDataStorage : MonoBehaviour {
             objectiveContract.AudioSnapshots = AudioSnapshots.ToArray();
             objectiveContract.BodySnapshots = BodySnapshots.ToArray();
             objectiveContract.kind = kind;
-            objectiveContract.Distance2Snapshot = Distance2Snapshots.ToArray();
+            objectiveContract.Distance2Snapshots = Distance2Snapshots.ToArray();
             return objectiveContract;
         }
     }
@@ -261,12 +282,25 @@ public class GameDataStorage : MonoBehaviour {
 
             var joints = new List<Assets.DataContracts.Joint>();
 
-            foreach (var joint in body.Joints)
+            //foreach (var joint in body.Joints)
+            //{
+            //    var pos = joint.Value.Position;
+            //    joints.Add(new Assets.DataContracts.Joint()
+            //    {
+            //        JointType = joint.Key.ToString(),
+            //        X = pos.X,
+            //        Y = pos.Y,
+            //        Z = pos.Z
+            //    });
+            //}
+
+            foreach (var jointType in JointsOfInterest)
             {
-                var pos = joint.Value.Position;
+                var joint = body.Joints[jointType];
+                var pos = joint.Position;
                 joints.Add(new Assets.DataContracts.Joint()
                 {
-                    JointType = joint.Key.ToString(),
+                    JointType = jointType.ToString(),
                     X = pos.X,
                     Y = pos.Y,
                     Z = pos.Z
@@ -315,7 +349,7 @@ public class GameDataStorage : MonoBehaviour {
 
             Distance2SnapshotList.Add(dist2Snapshot);
 
-            yield return null;
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
@@ -324,8 +358,8 @@ public class GameDataStorage : MonoBehaviour {
         var sessionContract = new Assets.DataContracts.Session();
         sessionContract.StartTime = session.StartTime.ToString("s");
         sessionContract.EndTime = session.EndTime.ToString("s");
-        sessionContract.Email = session.Email;
-        sessionContract.Password = session.Password;
+        sessionContract.email = session.Email;
+        sessionContract.password = session.Password;
         
 		var trialContractList = new List<Assets.DataContracts.Trial>();
         foreach (var trial in session.Trials)
@@ -346,8 +380,8 @@ public class GameDataStorage : MonoBehaviour {
         }
         sessionContract.Trials = trialContractList.ToArray();
 
-		var calibrationContract = new Assets.DataContracts.Calibration();
-		sessionContract._Calibration = calibrationContract;
+		var calibrationContract = new Assets.DataContracts.CalibrationData();
+		sessionContract.CalibrationData = calibrationContract;
 
         return sessionContract;
     }
