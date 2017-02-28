@@ -168,7 +168,7 @@ public class GameDataStorage : MonoBehaviour {
 
         public override Assets.DataContracts.Objectives ToDataContract()
         {
-            var objectiveContract = new Assets.DataContracts.LocateObjective();
+            var objectiveContract = new Assets.DataContracts.Objectives();
             objectiveContract.StartTime = StartTime.ToString("s");
             objectiveContract.EndTime = EndTime.ToString("s");
             objectiveContract.AudioSnapshots = AudioSnapshots.ToArray();
@@ -188,7 +188,7 @@ public class GameDataStorage : MonoBehaviour {
 
         public override Assets.DataContracts.Objectives ToDataContract()
         {
-            var objectiveContract = new Assets.DataContracts.DescribeObjective();
+            var objectiveContract = new Assets.DataContracts.Objectives();
             objectiveContract.StartTime = StartTime.ToString("s");
             objectiveContract.EndTime = EndTime.ToString("s");
             objectiveContract.AudioSnapshots = AudioSnapshots.ToArray();
