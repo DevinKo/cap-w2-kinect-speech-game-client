@@ -25,7 +25,7 @@ public class playerController : MonoBehaviour
     public bool task2IsComplete = false;
     float timeLeft;
     bool isTouching = false;
-    
+
     protected KinectUICursor _UiHandLeft;
     protected KinectUICursor _UiHandRight;
 
@@ -43,7 +43,7 @@ public class playerController : MonoBehaviour
 
         var handLeft = GameObject.FindGameObjectWithTag("UIHandLeft");
         _UiHandLeft = handLeft.GetComponent<KinectUICursor>();
-         
+
         var handRight = GameObject.FindGameObjectWithTag("UIHandRight");
         _UiHandRight = handRight.GetComponent<KinectUICursor>();
 
@@ -67,7 +67,7 @@ public class playerController : MonoBehaviour
         {
             checkTouching2();
         }
-        
+
         if (state == GameDataStorage.OBJECTIVE.NONE)
         {
             this.gameObject.SetActive(false);
