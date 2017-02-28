@@ -14,6 +14,17 @@ namespace Assets.DataContracts
         public  float HandsToSpineDistance;
         public string Time;
 
+        public Distances ToDataContract()
+        {
+            var dist = new Distances()
+            {
+                HandsToSpineDistance = HandsToSpineDistance,
+                HandToHandDistance = HandToHandDistance,
+                Time = Time,
+            };
+            return dist;
+        }
+
         public void setSnapshot(float handToHandDist, float handToSpineDist)
         {
             HandToHandDistance = handToHandDist;
