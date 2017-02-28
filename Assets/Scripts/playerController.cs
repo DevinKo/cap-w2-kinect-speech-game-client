@@ -21,23 +21,26 @@ public class playerController : MonoBehaviour
     Ray leftRay;
     RaycastHit leftHit;
 
-    bool isComplete = false;
+    public bool task1IsComplete = false;
+    public bool task2IsComplete = false;
     float timeLeft;
     bool isTouching = false;
     
     protected KinectUICursor _UiHandLeft;
     protected KinectUICursor _UiHandRight;
 
-
     private Vector3 offset;
+
+    public GameDataStorage.OBJECTIVE state;
 
     // Use this for initialization
     void Start()
     {
+        state = GameDataStorage.OBJECTIVE.NONE;
+
         _toolbox = FindObjectOfType<Toolbox>();
         timeLeft = pointing_zone_timer;
 
-        
         var handLeft = GameObject.FindGameObjectWithTag("UIHandLeft");
         _UiHandLeft = handLeft.GetComponent<KinectUICursor>();
          
@@ -54,29 +57,20 @@ public class playerController : MonoBehaviour
         var audio = _toolbox.VolumeCollector.Decibel;
         //ray = Camera.main.ScreenPointToRay(new Vector3(_data.GetHandScreenPosition().x, (2 * offset.y) - _data.GetHandScreenPosition().y, _data.GetHandScreenPosition().z));
 
-        checkTouching();
-
-        if (isComplete)
+        if (state == GameDataStorage.OBJECTIVE.LOCATE)
         {
-           // hit.collider.gameObject.GetComponent<zone_shader_modifier>().moveParent();
+            checkTouching();
+            doTask1();
         }
-        else if (isTouching)
+
+        if (state == GameDataStorage.OBJECTIVE.DESCRIBE)
         {
-           // hit.collider.gameObject.GetComponent<zone_shader_modifier>().gotHit();
-
-            print(pointing_zone_timer);
-            pointing_zone_timer -= Time.deltaTime;
-
-            if (pointing_zone_timer < 0)
-            {
-                print("COMPLETE");
-                isComplete = true;
-            }
+            checkTouching2();
         }
-        else
+        
+        if (state == GameDataStorage.OBJECTIVE.NONE)
         {
-            pointing_zone_timer = timeLeft;
-            isComplete = false;
+            this.gameObject.SetActive(false);
         }
 
     }
@@ -132,8 +126,80 @@ public class playerController : MonoBehaviour
 
     }
 
+    void checkTouching2()
+    {
+        rightRay = Camera.main.ScreenPointToRay(_UiHandRight.CurrentPosition);
+        leftRay = Camera.main.ScreenPointToRay(_UiHandLeft.CurrentPosition);
+
+        bool leftTouch = false;
+        bool rightTouch = false;
+
+        if (_useRightHand)
+        {
+            if (Physics.Raycast(rightRay, out hit))
+            {
+                if (hit.collider.tag == "DescribeObject")
+                {
+                    if (hit.collider.name == "RightDescribeHand")
+                    {
+                        print("Right Hand on Target");
+                        rightTouch = true;
+                    }
+                }
+            }
+        }
+        if (_useLeftHand)
+        {
+            if (Physics.Raycast(leftRay, out hit))
+            {
+
+                if (hit.collider.tag == "DescribeObject")
+                {
+                    if (hit.collider.name == "LeftDescribeHand")
+                    {
+                        print("Right Hand on Target");
+                        leftTouch = true;
+                    }
+                }
+            }
+        }
+
+        task2IsComplete = (leftTouch && rightTouch);
+    }
+
+    void doTask1()
+    {
+        if (task1IsComplete)
+        {
+
+        }
+        else if (isTouching)
+        {
+            // hit.collider.gameObject.GetComponent<zone_shader_modifier>().gotHit();
+
+            print(pointing_zone_timer);
+            pointing_zone_timer -= Time.deltaTime;
+
+            if (pointing_zone_timer < 0)
+            {
+                print("COMPLETE");
+                task1IsComplete = true;
+            }
+        }
+        else
+        {
+            pointing_zone_timer = timeLeft;
+            task1IsComplete = false;
+        }
+    }
+
     public float getLastSound()
     {
         return _toolbox.VolumeCollector.RawEnergy;
+    }
+
+    public void setState(GameDataStorage.OBJECTIVE newState)
+    {
+        state = newState;
     }
 }
