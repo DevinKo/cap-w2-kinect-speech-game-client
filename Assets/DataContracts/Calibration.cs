@@ -12,7 +12,8 @@ namespace Assets.DataContracts
 		public string StartTime;
 		public string EndTime;
 		public float Radius;
-		public MaxReach maxReach;
+		public MaxReach MaxReachLeft;
+		public MaxReach MaxReachRight;
 		public float AudioThreshold;
 		public float PointingZoneTimerSec;
 	}

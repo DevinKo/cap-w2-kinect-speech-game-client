@@ -141,7 +141,8 @@ public class GameDataStorage : MonoBehaviour {
 		public System.DateTime StartTime;
 		public System.DateTime EndTime;
 		public float Radius;
-		public MaxReach maxReach = new MaxReach();
+		public MaxReach MaxReachLeft = new MaxReach();
+		public MaxReach MaxReachRight = new MaxReach();
 		public float AudioThreshold;
 		public float PointingZoneTimerSec;
 
