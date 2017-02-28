@@ -13,6 +13,8 @@ namespace Assets.DataContracts
         public string StartTime;
         public string EndTime;
 
+		public Calibration _Calibration;
+
         public Trial[] Trials;
     }
 }

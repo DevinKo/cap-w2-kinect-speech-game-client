@@ -9,6 +9,8 @@ TagManager:
   - TextImport
   - DialogManager
   - GameDataCollector
+  - UIHandLeft
+  - UIHandRight
   layers:
   - Default
   - TransparentFX

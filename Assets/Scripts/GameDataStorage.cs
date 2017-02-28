@@ -52,6 +52,9 @@ public class GameDataStorage : MonoBehaviour {
         public System.DateTime StartTime;
         public System.DateTime EndTime;
 
+		public Calibration _Calibration;
+		//public List<Calibration> _Calibration = new List<Calibration>();
+
         public List<Trial> Trials = new List<Trial>();
 
         private int currentTrial;
@@ -132,6 +135,21 @@ public class GameDataStorage : MonoBehaviour {
         }
 
     }
+
+	public class Calibration
+	{
+		public System.DateTime StartTime;
+		public System.DateTime EndTime;
+		public float Radius;
+		public MaxReach maxReach = new MaxReach();
+		public float AudioThreshold;
+		public float PointingZoneTimerSec;
+
+		public Calibration(System.DateTime currentTime)
+		{
+			this.StartTime = currentTime;
+		}
+	}
 
     public class Trial
     {
@@ -307,7 +325,8 @@ public class GameDataStorage : MonoBehaviour {
         sessionContract.EndTime = session.EndTime.ToString("s");
         sessionContract.Email = session.Email;
         sessionContract.Password = session.Password;
-        var trialContractList = new List<Assets.DataContracts.Trial>();
+        
+		var trialContractList = new List<Assets.DataContracts.Trial>();
         foreach (var trial in session.Trials)
         {
             var trialContract = new Assets.DataContracts.Trial();
@@ -325,6 +344,9 @@ public class GameDataStorage : MonoBehaviour {
             trialContractList.Add(trialContract);
         }
         sessionContract.Trials = trialContractList.ToArray();
+
+		var calibrationContract = new Assets.DataContracts.Calibration();
+		sessionContract._Calibration = calibrationContract;
 
         return sessionContract;
     }
