@@ -9,6 +9,8 @@ TagManager:
   - TextImport
   - DialogManager
   - GameDataCollector
+  - DescribeController
+  - DescribeObject
   layers:
   - Default
   - TransparentFX
