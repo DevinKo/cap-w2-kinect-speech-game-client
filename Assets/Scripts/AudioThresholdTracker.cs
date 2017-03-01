@@ -7,15 +7,14 @@ using System;
 
 public class AudioThresholdTracker : MonoBehaviour
 {
-    // Used for displaying max reach distance (testing only)
+    // Used for displaying audio threshold (testing only)
     public Text testText;
     public Text timerText;
     public Text instructionText;
-    float maxTime = 4.0f; //change calibration time per hand here
+    float maxTime = 15.0f; //change calibration time here
     float timeLeft;
 
     private Toolbox _toolbox;
-    private JointType _jointType;
     private float lowestVolume;
     private float currentVolume;
 
@@ -33,10 +32,8 @@ public class AudioThresholdTracker : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (_toolbox.BodySourceManager == null)
-        {
-            return;
-        }
+        if (_toolbox.BodySourceManager == null) { return; }
+
         currentVolume = _toolbox.VolumeCollector.RawEnergy * 1000;
 
         if (currentVolume > lowestVolume)
@@ -44,7 +41,7 @@ public class AudioThresholdTracker : MonoBehaviour
             lowestVolume = currentVolume;
         }
 
-        // countdown from timeLeft to zero
+        // countdown from maxTime to zero
         timeLeft -= Time.deltaTime;
         timerText.text = "Time left: " + timeLeft.ToString("f0");
 

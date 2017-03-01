@@ -30,10 +30,7 @@ public class ReachTracker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_toolbox.BodySourceManager == null)
-        {
-            return;
-        }
+        if (_toolbox.BodySourceManager == null) { return; }
 
         // find relative distane of joint from top of spine.
         var relativePosition = _toolbox.BodySourceManager.GetRelativeJointPosition(JointType.SpineShoulder, _jointType);
@@ -46,7 +43,7 @@ public class ReachTracker : MonoBehaviour
             _maxReach.y = Math.Abs(relativePosition.y);
         }
 
-        // countdown from timeLieft to zero
+        // countdown from maxTime to zero
         timeLeft -= Time.deltaTime;
         timerText.text = "Time left: " + timeLeft.ToString("f0");
 
