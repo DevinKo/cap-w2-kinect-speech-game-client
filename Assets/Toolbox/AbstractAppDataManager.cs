@@ -10,5 +10,6 @@ namespace Assets.Toolbox
         public abstract void Save(AudioSnapshot data);
         public abstract void Save(MaxReach maxReach, JointType joint);
         public abstract MaxReach GetMaxReach(JointType joint);
+        public abstract GameSession GetSession();
     }
 }

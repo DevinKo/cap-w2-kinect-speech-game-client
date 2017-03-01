@@ -10,9 +10,14 @@ namespace Assets.Toolbox
 {
     public class DistanceCollector : MonoBehaviour {
 
+        private Toolbox _toolbox;
 
+        public void Start()
+        {
+            _toolbox = FindObjectOfType<Toolbox>();
+        }
 
-        public static IEnumerator CollectDistanceSnapshot(List<LocateDistanceSnapshot> DistanceSnapshotList)
+        public IEnumerator CollectDistanceSnapshot(List<LocateDistanceSnapshot> DistanceSnapshotList)
         {
             while (true)
             {

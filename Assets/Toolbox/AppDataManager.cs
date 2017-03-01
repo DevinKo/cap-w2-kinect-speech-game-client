@@ -12,7 +12,7 @@ namespace Assets.Toolbox
         private List<AudioSnapshot> _audioSnapshots = new List<AudioSnapshot>();
         private Dictionary<JointType, MaxReach> _maxReach = new Dictionary<JointType, MaxReach>();
 
-        private GameSession _session = new GameSession("", "");
+        private GameSession _session = new GameSession("p.mcpatientface@email.com", "mFjDhCdzCw");
 
         private Toolbox toolbox;
 
@@ -24,6 +24,11 @@ namespace Assets.Toolbox
         public void Update()
         {
             
+        }
+
+        public override GameSession GetSession()
+        {
+            return _session;
         }
 
         public override void Save(MaxReach maxReach, JointType joint)

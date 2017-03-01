@@ -28,9 +28,9 @@ public class GameTrial {
         Objectives[currentObjective].StartTime = System.DateTime.Now;
     }
 
-    public GameObjective GetCurrentObjective(OBJECTIVE currentObjective)
+    public GameObjective GetCurrentObjective()
     {
-        return Objectives[currentObjective];
+        return Objectives[CurrentObjective];
     }
 
     public void SetCurrentObjectiveIndex(OBJECTIVE currentObjective)

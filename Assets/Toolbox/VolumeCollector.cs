@@ -22,7 +22,7 @@ namespace Assets.Toolbox
 
         }
 
-        public IEnumerator RecordAudioSnapshots(List<AudioSnapshot> audioSnapshotList)
+        public IEnumerator CollectAudioSnapshots(List<AudioSnapshot> audioSnapshotList)
         {
             while (true)
             {

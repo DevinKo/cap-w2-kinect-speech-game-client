@@ -9,14 +9,14 @@ namespace Assets.Toolbox
     {
         protected Toolbox() { } // guarantee this will be always a singleton only - can't use the constructor!
 
-        
-
         // Should use some sort of dependency injection here.
         protected AbstractAppDataManager _appDataManager;
         protected AbstractDataServerClient _dataServerClient;
         protected BodySourceManager _bodySourceManager;
         protected BodySnapshotCollector _bodySnapshotCollector;
         protected VolumeSourceManager _volumeSourceManager;
+        protected VolumeCollector _volumeCollector;
+        protected DistanceCollector _distanceCollector;
 
         public AbstractAppDataManager AppDataManager
         {
@@ -58,6 +58,22 @@ namespace Assets.Toolbox
             }
         }
 
+        public VolumeCollector VolumeCollector
+        {
+            get
+            {
+                return _volumeCollector;
+            }
+        }
+
+        public DistanceCollector DistanceCollector
+        {
+            get
+            {
+                return _distanceCollector;
+            }
+        }
+
         void Awake()
         {
             // initialization code here
@@ -69,6 +85,8 @@ namespace Assets.Toolbox
             _bodySourceManager = gameObject.AddComponent<BodySourceManager>();
             _bodySnapshotCollector = gameObject.AddComponent<BodySnapshotCollector>();
             _volumeSourceManager = gameObject.AddComponent<VolumeSourceManager>();
+            _volumeCollector = gameObject.AddComponent<VolumeCollector>();
+            _distanceCollector = gameObject.AddComponent<DistanceCollector>();
         }
 
         // allow runtime registration of global objects
