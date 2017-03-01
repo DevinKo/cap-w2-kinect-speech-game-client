@@ -17,8 +17,9 @@ public class PointerZoneTracker : MonoBehaviour
     float timeLeft;
 
     private Toolbox _toolbox;
-    private float radius;
-    private float pointerTime;
+    private float distance; //current distance from center
+    private float radius; //radius to be stored to calibration contract
+    private float pointerTime; //maxTime to be sent to calibration contract
 
 
     // Use this for initialization
@@ -26,6 +27,7 @@ public class PointerZoneTracker : MonoBehaviour
     {
         _toolbox = FindObjectOfType<Toolbox>();
         timeLeft = maxTime;
+        pointerTime = maxTime;
 
         //spawn primitive object sphere for testing
         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -37,6 +39,16 @@ public class PointerZoneTracker : MonoBehaviour
 	void Update ()
     {
         if (_toolbox.BodySourceManager == null) { return; }
+
+        timeLeft -= Time.deltaTime;
+        timerText.text = "Time left: " + timeLeft.ToString("f0");
+
+        if (timeLeft <= 0)
+        {
+            //store distance into radius
+            // ... need to change radius into variable pointing to calibration contract
+            radius = pointerTime;
+        }
 
         printReach();
     }
