@@ -17,10 +17,11 @@ public class PointerZoneTracker : MonoBehaviour
     float timeLeft;
 
     private Toolbox _toolbox;
+    private JointType _jointType;
     private float distance; //current distance from center
     private float radius; //radius to be stored to calibration contract
     private float pointerTime; //maxTime to be sent to calibration contract
-
+    GameObject sphere;
 
     // Use this for initialization
     void Start ()
@@ -28,11 +29,14 @@ public class PointerZoneTracker : MonoBehaviour
         _toolbox = FindObjectOfType<Toolbox>();
         timeLeft = maxTime;
         pointerTime = maxTime;
+        //Start calibration with right hand
+        _jointType = JointType.HandRight;
 
         //spawn primitive object sphere for testing
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        sphere.transform.position = new Vector3(-0.01F, -0.01F, -0.01F);
-        sphere.transform.localScale = new Vector3(.2F, .2F, .2F);
+        GameObject sphere1 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        sphere1.transform.position = new Vector3(-0.01F, -0.01F, -0.01F);
+        sphere1.transform.localScale = new Vector3(.2F, .2F, .2F);
+        sphere = sphere1;
 	}
 	
 	// Update is called once per frame
@@ -43,13 +47,32 @@ public class PointerZoneTracker : MonoBehaviour
         timeLeft -= Time.deltaTime;
         timerText.text = "Time left: " + timeLeft.ToString("f0");
 
+        var relativePosition = _toolbox.BodySourceManager.GetRelativeJointPosition(JointType.SpineShoulder, _jointType);
+        distance = Vector3.Distance(relativePosition, sphere.transform.position);
+        if (Math.Abs(radius) < distance)
+        {
+            radius = distance;
+        }
+
         if (timeLeft <= 0)
         {
             //store distance into radius
             // ... need to change radius into variable pointing to calibration contract
-            radius = pointerTime;
-        }
+            //radiusSendToContract = radius;
+            if (_jointType == JointType.HandRight)
+            {
+                // switch to left hand and reset timer
+                _jointType = JointType.HandLeft;
+                timeLeft = maxTime;
 
+            }
+            else
+            {
+                //turn off ReachManager object and activate AudioThresholdManager
+                gameObject.SetActive(false);
+                GameObject.Find("CalibrationManager/AudioThresholdManager").SetActive(true);
+            }
+        } 
         printReach();
     }
 
@@ -57,9 +80,9 @@ public class PointerZoneTracker : MonoBehaviour
     void printReach()
     {
         // Display pointing zone distance
-        testText.text = "Radius: " + radius;
+        testText.text = _jointType + " Radius: " + radius;
 
         // Display instructions
-        instructionText.text = "Keep your hand on the circle.";
+        instructionText.text = "Keep " + _jointType + " on the circle.";
     }
 }
