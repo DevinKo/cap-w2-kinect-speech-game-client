@@ -22,6 +22,7 @@ public class SpySceneManager : MonoBehaviour
 
     // Data collector instances
     Toolbox ToolBox;
+    private GameObjective _currentObjective;
 
     private bool doneMoving = false;
     private bool[] coroutinesRunning = new bool[] { false, false };
@@ -44,19 +45,24 @@ public class SpySceneManager : MonoBehaviour
         dialogManagerRef.GetComponent<DialogManager>().updateDialogBox((int)DialogManager.PROMPT.Where);
 
         // add a new trial to current session
-        CurrentTrial = Session.InitNewTrial();
-        CurrentTrial.InitNewObjective(OBJECTIVE.LOCATE);
+        CurrentTrial = Session.AddTrial();
+        
+        // configure locate objective
+        var locateObjective = CurrentTrial.AddObjective(OBJECTIVE.LOCATE, IsLocateObjectiveComplete);
+        ToolBox.EventHub.SpyScene.OnZoneActivated();
+        // configure describe objective
+        var describeObjective = CurrentTrial.AddObjective(OBJECTIVE.DESCRIBE, IsDescribeObjectiveComplete);
 
-        CurrentObjectiveType = OBJECTIVE.LOCATE;
-
+        _currentObjective = CurrentTrial.Start();
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        CheckCurrentObjective();
-        CheckForLocateObjectiveComplete();
+        if (_currentObjective.IsComplete)
+        {
+            _currentObjective = CurrentTrial.StartNextObjective();
+        }
         //if (Input.GetKeyDown(KeyCode.Space))
         //{
         //    var dataClient = ToolBox.DataServerProxy;
@@ -64,41 +70,7 @@ public class SpySceneManager : MonoBehaviour
         //    dataClient.SendSession(sessionContract);
         //}
     }
-
-    public void CheckCurrentObjective()
-    {
-
-        var CurrentObjective = CurrentTrial.GetCurrentObjective();
-
-        if (CurrentObjectiveType == OBJECTIVE.LOCATE && !coroutinesRunning[0])
-        {
-            //StartCoroutine(CheckForIsFound());
-
-            StartCoroutine(ToolBox.BodySnapshotCollector.CollectBodySnapshots(CurrentObjective.BodySnapshots));
-            StartCoroutine(ToolBox.VolumeCollector.CollectAudioSnapshots(CurrentObjective.AudioSnapshots));
-
-            StartCoroutine(GameDataStorage.CollectDistanceSnapshot(Session.GetCurrentDistanceSnapshotList()));
-            StartCoroutine(GameDataStorage.CollectBodySnapshot(ToolBox, Session.GetCurrentObjectiveBodySnapshotList()));
-            StartCoroutine(GameDataStorage.CollectAudioSnapshots(ToolBox, Session.GetCurrentObjectiveAudioSnapshotList()));
-            print("running locate objective coroutines\n");
-            coroutinesRunning[0] = true;
-        }
-        else if (CurrentObjectiveType == OBJECTIVE.DESCRIBE && !coroutinesRunning[1])
-        {
-            StopAllCoroutines();
-            StartCoroutine(GameDataStorage.CollectDistance2Snapshot(ToolBox, Session.GetCurrentDistance2SnapshotList()));
-            StartCoroutine(GameDataStorage.CollectBodySnapshot(ToolBox, Session.GetCurrentObjectiveBodySnapshotList()));
-            StartCoroutine(GameDataStorage.CollectAudioSnapshots(ToolBox, Session.GetCurrentObjectiveAudioSnapshotList()));
-            print("running describe objective coroutines\n");
-            coroutinesRunning[0] = false;
-            coroutinesRunning[1] = true;
-        }
-        else
-        {
-            //StopAllCoroutines();
-        }
-    }
-
+    
     public IEnumerator CheckForIsFound()
     {
         print("looking for pointing zone");
@@ -121,7 +93,7 @@ public class SpySceneManager : MonoBehaviour
     }
 
 
-    public void CheckForLocateObjectiveComplete()
+    public bool IsLocateObjectiveComplete()
     {
         if (cameraObject.GetComponent<raycast_mouse_cursor>().isComplete && CurrentObjectiveType == OBJECTIVE.LOCATE)
         {
@@ -145,11 +117,13 @@ public class SpySceneManager : MonoBehaviour
 
             // set task start time
             Session.Trials[Session.GetCurrentTrial()].Objectives[(int)Session.GetCurrentObjective()].StartTime = System.DateTime.Now;
+            return true;
         }
+        return false;
     }
 
-    public void checkForTaskTwoComplete()
+    public bool IsDescribeObjectiveComplete()
     {
-
+        return false;
     }
 }

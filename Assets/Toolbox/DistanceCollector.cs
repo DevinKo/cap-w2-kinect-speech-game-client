@@ -17,6 +17,16 @@ namespace Assets.Toolbox
             _toolbox = FindObjectOfType<Toolbox>();
         }
 
+        public void StartCollectDistanceSnapshot(List<LocateDistanceSnapshot> DistanceSnapshotList)
+        {
+            StartCoroutine("CollectDistanceSnapshot", DistanceSnapshotList);
+        }
+
+        public void StopCollectDistanceSnapshot()
+        {
+            StopCoroutine("CollectDistanceSnapshot");
+        }
+
         public IEnumerator CollectDistanceSnapshot(List<LocateDistanceSnapshot> DistanceSnapshotList)
         {
             while (true)

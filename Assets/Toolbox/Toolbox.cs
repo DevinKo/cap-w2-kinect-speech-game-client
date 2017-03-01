@@ -17,6 +17,8 @@ namespace Assets.Toolbox
         protected VolumeSourceManager _volumeSourceManager;
         protected VolumeCollector _volumeCollector;
         protected DistanceCollector _distanceCollector;
+        protected Distance2SnapshotCollector _distance2Collector;
+        protected GameEventHub _gameEventHub;
 
         public AbstractAppDataManager AppDataManager
         {
@@ -74,6 +76,22 @@ namespace Assets.Toolbox
             }
         }
 
+        public Distance2SnapshotCollector Distance2Collector
+        {
+            get
+            {
+                return _distance2Collector;
+            }
+        }
+
+        public GameEventHub EventHub
+        {
+            get
+            {
+                return _gameEventHub;
+            }
+        }
+
         void Awake()
         {
             // initialization code here
@@ -87,6 +105,8 @@ namespace Assets.Toolbox
             _volumeSourceManager = gameObject.AddComponent<VolumeSourceManager>();
             _volumeCollector = gameObject.AddComponent<VolumeCollector>();
             _distanceCollector = gameObject.AddComponent<DistanceCollector>();
+            _distance2Collector = gameObject.AddComponent<Distance2SnapshotCollector>();
+            _gameEventHub = new GameEventHub();
         }
 
         // allow runtime registration of global objects

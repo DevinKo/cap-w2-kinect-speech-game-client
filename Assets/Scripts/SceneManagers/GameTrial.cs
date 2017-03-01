@@ -29,20 +29,25 @@ public class GameTrial {
     {
         _toolbox = toolbox;
         _gameObjectiveFactory = new GameObjectiveFactory(toolbox);
+        StartTime = System.DateTime.Now;
         CurrentObjective = OBJECTIVE.NONE;
 
         // Create the obectives.
         Objectives = new Dictionary<OBJECTIVE, GameObjective>();
     }
 
-    public GameObjective AddObjective(OBJECTIVE objectiveEnum, Func<bool> isComplete)
+    public GameObjective AddObjective(GameObjective objective)
     {
-        if (Objectives.ContainsKey(objectiveEnum)) throw new ArgumentException("Objective already added");
+        if (Objectives.ContainsKey(objective.objectiveType)) throw new ArgumentException("Objective already added");
         
-        _objectiveSequence.Add(objectiveEnum);
-        var objective = _gameObjectiveFactory.Create(objectiveEnum, isComplete);
-        Objectives.Add(objectiveEnum, objective);
+        _objectiveSequence.Add(objective.objectiveType);
+        Objectives.Add(objective.objectiveType, objective);
         return objective;
+    }
+
+    public void InitNewObjective(OBJECTIVE currentObjective)
+    {
+        CurrentObjective = currentObjective;
     }
 
     public GameObjective GetCurrentObjective()
@@ -55,28 +60,10 @@ public class GameTrial {
         CurrentObjective = currentObjective;
     }
 
-    public GameObjective Start()
-    {
-        StartTime = DateTime.Now;
-        CurrentObjective = _objectiveSequence[0];
-        var firstObjective = Objectives[CurrentObjective];
-        firstObjective.Start();
-        return firstObjective;
-    }
-
     public GameObjective GetNextObjective()
     {
         var nextObjectiveIdx = 1 + _objectiveSequence.IndexOf(CurrentObjective);
         var nextObjectiveEnum = _objectiveSequence[nextObjectiveIdx];
-        CurrentObjective = nextObjectiveEnum;
         return Objectives[nextObjectiveEnum];
-    }
-
-    public GameObjective StartNextObjective()
-    {
-        Objectives[CurrentObjective].End();
-        var nextObjective = GetNextObjective();
-        nextObjective.Start();
-        return nextObjective;
     }
 }

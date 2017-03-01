@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Constants;
+using Assets.Toolbox;
 
 public class GameSession {
 
     private int currentTrial = -1;
+    private Toolbox _toolbox;
 
     public string Email { get; set; }
     public string Password { get; set; }
@@ -16,8 +18,9 @@ public class GameSession {
 
     public List<GameTrial> Trials = new List<GameTrial>();
 
-    public GameSession(string email, string password)
+    public GameSession(string email, string password, Toolbox toolbox)
     {
+        _toolbox = toolbox;
         Email = email;
         Password = password;
         StartTime = System.DateTime.Now;
@@ -28,9 +31,9 @@ public class GameSession {
         return currentTrial;
     }
 
-    public GameTrial InitNewTrial()
+    public GameTrial AddTrial()
     {
-        var trial = new GameTrial();
+        var trial = new GameTrial(_toolbox);
         currentTrial++;
         Trials.Add(trial);
         return Trials[currentTrial];

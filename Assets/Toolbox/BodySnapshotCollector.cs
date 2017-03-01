@@ -41,6 +41,16 @@ namespace Assets.Toolbox
            
         }
 
+        public void StartCollectBodySnapshots(List<BodySnapshot> bodySnapshotList)
+        {
+            StartCoroutine("CollectBodySnapshots", bodySnapshotList);
+        }
+
+        public void StopCollectBodySnapshots()
+        {   
+            StopCoroutine("CollectBodySnapshots");
+        }
+
         public IEnumerator CollectBodySnapshots(List<BodySnapshot> bodySnapshotList)
         {
             while (true)

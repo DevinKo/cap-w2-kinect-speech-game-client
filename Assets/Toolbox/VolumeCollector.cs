@@ -22,6 +22,16 @@ namespace Assets.Toolbox
 
         }
 
+        public void StartCollectAudioSnapshots(List<AudioSnapshot> audioSnapshotList)
+        {
+            StartCoroutine("CollectAudioSnapshots", audioSnapshotList);
+        }
+
+        public void StopCollectAudioSnapshots()
+        {
+            StartCoroutine("CollectAudioSnapshots");
+        }
+
         public IEnumerator CollectAudioSnapshots(List<AudioSnapshot> audioSnapshotList)
         {
             while (true)
