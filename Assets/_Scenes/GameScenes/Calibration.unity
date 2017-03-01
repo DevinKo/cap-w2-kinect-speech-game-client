@@ -230,13 +230,14 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 593006827}
+  - component: {fileID: 593006828}
   m_Layer: 0
   m_Name: AudioThresholdManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &593006827
 Transform:
   m_ObjectHideFlags: 0
@@ -250,6 +251,20 @@ Transform:
   m_Father: {fileID: 385767173}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &593006828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 593006826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f7ba68a5e36a3743b1d883de02f6cd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testText: {fileID: 1749112508}
+  timerText: {fileID: 1721740688}
+  instructionText: {fileID: 1549526525}
 --- !u!1 &613009625
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,7 +404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &708288103
 Transform:
   m_ObjectHideFlags: 0

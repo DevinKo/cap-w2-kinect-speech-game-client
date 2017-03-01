@@ -11,7 +11,7 @@ public class ReachTracker : MonoBehaviour
     public Text testText;
     public Text timerText;
     public Text instructionText;
-    float maxTime = 15.0f; //change calibration time per hand here
+    float maxTime = 4.0f; //change calibration time per hand here
     float timeLeft;
 
     private Toolbox _toolbox;
@@ -56,6 +56,7 @@ public class ReachTracker : MonoBehaviour
             _toolbox.AppDataManager.Save(
                 new MaxReach { X = _maxReach.x, Y = _maxReach.y }, _jointType);
 
+            // transition from right hand to left hand
             if (_jointType == JointType.HandRight)
             {
                 // switch to left hand and reset timer
@@ -64,10 +65,13 @@ public class ReachTracker : MonoBehaviour
                 _maxReach.y = 0;
                 timeLeft = maxTime;
             }
+            // transition to next calibration manager
             else
             {
                 timeLeft = 0.5f;
-                //end reach calibration - switch to audio calibration, pointer calibration, then new scene
+                //turn off ReachManager object and activate AudioThresholdManager
+                gameObject.SetActive(false);
+                GameObject.Find("CalibrationManager/AudioThresholdManager").SetActive(true);
             }
         }
 
