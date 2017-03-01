@@ -60,6 +60,8 @@ public class ReachTracker : MonoBehaviour
             {
                 // switch to left hand and reset timer
                 _jointType = JointType.HandLeft;
+                _maxReach.x = 0;
+                _maxReach.y = 0;
                 timeLeft = maxTime;
             }
             else
@@ -68,6 +70,8 @@ public class ReachTracker : MonoBehaviour
                 //end reach calibration - switch to audio calibration, pointer calibration, then new scene
             }
         }
+
+        printReach();
     }
 
     // For testing
@@ -79,6 +83,6 @@ public class ReachTracker : MonoBehaviour
         "Max Y Reach = " + _maxReach.y;
 
         // Display instructions
-        instructionText.text = "Instructions: Draw a citcle with your " + _jointType.ToString();
+        instructionText.text = "Instructions: Draw a circle with your " + _jointType.ToString();
     }
 }
