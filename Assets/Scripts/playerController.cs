@@ -6,59 +6,36 @@ using UnityEngine;
 
 public class playerController : MonoBehaviour
 {
-    public bool _useLeftHand = false;
-    public bool _useRightHand = false;
-    public bool _useCursor = false;
+    private Cursor _cursor;
+
+    public CursorTypes CursorType;
 
     public float pointing_zone_timer;
     private Toolbox _toolbox;
-
-    Ray ray;
-    RaycastHit hit;
-
-    Ray rightRay;
-    RaycastHit rightHit;
-
-    Ray leftRay;
-    RaycastHit leftHit;
-
+    
     public bool task1IsComplete = false;
     public bool task2IsComplete = false;
-    float timeLeft;
-    bool isTouching = false;
-
-    protected KinectUICursor _UiHandLeft;
-    protected KinectUICursor _UiHandRight;
-
-    private Vector3 offset;
-
+    private float timeLeft;
+    
     public OBJECTIVE state;
 
     // Use this for initialization
     void Start()
     {
+        _cursor = CursorFactory.Create(CursorType);
+
         state = OBJECTIVE.NONE;
 
         _toolbox = FindObjectOfType<Toolbox>();
         timeLeft = pointing_zone_timer;
 
-        var handLeft = GameObject.FindGameObjectWithTag("UIHandLeft");
-        _UiHandLeft = handLeft.GetComponent<KinectUICursor>();
-
-        var handRight = GameObject.FindGameObjectWithTag("UIHandRight");
-        _UiHandRight = handRight.GetComponent<KinectUICursor>();
-
-
-        offset = new Vector3(681.5f, 296.5f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        var audio = _toolbox.VolumeSourceManager.Decibel;
-        //ray = Camera.main.ScreenPointToRay(new Vector3(_data.GetHandScreenPosition().x, (2 * offset.y) - _data.GetHandScreenPosition().y, _data.GetHandScreenPosition().z));
-
-        if (state == OBJECTIVE.LOCATE)
+        RaycastHit hit;
+        if (_cursor.IsTouching("zone_collider", out hit))
         {
             checkTouching();
             doTask1();
@@ -176,7 +153,7 @@ public class playerController : MonoBehaviour
         }
         else if (isTouching)
         {
-            // hit.collider.gameObject.GetComponent<zone_shader_modifier>().gotHit();
+            hit.collider.gameObject.GetComponent<zone_shader_modifier>().gotHit();
 
             print(pointing_zone_timer);
             pointing_zone_timer -= Time.deltaTime;

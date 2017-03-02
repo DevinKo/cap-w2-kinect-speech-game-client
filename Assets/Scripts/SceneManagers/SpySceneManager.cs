@@ -29,9 +29,16 @@ public class SpySceneManager : MonoBehaviour
     private bool[] coroutinesRunning = new bool[] { false, false };
     public bool[] isObjectiveComplete = new bool[] { false, false };
 
+    private Cursor _cursor;
+    private TaskList _taskList = new TaskList();
+    private float _pointingZoneTimer = 5;
+
+    public CursorTypes CursorType;
+
     // Use this for initialization
     void Start()
     {
+        _cursor = CursorFactory.Create(CursorType);
 
         // init object instance refs
         cameraObject = GameObject.FindGameObjectWithTag("MainCamera");
@@ -49,17 +56,19 @@ public class SpySceneManager : MonoBehaviour
         
         // configure locate objective
         var locateObjective = CurrentTrial.AddObjective(OBJECTIVE.LOCATE, null);
-        ToolBox.EventHub.SpyScene.ZoneComplete += OnZoneComplete;
 
         // configure describe objective
-        var describeObjective = CurrentTrial.AddObjective(OBJECTIVE.DESCRIBE, IsDescribeObjectiveComplete);
+        var describeObjective = CurrentTrial.AddObjective(OBJECTIVE.DESCRIBE, null);
 
         _currentObjective = CurrentTrial.Start();
+
+        _taskList.Add(TaskName.CheckClueTouched, CheckTouchingClue);
     }
 
     // Update is called once per frame
     void Update()
     {
+        _taskList.ExecuteAll();
         if (_currentObjective.IsComplete)
         {
             _currentObjective = CurrentTrial.StartNextObjective();
@@ -72,24 +81,41 @@ public class SpySceneManager : MonoBehaviour
         //}
     }
     
-
-
-    public void OnZoneComplete(object sender, EventArgs e)
+    public bool CheckTouchingClue()
     {
-            // turn off sphere zone
-            var listOfZones = GameObject.FindGameObjectsWithTag("zone_collider");
-            for (int i = 0; i < listOfZones.Length; i++)
+        RaycastHit hit;
+        if (_cursor.IsTouching("zone_collider", out hit))
+        {
+            hit.collider.gameObject.GetComponent<zone_shader_modifier>().gotHit();
+            ToolBox.EventHub.SpyScene.OnZoneActivated();
+        }
+        _taskList.Remove(TaskName.CheckClueTouched);
+        _taskList.Add(TaskName.EvaluateZoneCountDown, EvaluateZoneCountDown);
+        return true;
+    }
+
+    public bool EvaluateZoneCountDown()
+    {
+        RaycastHit hit;
+        if (_cursor.IsTouching("zone_collider", out hit))
+        {
+            _pointingZoneTimer -= Time.deltaTime;
+
+            if (_pointingZoneTimer < 0)
             {
-                listOfZones[i].GetComponent<MeshRenderer>().enabled = false;
+                ToolBox.EventHub.SpyScene.OnZoneComplete();
+                // turn off sphere zone
+                var listOfZones = GameObject.FindGameObjectsWithTag("zone_collider");
+                for (int i = 0; i < listOfZones.Length; i++)
+                {
+                    listOfZones[i].GetComponent<MeshRenderer>().enabled = false;
+                }
+
+                // prompt player to indicate size
+                dialogManagerRef.GetComponent<DialogManager>().updateDialogBox((int)DialogManager.PROMPT.HowBig);
             }
-
-            // prompt player to indicate size
-            dialogManagerRef.GetComponent<DialogManager>().updateDialogBox((int)DialogManager.PROMPT.HowBig);
-
+        }
+        return true;
     }
-
-    public bool IsDescribeObjectiveComplete()
-    {
-        return false;
-    }
+    
 }
