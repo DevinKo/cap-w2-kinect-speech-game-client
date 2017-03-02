@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Toolbox;
 using Constants;
+using System;
 
 public class SpySceneManager : MonoBehaviour
 {
@@ -35,10 +36,9 @@ public class SpySceneManager : MonoBehaviour
         // init object instance refs
         cameraObject = GameObject.FindGameObjectWithTag("MainCamera");
         dialogManagerRef = GameObject.FindGameObjectWithTag("DialogManager");
-        gameData = GameObject.FindGameObjectWithTag("GameDataCollector");
 
         // init toolbox
-        ToolBox = FindObjectOfType<GameManager>().Toolbox;
+        ToolBox = FindObjectOfType<Toolbox>();
         Session = ToolBox.AppDataManager.GetSession();
 
         // prompt user to point at obj
@@ -48,8 +48,9 @@ public class SpySceneManager : MonoBehaviour
         CurrentTrial = Session.AddTrial();
         
         // configure locate objective
-        var locateObjective = CurrentTrial.AddObjective(OBJECTIVE.LOCATE, IsLocateObjectiveComplete);
-        ToolBox.EventHub.SpyScene.OnZoneActivated();
+        var locateObjective = CurrentTrial.AddObjective(OBJECTIVE.LOCATE, null);
+        ToolBox.EventHub.SpyScene.ZoneComplete += OnZoneComplete;
+
         // configure describe objective
         var describeObjective = CurrentTrial.AddObjective(OBJECTIVE.DESCRIBE, IsDescribeObjectiveComplete);
 
@@ -71,36 +72,10 @@ public class SpySceneManager : MonoBehaviour
         //}
     }
     
-    public IEnumerator CheckForIsFound()
+
+
+    public void OnZoneComplete(object sender, EventArgs e)
     {
-        print("looking for pointing zone");
-        while (true)
-        {
-            OBJECTIVE currentObjectiveNow = Session.GetCurrentObjective();
-            if (currentObjectiveNow != OBJECTIVE.LOCATE)
-            {
-                print("session is not in locate objective.\ncurrent Objective: " + currentObjectiveNow);
-                yield break;
-            }
-            if (cameraObject.GetComponent<raycast_mouse_cursor>().isFound)
-            {
-                print("pointing zone found");
-                Session.SetZoneActiviationTime();
-                yield break;
-            }
-            yield return null;
-        }
-    }
-
-
-    public bool IsLocateObjectiveComplete()
-    {
-        if (cameraObject.GetComponent<raycast_mouse_cursor>().isComplete && CurrentObjectiveType == OBJECTIVE.LOCATE)
-        {
-            print("entering task one completion method\n");
-            // store time to complete object identification task
-            Session.Trials[Session.GetCurrentTrial()].Objectives[(int)Session.GetCurrentObjective()].EndTime = System.DateTime.Now;
-
             // turn off sphere zone
             var listOfZones = GameObject.FindGameObjectsWithTag("zone_collider");
             for (int i = 0; i < listOfZones.Length; i++)
@@ -111,15 +86,6 @@ public class SpySceneManager : MonoBehaviour
             // prompt player to indicate size
             dialogManagerRef.GetComponent<DialogManager>().updateDialogBox((int)DialogManager.PROMPT.HowBig);
 
-            // update current task
-            Session.SetCurrentObjective(OBJECTIVE.DESCRIBE);
-            CurrentObjectiveType = Session.GetCurrentObjective();
-
-            // set task start time
-            Session.Trials[Session.GetCurrentTrial()].Objectives[(int)Session.GetCurrentObjective()].StartTime = System.DateTime.Now;
-            return true;
-        }
-        return false;
     }
 
     public bool IsDescribeObjectiveComplete()

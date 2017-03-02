@@ -19,13 +19,7 @@ public class GameObjective {
     public List<AudioSnapshot> AudioSnapshots = new List<AudioSnapshot>();
     public virtual Objectives ToDataContract() { return null; }
 
-    public bool IsComplete
-    {
-        get
-        {
-            return _isComplete();
-        }
-    }
+    public bool IsComplete { get; set; }
 
     public GameObjective(Toolbox toolBox, Func<bool> isComplete)
     {

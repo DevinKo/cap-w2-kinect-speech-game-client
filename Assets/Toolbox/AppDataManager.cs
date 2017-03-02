@@ -12,13 +12,14 @@ namespace Assets.Toolbox
         private List<AudioSnapshot> _audioSnapshots = new List<AudioSnapshot>();
         private Dictionary<JointType, MaxReach> _maxReach = new Dictionary<JointType, MaxReach>();
 
-        private GameSession _session = new GameSession("p.mcpatientface@email.com", "mFjDhCdzCw");
+        private GameSession _session;
 
         private Toolbox toolbox;
 
         private void Start()
         {
             toolbox = gameObject.GetComponent<Toolbox>();
+            _session = new GameSession("p.mcpatientface@email.com", "mFjDhCdzCw", toolbox);
         }
 
         public void Update()

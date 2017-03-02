@@ -23,7 +23,7 @@ public class GameObjectiveFactory
             case OBJECTIVE.DESCRIBE:
                 return new GameDescribeObjective(_toolbox, isComplete);
             default:
-                return new GameObjective(_toolbox);
+                return new GameObjective(_toolbox, isComplete);
         }
     }
 }

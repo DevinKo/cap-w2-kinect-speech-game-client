@@ -17,7 +17,8 @@ public class GameLocateObjective : GameObjective {
         : base(toolbox, isComplete)
     {
         objectiveType = OBJECTIVE.LOCATE;
-        GameEventHub.SpySceneEvents.ZoneActivated += OnZoneActivated;
+        _toolbox.EventHub.SpyScene.ZoneActivated += OnZoneActivated;
+        _toolbox.EventHub.SpyScene.ZoneComplete += OnZoneComplete;
     }
 
     public override void Start()
@@ -29,12 +30,18 @@ public class GameLocateObjective : GameObjective {
     public override void End()
     {
         base.End();
+        IsComplete = true;
         _toolbox.DistanceCollector.StopCollectDistanceSnapshot();
     }
 
     public void OnZoneActivated(object sender, EventArgs e)
     {
         ActivationTime = DateTime.Now;
+    }
+
+    public void OnZoneComplete(object sender, EventArgs e)
+    {
+        End();
     }
 
     public override Objectives ToDataContract()

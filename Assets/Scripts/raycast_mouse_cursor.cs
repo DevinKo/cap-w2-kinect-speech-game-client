@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using Assets.Toolbox;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class raycast_mouse_cursor : MonoBehaviour {
+
+    private Toolbox _toolbox;
 
     public float pointing_zone_timer;
 
@@ -15,7 +18,7 @@ public class raycast_mouse_cursor : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
+        _toolbox = FindObjectOfType<Toolbox>();
         timeLeft = pointing_zone_timer;
 
     }
@@ -36,6 +39,7 @@ public class raycast_mouse_cursor : MonoBehaviour {
                 {
                     hit.collider.gameObject.GetComponent<zone_shader_modifier>().gotHit();
                     isFound = true;
+                    _toolbox.EventHub.SpyScene.OnZoneActivated();
                 }
                 
                 pointing_zone_timer -= Time.deltaTime;
@@ -44,6 +48,7 @@ public class raycast_mouse_cursor : MonoBehaviour {
                 {
                     print("COMPLETE");
                     isComplete = true;
+                    _toolbox.EventHub.SpyScene.OnZoneComplete();
                 }
             }
         }

@@ -1,4 +1,5 @@
 ﻿using Assets.Toolbox;
+using Constants;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,12 +32,12 @@ public class playerController : MonoBehaviour
 
     private Vector3 offset;
 
-    public GameDataStorage.OBJECTIVE state;
+    public OBJECTIVE state;
 
     // Use this for initialization
     void Start()
     {
-        state = GameDataStorage.OBJECTIVE.NONE;
+        state = OBJECTIVE.NONE;
 
         _toolbox = FindObjectOfType<Toolbox>();
         timeLeft = pointing_zone_timer;
@@ -57,18 +58,18 @@ public class playerController : MonoBehaviour
         var audio = _toolbox.VolumeSourceManager.Decibel;
         //ray = Camera.main.ScreenPointToRay(new Vector3(_data.GetHandScreenPosition().x, (2 * offset.y) - _data.GetHandScreenPosition().y, _data.GetHandScreenPosition().z));
 
-        if (state == GameDataStorage.OBJECTIVE.LOCATE)
+        if (state == OBJECTIVE.LOCATE)
         {
             checkTouching();
             doTask1();
         }
 
-        if (state == GameDataStorage.OBJECTIVE.DESCRIBE)
+        if (state == OBJECTIVE.DESCRIBE)
         {
             checkTouching2();
         }
 
-        if (state == GameDataStorage.OBJECTIVE.NONE)
+        if (state == OBJECTIVE.NONE)
         {
             this.gameObject.SetActive(false);
         }
@@ -198,7 +199,7 @@ public class playerController : MonoBehaviour
         return _toolbox.VolumeSourceManager.RawEnergy;
     }
 
-    public void setState(GameDataStorage.OBJECTIVE newState)
+    public void setState(OBJECTIVE newState)
     {
         state = newState;
     }

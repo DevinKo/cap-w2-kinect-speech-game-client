@@ -17,9 +17,15 @@ namespace Assets.Toolbox
             public void OnZoneActivated()
             {
                 if (ZoneActivated != null)
-                {
                     ZoneActivated(this, new EventArgs());
-                }
+            }
+            // Gets raised when zone countdown is complete
+            public delegate void ZoneCompleteEventHandler(object sender, EventArgs e);
+            public event ZoneCompleteEventHandler ZoneComplete;
+            public void OnZoneComplete()
+            {
+                if (ZoneComplete != null)
+                    ZoneComplete(this, new EventArgs());
             }
         }
     }

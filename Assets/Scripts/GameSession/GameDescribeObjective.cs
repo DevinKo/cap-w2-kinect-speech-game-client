@@ -20,7 +20,7 @@ public class GameDescribeObjective : GameObjective {
 
     public override void Start()
     {
-        base.Start(isComplete);
+        base.Start();
         _toolbox.Distance2Collector.StartCollectDistance2Snapshot(Distance2Snapshots);
     }
 
