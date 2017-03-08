@@ -7,18 +7,25 @@ using UnityEngine;
 
 public class Hand : Cursor
 {
-    private KinectUICursor _uiHand;
+    private CursorTypes _type;
+    private GameObject _hand;
 
-    public Hand(CursorTypes type)
+    public Hand(CursorTypes type): base()
     {
-        var handTag = type == CursorTypes.LeftHand ? "UIHandLeft" : "UIHandRight";
-        var hand = GameObject.FindGameObjectWithTag(handTag);
-        _uiHand = hand.GetComponent<KinectUICursor>();
+        _type = type;
+        GetHandObject(type);
     }
 
     public override bool IsTouching(string colliderTag, out RaycastHit hit)
     {
-        var ray = Camera.main.ScreenPointToRay(_uiHand.CurrentPosition);
+        var hand = GetHandObject(_type);
+        if (hand == null)
+        {
+            hit = new RaycastHit();
+            return false;
+        }
+
+        var ray = Camera.main.ScreenPointToRay(hand.transform.position);
 
         if (Physics.Raycast(ray, out hit))
         {
@@ -28,5 +35,15 @@ public class Hand : Cursor
             }
         }
         return false;
+    }
+
+    public GameObject GetHandObject(CursorTypes type)
+    {
+        if (_hand != null) return _hand;
+
+        var name = type == CursorTypes.LeftHand ?
+            GameObjectName.HandLeft : GameObjectName.HandRight;
+        _hand = BaseSceneManager.Instance.GetObjectWithName(name);
+        return _hand;
     }
 }

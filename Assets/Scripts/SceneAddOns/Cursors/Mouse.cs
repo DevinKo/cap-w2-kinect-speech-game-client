@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Mouse : Cursor
 {
+    public Mouse(): base() { }
+
     public override bool IsTouching(string colliderTag, out RaycastHit hit)
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);

@@ -29,7 +29,7 @@ namespace Assets.Toolbox
 
         public void StopCollectAudioSnapshots()
         {
-            StartCoroutine("CollectAudioSnapshots");
+            StopCoroutine("CollectAudioSnapshots");
         }
 
         public IEnumerator CollectAudioSnapshots(List<AudioSnapshot> audioSnapshotList)

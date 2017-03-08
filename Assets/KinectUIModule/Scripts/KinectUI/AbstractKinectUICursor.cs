@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using Windows.Kinect;
+using Constants;
 /// <summary>
 /// Abstract UI component class for hand cursor objects
 /// </summary>
@@ -11,6 +12,11 @@ public abstract class AbstractKinectUICursor : MonoBehaviour {
     [SerializeField]
     protected JointType _handType;
     protected Image _image;
+
+    public virtual void Awake()
+    {
+
+    }
 
     public virtual void Start()
     {
@@ -24,6 +30,10 @@ public abstract class AbstractKinectUICursor : MonoBehaviour {
         GetComponent<CanvasGroup>().interactable = false;
         // image component
         _image = GetComponent<Image>();
+
+        // Add object to scene manager
+        BaseSceneManager.Instance.AddGameObject(_handType == JointType.HandLeft ?
+            GameObjectName.HandLeft : GameObjectName.HandRight, gameObject);
     }
 
     public virtual void Update()

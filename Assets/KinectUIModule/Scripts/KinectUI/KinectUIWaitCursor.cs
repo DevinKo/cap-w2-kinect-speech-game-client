@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class KinectUIWaitCursor : AbstractKinectUICursor {
+/*public class KinectUIWaitCursor : AbstractKinectUICursor {
 
 
     public override void Start()
@@ -28,3 +28,4 @@ public class KinectUIWaitCursor : AbstractKinectUICursor {
         }
     }
 }
+*/

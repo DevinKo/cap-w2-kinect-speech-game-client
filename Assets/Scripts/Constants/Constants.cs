@@ -26,4 +26,9 @@ namespace Constants
         EvaluateZoneCountDown
     }
 
+    public enum GameObjectName
+    {
+        HandLeft,
+        HandRight
+    }
 }

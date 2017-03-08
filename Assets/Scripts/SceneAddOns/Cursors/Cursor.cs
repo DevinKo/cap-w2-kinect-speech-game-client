@@ -4,17 +4,14 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public abstract class Cursor : MonoBehaviour, IHasCursor
+public abstract class Cursor
 {
-    protected GameObject _handRightObject { get; set; }
-    protected GameObject _handLeftObject { get; set; }
-    public void SetHandLeft(GameObject leftObject)
+    private static Cursor _instance;
+    public static Cursor Instance { get { return _instance;  } }
+
+    protected Cursor()
     {
-        _handLeftObject = leftObject;
-    }
-    public void SetHandRight(GameObject rightObject)
-    {
-        _handRightObject = rightObject;
+        _instance = this;
     }
 
     public abstract bool IsTouching(string colliderTag, out RaycastHit hit);

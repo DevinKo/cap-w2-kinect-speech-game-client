@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Kinect = Windows.Kinect;
 
-public class BodySourceView : MonoBehaviour
+/*public class BodySourceView : MonoBehaviour
 {
     public Material BoneMaterial;
 
@@ -178,4 +178,4 @@ public class BodySourceView : MonoBehaviour
     {
         return new Vector3(joint.Position.X * 10, joint.Position.Y * 10, joint.Position.Z * 10);
     }
-}
+}*/

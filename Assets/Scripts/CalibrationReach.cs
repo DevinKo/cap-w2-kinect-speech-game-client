@@ -6,14 +6,11 @@ using Assets.Toolbox;
 using Windows.Kinect;
 using Assets.DataContracts;
 
-public class CalibrationReach : MonoBehaviour {
+/*public class CalibrationReach : MonoBehaviour {
 
 	//===Send maxReachX/Y values over to KinectUICursor===
 	//GameObject _player = GameObject.Find("KinectUICursor");
 	//_player.GetComponent<KinectUICursor>();
-
-	[SerializeField]
-	protected KinectUIHandType _handType;
 
 	public Text _text;
 	private Toolbox _toolbox;
@@ -63,3 +60,4 @@ public class CalibrationReach : MonoBehaviour {
 			"Max Y Reach = " + _maxReachY;
 	}
 }
+*/

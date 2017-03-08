@@ -46,7 +46,7 @@ public class KinectUICursor : AbstractKinectUICursor
 
 		}
 
-        _UiCanvas = GetComponent<Canvas>();
+        _UiCanvas = FindObjectOfType<Canvas>();
         _UiCanvasRectTransform = _UiCanvas.GetComponent<RectTransform>();
         _reachScalar = new Vector3(
             (_UiCanvasRectTransform.rect.width/2)/_maxReachX,

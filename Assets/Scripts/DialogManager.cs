@@ -38,14 +38,14 @@ public class DialogManager : MonoBehaviour {
     {
         if (currentLine != promptNum)
         {
-            textObj.text = textLines[promptNum];
+            //textObj.text = textLines[promptNum];
             currentLine = promptNum;
         }
     }
 
     public void clearDialogBox()
     {
-        textObj.text = "";
+        //textObj.text = "";
         currentLine = -1;
     }
 

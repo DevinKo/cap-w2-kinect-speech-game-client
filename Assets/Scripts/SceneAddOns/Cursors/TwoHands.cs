@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class TwoHands : Cursor
 {
+    public TwoHands() : base() { }
     private Hand handLeft = new Hand(CursorTypes.LeftHand);
     private Hand handRight = new Hand(CursorTypes.RightHand);
 

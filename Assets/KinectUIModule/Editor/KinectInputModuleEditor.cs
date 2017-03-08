@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditorInternal;
 using Windows.Kinect;
 using System.Collections.Generic;
-
+/*
 [CustomEditor(typeof(KinectInputModule))]
 public class KinectInputModuleEditor : Editor
 {
@@ -118,3 +118,4 @@ public class KinectInputModuleEditor : Editor
         public KinectUIHandType jointType;
     }
 }
+*/

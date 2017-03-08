@@ -28,9 +28,9 @@ public class TaskList
 
     public void ExecuteAll()
     {
-        foreach(var task in _taskList)
+        for(int i = 0; i <_taskList.Count(); i++)
         {
-            task.Method();
+            _taskList[i].Method();
         }
     }
 }

@@ -6,11 +6,8 @@ using Assets.Toolbox;
 using Constants;
 using System;
 
-public class SpySceneManager : MonoBehaviour, IHasCursor
+public class SpySceneManager : BaseSceneManager
 {
-
-
-
     // GameObject references
     GameObject _dialogManagerRef;
     
@@ -26,16 +23,17 @@ public class SpySceneManager : MonoBehaviour, IHasCursor
     // use to set cursor to mouse or hands
     public CursorTypes CursorType;
 
-    private void Awake()
+    public new void Awake()
     {
-        // initialize cursor object based on type
-        _cursor = CursorFactory.Create(CursorType);
+        base.Awake();
     }
 
     // Use this for initialization
     void Start()
     {
-        
+        // initialize cursor object based on type
+        _cursor = CursorFactory.Create(CursorType);
+
         _dialogManagerRef = GameObject.FindGameObjectWithTag("DialogManager");
 
         // init toolbox
@@ -65,10 +63,11 @@ public class SpySceneManager : MonoBehaviour, IHasCursor
         if (_cursor.IsTouchingPoint("zone_collider", out hit))
         {
             hit.collider.gameObject.GetComponent<zone_shader_modifier>().gotHit();
+            _taskList.Remove(TaskName.CheckClueTouched);
+            _taskList.Add(TaskName.EvaluateZoneCountDown, EvaluateZoneCountDown);
             ToolBox.EventHub.SpyScene.OnZoneActivated();
         }
-        _taskList.Remove(TaskName.CheckClueTouched);
-        _taskList.Add(TaskName.EvaluateZoneCountDown, EvaluateZoneCountDown);
+        
         return true;
     }
 
@@ -106,16 +105,4 @@ public class SpySceneManager : MonoBehaviour, IHasCursor
         return true;
     }
 
-    #region ICursorAddOn Methods
-
-    public void SetHandLeft(GameObject leftObject)
-    {
-        _cursor.SetHandLeft(leftObject);
-    }
-
-    public void SetHandRight(GameObject rightObject)
-    {
-        _cursor.SetHandRight(rightObject);
-    }
-    #endregion ICursorAddOn Methods
 }
