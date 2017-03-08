@@ -24,6 +24,9 @@ public class GameSession {
         Email = email;
         Password = password;
         StartTime = System.DateTime.Now;
+
+        // add a new trial to current session
+        AddTrial();
     }
 
     public int GetCurrentTrial()

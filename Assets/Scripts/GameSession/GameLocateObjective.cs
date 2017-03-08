@@ -13,8 +13,8 @@ public class GameLocateObjective : GameObjective {
 
     public List<LocateDistanceSnapshot> DistanceSnapshots = new List<LocateDistanceSnapshot>();
 
-    public GameLocateObjective(Toolbox toolbox, Func<bool> isComplete)
-        : base(toolbox, isComplete)
+    public GameLocateObjective(Toolbox toolbox)
+        : base(toolbox)
     {
         objectiveType = OBJECTIVE.LOCATE;
         _toolbox.EventHub.SpyScene.ZoneActivated += OnZoneActivated;
@@ -30,7 +30,6 @@ public class GameLocateObjective : GameObjective {
     public override void End()
     {
         base.End();
-        IsComplete = true;
         _toolbox.DistanceCollector.StopCollectDistanceSnapshot();
     }
 

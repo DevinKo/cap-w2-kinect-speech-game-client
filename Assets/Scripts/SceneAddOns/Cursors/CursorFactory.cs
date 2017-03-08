@@ -12,7 +12,7 @@ public class CursorFactory
         {
             case CursorTypes.BothHands:
                 return new TwoHands();
-            case CursorTypes.LeftHand;
+            case CursorTypes.LeftHand:
                 return new Hand(CursorTypes.LeftHand);
             case CursorTypes.RightHand:
                 return new Hand(CursorTypes.RightHand);

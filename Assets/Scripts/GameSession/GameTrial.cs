@@ -30,17 +30,23 @@ public class GameTrial {
         _toolbox = toolbox;
         _gameObjectiveFactory = new GameObjectiveFactory(toolbox);
         CurrentObjective = OBJECTIVE.NONE;
-
+        
         // Create the obectives.
         Objectives = new Dictionary<OBJECTIVE, GameObjective>();
+
+        // configure locate objective
+        AddObjective(OBJECTIVE.LOCATE);
+        // configure describe objective
+        AddObjective(OBJECTIVE.DESCRIBE);
+
     }
 
-    public GameObjective AddObjective(OBJECTIVE objectiveEnum, Func<bool> isComplete)
+    public GameObjective AddObjective(OBJECTIVE objectiveEnum)
     {
         if (Objectives.ContainsKey(objectiveEnum)) throw new ArgumentException("Objective already added");
         
         _objectiveSequence.Add(objectiveEnum);
-        var objective = _gameObjectiveFactory.Create(objectiveEnum, isComplete);
+        var objective = _gameObjectiveFactory.Create(objectiveEnum);
         Objectives.Add(objectiveEnum, objective);
         return objective;
     }

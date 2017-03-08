@@ -12,8 +12,8 @@ public class GameDescribeObjective : GameObjective {
 
     public List<Distance2Snapshot> Distance2Snapshots = new List<Distance2Snapshot>();
 
-    public GameDescribeObjective(Toolbox toolbox, Func<bool> isComplete)
-        : base(toolbox, isComplete)
+    public GameDescribeObjective(Toolbox toolbox)
+        : base(toolbox)
     {
         objectiveType = OBJECTIVE.DESCRIBE;
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Toolbox;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +15,7 @@ public class BarScript : MonoBehaviour {
     [SerializeField]
     private Camera _mainCamera;
 
-    private playerController _player;
+    private Toolbox _toolbox;
 
     private float totalVolume;
 
@@ -22,7 +23,7 @@ public class BarScript : MonoBehaviour {
 	void Start ()
     {
         fillAmount = 0;
-        _player = FindObjectOfType<playerController>();
+        _toolbox = FindObjectOfType<Toolbox>();
     }
 	
 	// Update is called once per frame
@@ -33,14 +34,13 @@ public class BarScript : MonoBehaviour {
 
     private void HandleBar()
     {
-        totalVolume += _player.getLastSound() * 1000;
+        totalVolume += _toolbox.VolumeSourceManager.Decibel;
         fillAmount = Map(totalVolume, 0, 2000);
         content.fillAmount = fillAmount;
     }
 
     private float Map(float value, float inMin, float inMax)
     {
-
         return (value - inMin) / (inMax - inMin);
     }
 }

@@ -19,12 +19,16 @@ namespace Assets.Toolbox
         private void Start()
         {
             toolbox = gameObject.GetComponent<Toolbox>();
-            _session = new GameSession("p.mcpatientface@email.com", "mFjDhCdzCw", toolbox);
         }
 
         public void Update()
         {
             
+        }
+        
+        public override void Save(GameSession session)
+        {
+            _session = session;
         }
 
         public override GameSession GetSession()

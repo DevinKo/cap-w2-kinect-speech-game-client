@@ -14,16 +14,16 @@ public class GameObjectiveFactory
         _toolbox = toolbox;
     }
 
-    public GameObjective Create(OBJECTIVE objectiveEnum, Func<bool> isComplete)
+    public GameObjective Create(OBJECTIVE objectiveEnum)
     {
         switch (objectiveEnum)
         {
             case OBJECTIVE.LOCATE:
-                return new GameLocateObjective(_toolbox, isComplete);
+                return new GameLocateObjective(_toolbox);
             case OBJECTIVE.DESCRIBE:
-                return new GameDescribeObjective(_toolbox, isComplete);
+                return new GameDescribeObjective(_toolbox);
             default:
-                return new GameObjective(_toolbox, isComplete);
+                return new GameObjective(_toolbox);
         }
     }
 }

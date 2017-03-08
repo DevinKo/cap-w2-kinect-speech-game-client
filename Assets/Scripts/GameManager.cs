@@ -34,6 +34,13 @@ public class GameManager : MonoBehaviour
         InitTestScene();
     }
 
+    public void Start()
+    {
+        // create new session track game data
+        var session = new GameSession("p.mcpatientface@email.com", "mFjDhCdzCw", Toolbox);
+        Toolbox.AppDataManager.Save(session);
+    }
+
     public void InitTestScene()
     {
         TestSceneManager.OnSceneEnd += LoadSpyScene;

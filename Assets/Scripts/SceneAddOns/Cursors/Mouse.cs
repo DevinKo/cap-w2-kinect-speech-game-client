@@ -14,5 +14,16 @@ public class Mouse : Cursor
         {
             return true;
         }
+        return false;
+    }
+
+    public override bool IsTouchingPoint(string colliderTag, out RaycastHit hit)
+    {
+        return IsTouching(colliderTag, out hit);
+    }
+
+    public override bool IsTouchingPoints(string colliderTag, out RaycastHit hit)
+    {
+        return IsTouching(colliderTag, out hit);
     }
 }

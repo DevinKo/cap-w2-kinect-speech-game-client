@@ -14,7 +14,6 @@ public class KinectUICursor : AbstractKinectUICursor
     private Vector3 _initScale;
     private Vector3 offset;
     private Toolbox _toolbox;
-    private JointType _handJoint;
     private Canvas _UiCanvas;
     private RectTransform _UiCanvasRectTransform;
     // These values will be set by the calibration stage. Distance in 
@@ -37,11 +36,7 @@ public class KinectUICursor : AbstractKinectUICursor
     {
         base.Start();
         _initScale = transform.localScale;
-        //_image.color = new Color(1f, 1f, 1f, 0f);
-        offset = new Vector3(681.5f, 296.5f);
-        //offset = new Vector3(10, 10);
         _toolbox = FindObjectOfType<Toolbox>();
-        _handJoint = _handType == KinectUIHandType.Right ? JointType.HandRight : JointType.HandLeft;
 
 		var maxReach = _toolbox.AppDataManager.GetMaxReach(JointType.HandLeft);
 		if (maxReach != null)
@@ -51,7 +46,7 @@ public class KinectUICursor : AbstractKinectUICursor
 
 		}
 
-        _UiCanvas = FindObjectOfType<Canvas>();
+        _UiCanvas = GetComponent<Canvas>();
         _UiCanvasRectTransform = _UiCanvas.GetComponent<RectTransform>();
         _reachScalar = new Vector3(
             (_UiCanvasRectTransform.rect.width/2)/_maxReachX,
@@ -66,7 +61,7 @@ public class KinectUICursor : AbstractKinectUICursor
         // Get joints
         var body = _toolbox.BodySourceManager.GetFirstTrackedBody();
         if (body == null) return;
-        var hand = body.Joints[_handJoint];
+        var hand = body.Joints[_handType];
         var centerJoint = body.Joints[JointType.SpineShoulder];
 
         // calculate hand position relative to shoulder spine joint
@@ -81,21 +76,5 @@ public class KinectUICursor : AbstractKinectUICursor
             _UiCanvasRectTransform.rect.height / 2 + distanceY * _reachScalar.y,
             hand.Position.Z);
         transform.position = _currentPosition;
-        /*
-        if (_data.IsPressing)
-        {
-            _image.color = clickColor;
-            _image.transform.localScale = clickScale;
-            return;
-        }
-        if (_data.IsHovering)
-        {
-            _image.color = hoverColor;
-        }
-        else
-        {
-            _image.color = normalColor;
-        }
-        _image.transform.localScale = _initScale;*/
     }
 }
