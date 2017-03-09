@@ -7,6 +7,7 @@ using System.Text;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace Assets.Toolbox
 {
@@ -16,7 +17,16 @@ namespace Assets.Toolbox
 
         public override void Send(GameSession session)
         {
-            var serializer = new DataContractJsonSerializer(typeof(GameSession));
+            var json = JsonConvert.SerializeObject(session);
+            var bytes = Encoding.UTF8.GetBytes(json);
+
+            var postHeader = new Dictionary<string, string>();
+            postHeader.Add("Content-Type", "application/json");
+
+            var request = new WWW(url, bytes, postHeader);
+            File.WriteAllBytes(@"C:\Users\barto\Documents\Snapshots.json", bytes);
+            Debug.Log("Writing file");
+            StartCoroutine("WaitAsync", request);
         }
 
         public override bool Send(BodySnapshot[] data)

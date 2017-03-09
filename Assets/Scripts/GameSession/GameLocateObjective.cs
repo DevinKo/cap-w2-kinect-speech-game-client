@@ -6,16 +6,17 @@ using Assets.DataContracts;
 using Assets.Toolbox;
 using Constants;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
-[DataContract]
+[JsonObject(MemberSerialization.OptIn)]
 public class GameLocateObjective : GameObjective {
     
-    [DataMember]
+    [JsonProperty]
     public string kind = "LocateObjective";
-    [DataMember]
+    [JsonProperty]
     public DateTime ActivationTime;
 
-    [DataMember]
+    [JsonProperty]
     public List<LocateDistanceSnapshot> DistanceSnapshots = new List<LocateDistanceSnapshot>();
 
     public GameLocateObjective(Toolbox toolbox)
@@ -58,22 +59,5 @@ public class GameLocateObjective : GameObjective {
     }
     #endregion Event Handlers
 
-    public override Objectives ToDataContract()
-    {
-        var objectiveContract = new Assets.DataContracts.Objectives();
-        objectiveContract.StartTime = _startTime.ToString("s");
-        objectiveContract.EndTime = _endTime.ToString("s");
-        objectiveContract.AudioSnapshots = AudioSnapshots.ToArray();
-        objectiveContract.BodySnapshots = BodySnapshots.ToArray();
-        objectiveContract.kind = kind;
-        var distList = new List<Distances>();
-        foreach (var dist in DistanceSnapshots)
-        {
-            distList.Add(dist.ToDataContract());
-        }
-        objectiveContract.Distances = distList.ToArray();
-        objectiveContract.ActivationTime = ActivationTime.ToString("s");
-        return objectiveContract;
-    }
     
 }

@@ -51,12 +51,10 @@ public class SpySceneManager : BaseSceneManager
     void Update()
     {
         
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    var dataClient = ToolBox.DataServerProxy;
-        //    var sessionContract = Session.ConvertToDataContract(Session);
-        //    dataClient.SendSession(sessionContract);
-        //}
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ToolBox.EventHub.SpyScene.RaiseDescribeComplete();
+        }
     }
     
 

@@ -5,32 +5,23 @@ using Constants;
 using Assets.Toolbox;
 using System;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
+[JsonObject(MemberSerialization.OptIn)]
 public class GameTrial {
 
     private Toolbox _toolbox;
     private GameObjectiveFactory _gameObjectiveFactory;
+    [JsonProperty]
+    public System.DateTime StartTime { get; set; }
+    [JsonProperty]
+    public System.DateTime EndTime { get; set; }
 
-    public System.DateTime _startTime { get; set; }
-    public System.DateTime _endTime { get; set; }
-
-    [DataMember]
-    public string StartTime { get; set; }
-    [DataMember]
-    public string EndTime { get; set; }
-
-    [OnSerializing]
-    void OnSerializing(StreamingContext ctx)
-    {
-        StartTime = _startTime.ToString("s");
-        EndTime = _endTime.ToString("s");
-    }
-
-    [DataMember]
+    [JsonProperty]
     public int Difficulty { get; set; }
 
-    [DataMember]
-    public Dictionary<OBJECTIVE, GameObjective> Objectives;
+    [JsonProperty]
+    public List<GameObjective> Objectives;
 
     public GameTrial(Toolbox toolbox)
     {
@@ -38,7 +29,7 @@ public class GameTrial {
         _gameObjectiveFactory = new GameObjectiveFactory(toolbox);
         
         // Create the obectives.
-        Objectives = new Dictionary<OBJECTIVE, GameObjective>();
+        Objectives = new List<GameObjective>();
 
         // configure locate objective
         AddObjective(OBJECTIVE.LOCATE);
@@ -52,21 +43,19 @@ public class GameTrial {
 
     public GameObjective AddObjective(OBJECTIVE objectiveEnum)
     {
-        if (Objectives.ContainsKey(objectiveEnum)) throw new ArgumentException("Objective already added");
-
         var objective = _gameObjectiveFactory.Create(objectiveEnum);
-        Objectives.Add(objectiveEnum, objective);
+        Objectives.Add(objective);
         return objective;
     }
 
     public void Start()
     {
-        _startTime = DateTime.Now;
+        StartTime = DateTime.Now;
     }
 
     public void End()
     {
-        _endTime = DateTime.Now;
+        EndTime = DateTime.Now;
     }
 
     #region Event handlers

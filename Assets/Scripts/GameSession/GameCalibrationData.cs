@@ -1,46 +1,35 @@
 ﻿using Assets.Toolbox;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-[DataContract]
+[JsonObject(MemberSerialization.OptIn)]
 public class GameCalibrationData {
 
     private Toolbox _toolbox;
+    [JsonProperty]
+    public DateTime StartTime;
+    [JsonProperty]
+    public DateTime EndTime;
 
-    public DateTime _startTime;
-    public DateTime _endTime;
-
-
-    [DataMember]
-    public string StartTime { get; set; }
-    [DataMember]
-    public string EndTime { get; set; }
-
-    [OnSerializing]
-    void OnSerializing(StreamingContext ctx)
-    {
-        StartTime = _startTime.ToString("s");
-        EndTime = _endTime.ToString("s");
-    }
-
-    [DataMember]
+    [JsonProperty]
     public float Radius;
-    [DataMember]
+    [JsonProperty]
     public float MaxReachLeft;
-    [DataMember]
+    [JsonProperty]
     public float MaxReachRight;
-    [DataMember]
+    [JsonProperty]
     public float AudioThreshold;
-    [DataMember]
+    [JsonProperty]
     public float PointingZoneTimerSec;
 
     public GameCalibrationData(Toolbox toolbox)
     {
         _toolbox = toolbox;
-        _startTime = DateTime.Now;
+        StartTime = DateTime.Now;
 
         _toolbox.EventHub.SpyScene.LoadComplete += OnCalibrationComplete;
     }
@@ -48,7 +37,7 @@ public class GameCalibrationData {
     #region Event Handlers
     private void OnCalibrationComplete(object sender, EventArgs e)
     {
-        _endTime = DateTime.Now;
+        EndTime = DateTime.Now;
     }
     #endregion Event Handlers
 }

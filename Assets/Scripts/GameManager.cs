@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
         // create new session track game data
         var session = new GameSession("p.mcpatientface@email.com", "mFjDhCdzCw", Toolbox);
         Toolbox.AppDataManager.Save(session);
+        Toolbox.EventHub.SpyScene.DescribeComplete += OnSessionComplete;
     }
 
     public void InitTestScene()
@@ -64,4 +65,5 @@ public class GameManager : MonoBehaviour
         var session = Toolbox.AppDataManager.GetSession();
         Toolbox.DataServerProxy.Send(session);
     }
+    #endregion Event Handlers
 }

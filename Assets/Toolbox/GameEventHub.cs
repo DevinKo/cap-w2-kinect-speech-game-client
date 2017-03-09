@@ -41,7 +41,7 @@ namespace Assets.Toolbox
             // Gets raised when Spy scene is loaded
             public delegate void DescribeCompleteEventHandler(object sender, EventArgs e);
             public event DescribeCompleteEventHandler DescribeComplete;
-            public void DescribeLoadComplete()
+            public void RaiseDescribeComplete()
             {
                 if (DescribeComplete != null)
                     DescribeComplete(this, new EventArgs());

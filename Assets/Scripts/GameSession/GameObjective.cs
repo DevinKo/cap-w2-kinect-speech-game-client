@@ -6,32 +6,22 @@ using Assets.Toolbox;
 using System;
 using Constants;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
-[DataContract]
+[JsonObject(MemberSerialization.OptIn)]
 public class GameObjective {
     
     protected Toolbox _toolbox;
 
     public OBJECTIVE objectiveType;
-    public System.DateTime _startTime;
-    public System.DateTime _endTime;
+    [JsonProperty]
+    public System.DateTime StartTime;
+    [JsonProperty]
+    public System.DateTime EndTime;
 
-
-    [DataMember]
-    public string StartTime { get; set; }
-    [DataMember]
-    public string EndTime { get; set; }
-
-    [OnSerializing]
-    void OnSerializing(StreamingContext ctx)
-    {
-        StartTime = _startTime.ToString("s");
-        EndTime = _endTime.ToString("s");
-    }
-
-    [DataMember]
+    [JsonProperty]
     public List<BodySnapshot> BodySnapshots = new List<BodySnapshot>();
-    [DataMember]
+    [JsonProperty]
     public List<AudioSnapshot> AudioSnapshots = new List<AudioSnapshot>();
 
     public virtual Objectives ToDataContract() { return null; }
@@ -45,14 +35,14 @@ public class GameObjective {
     {
         _toolbox.BodySnapshotCollector.StartCollectBodySnapshots(this, BodySnapshots);
         _toolbox.VolumeCollector.StartCollectAudioSnapshots(this, AudioSnapshots);
-        _startTime = System.DateTime.Now;
+        StartTime = System.DateTime.Now;
     }
 
     public virtual void End()
     {
         _toolbox.BodySnapshotCollector.StopCollectBodySnapshots(this);
         _toolbox.VolumeCollector.StopCollectAudioSnapshots(this);
-        _endTime = System.DateTime.Now;
+        EndTime = System.DateTime.Now;
     }
 
 }
