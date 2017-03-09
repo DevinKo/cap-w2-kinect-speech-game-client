@@ -1,27 +1,59 @@
-﻿using System.Collections;
+﻿using Assets.Toolbox;
+using Constants;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
-public class pointingObject : MonoBehaviour {
+public class PointingObject : MonoBehaviour
+{
+    private Toolbox _toolbox;
 
-    public GameObject sphereZonePrefab;
-    public Vector3 largerBy;
-
-	// Use this for initialization
-	void Start () {
-
-        var listOfPointObjects = GameObject.FindGameObjectsWithTag("pointing_object");
-        for (int i=0; i<listOfPointObjects.Length; i++)
-        {
-            var zone = (GameObject)Instantiate(sphereZonePrefab, listOfPointObjects[i].transform.position, listOfPointObjects[i].transform.rotation);
-            zone.transform.parent = listOfPointObjects[i].transform;
-            zone.transform.localScale = listOfPointObjects[i].transform.localScale + largerBy;
-        }
+    private void Awake()
+    {
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    private void Start()
+    {
+        _toolbox = FindObjectOfType<Toolbox>();
+        // Add object reference for clue to scene manager.
+        BaseSceneManager.Instance.AddGameObject(GameObjectName.Clue, gameObject);
+
+        // Subscribe to events
+        _toolbox.EventHub.SpyScene.ZoneComplete += MoveParent;
+    }
+
+    private void Update()
+    {
+
+    }
+
+
+    IEnumerator bringPointingObjToCam()
+    {
+        var targetPos = Camera.main.transform.position + Camera.main.transform.forward * 0.5f;
+        
+        while (true)
+        {
+            float step = .5f * Time.deltaTime;
+
+            if (gameObject.transform.position == targetPos)
+            {
+                yield break;
+            }
+
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPos, step);
+            yield return null;
+        }
+    }
+
+    public void MoveParent(object sender, EventArgs e)
+    {
+        // bring pointing object to the camera
+        StartCoroutine(bringPointingObjToCam());
+    }
 }
+

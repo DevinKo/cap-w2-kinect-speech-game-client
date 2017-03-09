@@ -17,31 +17,41 @@ public class GameLocateObjective : GameObjective {
         : base(toolbox)
     {
         objectiveType = OBJECTIVE.LOCATE;
+
+        // subscribe to events.
+        _toolbox.EventHub.SpyScene.LoadComplete += OnObjectiveStart;
         _toolbox.EventHub.SpyScene.ZoneActivated += OnZoneActivated;
-        _toolbox.EventHub.SpyScene.ZoneComplete += OnZoneComplete;
+        _toolbox.EventHub.SpyScene.ZoneComplete += OnObjectiveEnd;
     }
 
     public override void Start()
     {
         base.Start();
-        _toolbox.DistanceCollector.StartCollectDistanceSnapshot(DistanceSnapshots);
+        _toolbox.DistanceCollector.StartCollectDistanceSnapshot(this, DistanceSnapshots);
     }
 
     public override void End()
     {
         base.End();
-        _toolbox.DistanceCollector.StopCollectDistanceSnapshot();
+        _toolbox.DistanceCollector.StopCollectDistanceSnapshot(this);
     }
 
-    public void OnZoneActivated(object sender, EventArgs e)
+    #region Event Handlers
+    private void OnObjectiveStart(object sender, EventArgs e)
+    {
+        Start();
+    }
+
+    private void OnZoneActivated(object sender, EventArgs e)
     {
         ActivationTime = DateTime.Now;
     }
 
-    public void OnZoneComplete(object sender, EventArgs e)
+    private void OnObjectiveEnd(object sender, EventArgs e)
     {
         End();
     }
+    #endregion Event Handlers
 
     public override Objectives ToDataContract()
     {

@@ -24,15 +24,15 @@ public class GameObjective {
 
     public virtual void Start()
     {
-        _toolbox.BodySnapshotCollector.StartCollectBodySnapshots(BodySnapshots);
-        _toolbox.VolumeCollector.StartCollectAudioSnapshots(AudioSnapshots);
+        _toolbox.BodySnapshotCollector.StartCollectBodySnapshots(this, BodySnapshots);
+        _toolbox.VolumeCollector.StartCollectAudioSnapshots(this, AudioSnapshots);
         StartTime = System.DateTime.Now;
     }
 
     public virtual void End()
     {
-        _toolbox.BodySnapshotCollector.StopCollectBodySnapshots();
-        _toolbox.VolumeCollector.StopCollectAudioSnapshots();
+        _toolbox.BodySnapshotCollector.StopCollectBodySnapshots(this);
+        _toolbox.VolumeCollector.StopCollectAudioSnapshots(this);
         EndTime = System.DateTime.Now;
     }
 

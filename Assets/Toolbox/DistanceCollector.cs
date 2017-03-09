@@ -12,22 +12,32 @@ namespace Assets.Toolbox
 
         private Toolbox _toolbox;
 
+        public struct Client
+        {
+            public object sender;
+            public List<LocateDistanceSnapshot> snapshots;
+        }
+
+        private List<Client> _clients = new List<Client>();
+
         public void Start()
         {
             _toolbox = FindObjectOfType<Toolbox>();
+
+            StartCoroutine("CollectDistanceSnapshot");
         }
 
-        public void StartCollectDistanceSnapshot(List<LocateDistanceSnapshot> DistanceSnapshotList)
+        public void StartCollectDistanceSnapshot(object sender, List<LocateDistanceSnapshot> DistanceSnapshotList)
         {
-            StartCoroutine("CollectDistanceSnapshot", DistanceSnapshotList);
+            _clients.Add(new Client() { sender = sender, snapshots = DistanceSnapshotList });
         }
 
-        public void StopCollectDistanceSnapshot()
+        public void StopCollectDistanceSnapshot(object sender)
         {
-            StopCoroutine("CollectDistanceSnapshot");
+            _clients.Remove(_clients.Find(c => c.sender == sender));
         }
 
-        public IEnumerator CollectDistanceSnapshot(List<LocateDistanceSnapshot> DistanceSnapshotList)
+        public IEnumerator CollectDistanceSnapshot()
         {
             while (true)
             {
@@ -35,7 +45,10 @@ namespace Assets.Toolbox
 
                 distSnap.setSnapshot(0f);
 
-                DistanceSnapshotList.Add(distSnap);
+                foreach(var client in _clients)
+                {
+                    client.snapshots.Add(distSnap);
+                }
 
                 yield return new WaitForSeconds(0.1f);
             }

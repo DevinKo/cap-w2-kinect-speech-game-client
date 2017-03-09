@@ -12,22 +12,32 @@ namespace Assets.Toolbox
 
         private Toolbox _toolbox;
 
+        public struct Client
+        {
+            public object sender;
+            public List<Distance2Snapshot> snapshots;
+        }
+
+        private List<Client> _clients = new List<Client>();
+
         public void Start()
         {
             _toolbox = FindObjectOfType<Toolbox>();
+
+            StartCoroutine("CollectDistance2Snapshot");
         }
 
-        public void StartCollectDistance2Snapshot(List<Distance2Snapshot> distance2SnapshotList)
+        public void StartCollectDistance2Snapshot(object sender, List<Distance2Snapshot> distance2SnapshotList)
         {
-            StartCoroutine("CollectDistance2Snapshot", distance2SnapshotList);
+            _clients.Add(new Client() { sender = sender, snapshots = distance2SnapshotList });
         }
 
-        public void StopCollectDistance2Snapshot()
+        public void StopCollectDistance2Snapshot(object sender)
         {
-            StopCoroutine("CollectDistance2Snapshot");
+            _clients.Remove(_clients.Find(c => c.sender == sender));
         }
 
-        public IEnumerator CollectDistance2Snapshot(List<Distance2Snapshot> distance2SnapshotList)
+        public IEnumerator CollectDistance2Snapshot()
         {
             while (true)
             {
@@ -56,7 +66,10 @@ namespace Assets.Toolbox
                 Distance2Snapshot dist2Snapshot = new Distance2Snapshot();
                 dist2Snapshot.setSnapshot(Vector3.Distance(rightHandPos, leftHandPos), Vector3.Distance(handsMidpoint, upperSpinePos));
 
-                distance2SnapshotList.Add(dist2Snapshot);
+                foreach(var client in _clients)
+                {
+                    client.snapshots.Add(dist2Snapshot);
+                }
 
                 yield return new WaitForSeconds(0.1f);
             }

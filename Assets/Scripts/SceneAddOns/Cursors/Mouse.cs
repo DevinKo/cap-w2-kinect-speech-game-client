@@ -8,24 +8,25 @@ public class Mouse : Cursor
 {
     public Mouse(): base() { }
 
-    public override bool IsTouching(string colliderTag, out RaycastHit hit)
+    public override bool IsTouching(GameObject gameObject, out RaycastHit hit)
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit) && hit.collider.tag == colliderTag)
+        if (Physics.Raycast(ray, out hit) 
+            && hit.collider.gameObject.GetInstanceID() == gameObject.GetInstanceID())
         {
             return true;
         }
         return false;
     }
 
-    public override bool IsTouchingPoint(string colliderTag, out RaycastHit hit)
+    public override bool IsTouchingPoint(GameObject gameObject, out RaycastHit hit)
     {
-        return IsTouching(colliderTag, out hit);
+        return IsTouching(gameObject, out hit);
     }
 
-    public override bool IsTouchingPoints(string colliderTag, out RaycastHit hit)
+    public override bool IsTouchingPoints(GameObject gameObject, out RaycastHit hit)
     {
-        return IsTouching(colliderTag, out hit);
+        return IsTouching(gameObject, out hit);
     }
 }

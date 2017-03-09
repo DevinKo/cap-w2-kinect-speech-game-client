@@ -12,9 +12,19 @@ namespace Assets.Toolbox
     {
         private Toolbox _toolbox;
 
+        public struct Client
+        {
+            public object sender;
+            public List<AudioSnapshot> snapshots;
+        }
+
+        private List<Client> _clients = new List<Client>();
+
         public void Start()
         {
             _toolbox = FindObjectOfType<Toolbox>();
+
+            StartCoroutine("CollectAudioSnapshots");
         }
 
         public void Update()
@@ -22,17 +32,17 @@ namespace Assets.Toolbox
 
         }
 
-        public void StartCollectAudioSnapshots(List<AudioSnapshot> audioSnapshotList)
+        public void StartCollectAudioSnapshots(object sender, List<AudioSnapshot> audioSnapshotList)
         {
-            StartCoroutine("CollectAudioSnapshots", audioSnapshotList);
+            _clients.Add(new Client() { sender = sender, snapshots = audioSnapshotList });
         }
 
-        public void StopCollectAudioSnapshots()
+        public void StopCollectAudioSnapshots(object sender)
         {
-            StopCoroutine("CollectAudioSnapshots");
+            _clients.Remove(_clients.Find(c => c.sender == sender));
         }
 
-        public IEnumerator CollectAudioSnapshots(List<AudioSnapshot> audioSnapshotList)
+        public IEnumerator CollectAudioSnapshots()
         {
             while (true)
             {
@@ -47,7 +57,10 @@ namespace Assets.Toolbox
                     Time = DateTime.Now.ToString("s"),
                 };
 
-                audioSnapshotList.Add(audioSnapshot);
+                foreach(var client in _clients)
+                {
+                    client.snapshots.Add(audioSnapshot);
+                }
 
                 yield return new WaitForSeconds(0.1f);
             }

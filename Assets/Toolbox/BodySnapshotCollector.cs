@@ -12,6 +12,14 @@ namespace Assets.Toolbox
     {
         private Toolbox _toolbox;
 
+        public struct Client
+        {
+            public object sender;
+            public List<BodySnapshot> snapshots;
+        }
+
+        private List<Client> _clients = new List<Client>();
+
         public List<JointType> JointsOfInterest = new List<JointType>{JointType.ElbowLeft,
             JointType.ElbowRight,
             JointType.HandLeft,
@@ -34,6 +42,8 @@ namespace Assets.Toolbox
         public void Start()
         {
             _toolbox = FindObjectOfType<Toolbox>();
+
+            StartCoroutine("CollectBodySnapshots");
         }
 
         public void Update()
@@ -41,17 +51,17 @@ namespace Assets.Toolbox
            
         }
 
-        public void StartCollectBodySnapshots(List<BodySnapshot> bodySnapshotList)
+        public void StartCollectBodySnapshots(object sender, List<BodySnapshot> bodySnapshotList)
         {
-            StartCoroutine("CollectBodySnapshots", bodySnapshotList);
+            _clients.Add(new Client() { sender = sender, snapshots = bodySnapshotList });
         }
 
-        public void StopCollectBodySnapshots()
-        {   
-            StopCoroutine("CollectBodySnapshots");
+        public void StopCollectBodySnapshots(object sender)
+        {
+            _clients.Remove(_clients.Find(c => c.sender == sender));
         }
 
-        public IEnumerator CollectBodySnapshots(List<BodySnapshot> bodySnapshotList)
+        public IEnumerator CollectBodySnapshots()
         {
             while (true)
             {
@@ -88,7 +98,10 @@ namespace Assets.Toolbox
                     Time = DateTime.Now.ToString("s"),
                 };
 
-                bodySnapshotList.Add(snapshot);
+                foreach(var client in _clients)
+                {
+                    client.snapshots.Add(snapshot);
+                }
 
                 yield return new WaitForSeconds(0.1f);
             }

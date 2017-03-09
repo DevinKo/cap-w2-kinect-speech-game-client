@@ -16,7 +16,7 @@ public class Hand : Cursor
         GetHandObject(type);
     }
 
-    public override bool IsTouching(string colliderTag, out RaycastHit hit)
+    public override bool IsTouching(GameObject gameObject, out RaycastHit hit)
     {
         var hand = GetHandObject(_type);
         if (hand == null)
@@ -27,12 +27,10 @@ public class Hand : Cursor
 
         var ray = Camera.main.ScreenPointToRay(hand.transform.position);
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit)
+            && hit.collider.gameObject.GetInstanceID() == gameObject.GetInstanceID())
         {
-            if (hit.collider.tag == colliderTag)
-            {
-                return true;
-            }
+            return true;
         }
         return false;
     }

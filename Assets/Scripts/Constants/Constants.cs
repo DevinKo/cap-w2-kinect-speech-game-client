@@ -29,6 +29,7 @@ namespace Constants
     public enum GameObjectName
     {
         HandLeft,
-        HandRight
+        HandRight,
+        Clue,
     }
 }

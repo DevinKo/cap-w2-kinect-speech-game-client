@@ -14,11 +14,12 @@ namespace Assets.Toolbox
             // Gets raised when zone over clue is activated.
             public delegate void ZoneActivatedEventHandler(object sender, EventArgs e);
             public event ZoneActivatedEventHandler ZoneActivated;
-            public void OnZoneActivated()
+            public void RaiseZoneActivated()
             {
                 if (ZoneActivated != null)
                     ZoneActivated(this, new EventArgs());
             }
+
             // Gets raised when zone countdown is complete
             public delegate void ZoneCompleteEventHandler(object sender, EventArgs e);
             public event ZoneCompleteEventHandler ZoneComplete;
@@ -26,6 +27,24 @@ namespace Assets.Toolbox
             {
                 if (ZoneComplete != null)
                     ZoneComplete(this, new EventArgs());
+            }
+
+            // Gets raised when Spy scene is loaded
+            public delegate void LoadCompleteEventHandler(object sender, EventArgs e);
+            public event LoadCompleteEventHandler LoadComplete;
+            public void RaiseLoadComplete()
+            {
+                if (LoadComplete != null)
+                    LoadComplete(this, new EventArgs());
+            }
+
+            // Gets raised when Spy scene is loaded
+            public delegate void DescribeCompleteEventHandler(object sender, EventArgs e);
+            public event DescribeCompleteEventHandler DescribeComplete;
+            public void DescribeLoadComplete()
+            {
+                if (DescribeComplete != null)
+                    DescribeComplete(this, new EventArgs());
             }
         }
     }

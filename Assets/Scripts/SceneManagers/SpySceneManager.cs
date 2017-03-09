@@ -41,14 +41,16 @@ public class SpySceneManager : BaseSceneManager
 
         // prompt user to point at obj
         _dialogManagerRef.GetComponent<DialogManager>().updateDialogBox((int)DialogManager.PROMPT.Where);
-        
-        _taskList.Add(TaskName.CheckClueTouched, CheckClueTouched);
+
+        ToolBox.EventHub.SpyScene.ZoneComplete += OnZoneCountDownComplete;
+
+        ToolBox.EventHub.SpyScene.RaiseLoadComplete();
     }
 
     // Update is called once per frame
     void Update()
     {
-        _taskList.ExecuteAll();
+        
         //if (Input.GetKeyDown(KeyCode.Space))
         //{
         //    var dataClient = ToolBox.DataServerProxy;
@@ -57,48 +59,18 @@ public class SpySceneManager : BaseSceneManager
         //}
     }
     
-    public bool CheckClueTouched()
+
+
+    public void OnZoneCountDownComplete(object sender, EventArgs e)
     {
-        RaycastHit hit;
-        if (_cursor.IsTouchingPoint("zone_collider", out hit))
-        {
-            hit.collider.gameObject.GetComponent<zone_shader_modifier>().gotHit();
-            _taskList.Remove(TaskName.CheckClueTouched);
-            _taskList.Add(TaskName.EvaluateZoneCountDown, EvaluateZoneCountDown);
-            ToolBox.EventHub.SpyScene.OnZoneActivated();
-        }
-        
-        return true;
-    }
-
-    public bool EvaluateZoneCountDown()
-    {
-        RaycastHit hit;
-        if (_cursor.IsTouchingPoint("zone_collider", out hit))
-        {
-            _pointingZoneTimer -= Time.deltaTime;
-
-            if (_pointingZoneTimer < 0)
-            {
-                ToolBox.EventHub.SpyScene.OnZoneComplete();
-                // turn off sphere zone
-                var listOfZones = GameObject.FindGameObjectsWithTag("zone_collider");
-                for (int i = 0; i < listOfZones.Length; i++)
-                {
-                    listOfZones[i].GetComponent<MeshRenderer>().enabled = false;
-                }
-
-                // prompt player to indicate size
-                _dialogManagerRef.GetComponent<DialogManager>().updateDialogBox((int)DialogManager.PROMPT.HowBig);
-            }
-        }
-        return true;
+        // prompt player to indicate size
+        _dialogManagerRef.GetComponent<DialogManager>().updateDialogBox((int)DialogManager.PROMPT.HowBig);
     }
     
     public bool CheckIsDescribeComplete()
     {
         RaycastHit hit;
-        if (_cursor.IsTouchingPoints("DescribeObject", out hit))
+        if (_cursor.IsTouchingPoints(null, out hit))
         {
 
         }

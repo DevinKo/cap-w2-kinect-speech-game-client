@@ -13,15 +13,6 @@ public class GameTrial {
     public System.DateTime StartTime { get; set; }
     public System.DateTime EndTime { get; set; }
     public int Difficulty { get; set; }
-    public OBJECTIVE CurrentObjective;
-    
-    // A list which defines the order of objectives
-    private List<OBJECTIVE> _objectiveSequence = new List<OBJECTIVE>()
-    {
-        OBJECTIVE.DESCRIBE,
-        OBJECTIVE.LOCATE,
-        OBJECTIVE.NONE
-    };
 
     public Dictionary<OBJECTIVE, GameObjective> Objectives;
 
@@ -29,7 +20,6 @@ public class GameTrial {
     {
         _toolbox = toolbox;
         _gameObjectiveFactory = new GameObjectiveFactory(toolbox);
-        CurrentObjective = OBJECTIVE.NONE;
         
         // Create the obectives.
         Objectives = new Dictionary<OBJECTIVE, GameObjective>();
@@ -39,50 +29,39 @@ public class GameTrial {
         // configure describe objective
         AddObjective(OBJECTIVE.DESCRIBE);
 
+        // Subscribe to events
+        _toolbox.EventHub.SpyScene.LoadComplete += OnTrialStart;
+        _toolbox.EventHub.SpyScene.ZoneComplete += OnTrialEnd;
     }
 
     public GameObjective AddObjective(OBJECTIVE objectiveEnum)
     {
         if (Objectives.ContainsKey(objectiveEnum)) throw new ArgumentException("Objective already added");
-        
-        _objectiveSequence.Add(objectiveEnum);
+
         var objective = _gameObjectiveFactory.Create(objectiveEnum);
         Objectives.Add(objectiveEnum, objective);
         return objective;
     }
 
-    public GameObjective GetCurrentObjective()
-    {
-        return Objectives[CurrentObjective];
-    }
-
-    public void SetCurrentObjective(OBJECTIVE currentObjective)
-    {
-        CurrentObjective = currentObjective;
-    }
-
-    public GameObjective Start()
+    public void Start()
     {
         StartTime = DateTime.Now;
-        CurrentObjective = _objectiveSequence[0];
-        var firstObjective = Objectives[CurrentObjective];
-        firstObjective.Start();
-        return firstObjective;
     }
 
-    public GameObjective GetNextObjective()
+    public void End()
     {
-        var nextObjectiveIdx = 1 + _objectiveSequence.IndexOf(CurrentObjective);
-        var nextObjectiveEnum = _objectiveSequence[nextObjectiveIdx];
-        CurrentObjective = nextObjectiveEnum;
-        return Objectives[nextObjectiveEnum];
+        EndTime = DateTime.Now;
     }
 
-    public GameObjective StartNextObjective()
+    #region Event handlers
+    private void OnTrialStart(object sender, EventArgs e)
     {
-        Objectives[CurrentObjective].End();
-        var nextObjective = GetNextObjective();
-        nextObjective.Start();
-        return nextObjective;
+        Start();
     }
+
+    private void OnTrialEnd(object sender, EventArgs e)
+    {
+        End();
+    }
+    #endregion
 }
