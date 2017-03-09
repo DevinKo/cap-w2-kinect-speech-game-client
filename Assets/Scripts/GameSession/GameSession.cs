@@ -3,19 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using Constants;
 using Assets.Toolbox;
+using System;
+using System.Runtime.Serialization;
 
+[DataContract]
 public class GameSession {
 
     private int currentTrial = -1;
     private Toolbox _toolbox;
 
+    [DataMember]
     public string Email { get; set; }
+    [DataMember]
     public string Password { get; set; }
-    public System.DateTime StartTime;
-    public System.DateTime EndTime;
+    [DataMember]
+    public string StartTime { get; set; }
+    [DataMember]
+    public string EndTime { get; set; }
 
-    public GameCalibrationData CalibrationData = new GameCalibrationData();
+    [OnSerializing]
+    void OnSerializing(StreamingContext ctx)
+    {
+        StartTime = _startTime.ToString("s");
+        EndTime = _endTime.ToString("s");
+    }
 
+    public System.DateTime _startTime;
+    public System.DateTime _endTime;
+
+    [DataMember]
+    public GameCalibrationData CalibrationData;
+
+    [DataMember]
     public List<GameTrial> Trials = new List<GameTrial>();
 
     public GameSession(string email, string password, Toolbox toolbox)
@@ -23,7 +42,9 @@ public class GameSession {
         _toolbox = toolbox;
         Email = email;
         Password = password;
-        StartTime = System.DateTime.Now;
+        _startTime = System.DateTime.Now;
+
+        CalibrationData = new GameCalibrationData(_toolbox);
 
         // add a new trial to current session
         AddTrial();
@@ -42,6 +63,12 @@ public class GameSession {
         return Trials[currentTrial];
     }
 
+    #region Event Handlers
+    private void OnSessionComplete(object sender, EventArgs e)
+    {
+        _endTime = DateTime.Now;
+    }
+    #endregion Event Handlers
     //public static Assets.DataContracts.Session ConvertToDataContract(GameSession session)
     //{
     //    var sessionContract = new Assets.DataContracts.Session();

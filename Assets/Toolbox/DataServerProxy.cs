@@ -6,12 +6,18 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using System.IO;
+using System.Runtime.Serialization;
 
 namespace Assets.Toolbox
 {
     public class DataServerProxy : AbstractDataServerClient
     {
         private string url = "http://localhost:3000/api/v1/sessions";
+
+        public override void Send(GameSession session)
+        {
+            var serializer = new DataContractJsonSerializer(typeof(GameSession));
+        }
 
         public override bool Send(BodySnapshot[] data)
         {

@@ -4,16 +4,32 @@ using UnityEngine;
 using Constants;
 using Assets.Toolbox;
 using System;
+using System.Runtime.Serialization;
 
 public class GameTrial {
 
     private Toolbox _toolbox;
     private GameObjectiveFactory _gameObjectiveFactory;
 
-    public System.DateTime StartTime { get; set; }
-    public System.DateTime EndTime { get; set; }
+    public System.DateTime _startTime { get; set; }
+    public System.DateTime _endTime { get; set; }
+
+    [DataMember]
+    public string StartTime { get; set; }
+    [DataMember]
+    public string EndTime { get; set; }
+
+    [OnSerializing]
+    void OnSerializing(StreamingContext ctx)
+    {
+        StartTime = _startTime.ToString("s");
+        EndTime = _endTime.ToString("s");
+    }
+
+    [DataMember]
     public int Difficulty { get; set; }
 
+    [DataMember]
     public Dictionary<OBJECTIVE, GameObjective> Objectives;
 
     public GameTrial(Toolbox toolbox)
@@ -31,7 +47,7 @@ public class GameTrial {
 
         // Subscribe to events
         _toolbox.EventHub.SpyScene.LoadComplete += OnTrialStart;
-        _toolbox.EventHub.SpyScene.ZoneComplete += OnTrialEnd;
+        _toolbox.EventHub.SpyScene.DescribeComplete += OnTrialEnd;
     }
 
     public GameObjective AddObjective(OBJECTIVE objectiveEnum)
@@ -45,12 +61,12 @@ public class GameTrial {
 
     public void Start()
     {
-        StartTime = DateTime.Now;
+        _startTime = DateTime.Now;
     }
 
     public void End()
     {
-        EndTime = DateTime.Now;
+        _endTime = DateTime.Now;
     }
 
     #region Event handlers

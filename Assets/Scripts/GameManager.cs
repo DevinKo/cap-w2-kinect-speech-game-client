@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 using System.Collections.Generic;       //Allows us to use Lists. 
 using Assets.Toolbox;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -55,5 +56,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
+    }
+
+    #region Event Handlers
+    private void OnSessionComplete(object sender, EventArgs e)
+    {
+        var session = Toolbox.AppDataManager.GetSession();
+        Toolbox.DataServerProxy.Send(session);
     }
 }

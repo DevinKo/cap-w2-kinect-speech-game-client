@@ -5,16 +5,35 @@ using Assets.DataContracts;
 using Assets.Toolbox;
 using System;
 using Constants;
+using System.Runtime.Serialization;
 
+[DataContract]
 public class GameObjective {
     
     protected Toolbox _toolbox;
 
     public OBJECTIVE objectiveType;
-    public System.DateTime StartTime;
-    public System.DateTime EndTime;
+    public System.DateTime _startTime;
+    public System.DateTime _endTime;
+
+
+    [DataMember]
+    public string StartTime { get; set; }
+    [DataMember]
+    public string EndTime { get; set; }
+
+    [OnSerializing]
+    void OnSerializing(StreamingContext ctx)
+    {
+        StartTime = _startTime.ToString("s");
+        EndTime = _endTime.ToString("s");
+    }
+
+    [DataMember]
     public List<BodySnapshot> BodySnapshots = new List<BodySnapshot>();
+    [DataMember]
     public List<AudioSnapshot> AudioSnapshots = new List<AudioSnapshot>();
+
     public virtual Objectives ToDataContract() { return null; }
 
     public GameObjective(Toolbox toolBox)
@@ -26,14 +45,14 @@ public class GameObjective {
     {
         _toolbox.BodySnapshotCollector.StartCollectBodySnapshots(this, BodySnapshots);
         _toolbox.VolumeCollector.StartCollectAudioSnapshots(this, AudioSnapshots);
-        StartTime = System.DateTime.Now;
+        _startTime = System.DateTime.Now;
     }
 
     public virtual void End()
     {
         _toolbox.BodySnapshotCollector.StopCollectBodySnapshots(this);
         _toolbox.VolumeCollector.StopCollectAudioSnapshots(this);
-        EndTime = System.DateTime.Now;
+        _endTime = System.DateTime.Now;
     }
 
 }

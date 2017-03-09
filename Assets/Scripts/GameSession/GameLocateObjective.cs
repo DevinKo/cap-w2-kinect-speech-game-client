@@ -5,12 +5,17 @@ using System.Text;
 using Assets.DataContracts;
 using Assets.Toolbox;
 using Constants;
+using System.Runtime.Serialization;
 
+[DataContract]
 public class GameLocateObjective : GameObjective {
     
+    [DataMember]
     public string kind = "LocateObjective";
+    [DataMember]
     public DateTime ActivationTime;
 
+    [DataMember]
     public List<LocateDistanceSnapshot> DistanceSnapshots = new List<LocateDistanceSnapshot>();
 
     public GameLocateObjective(Toolbox toolbox)
@@ -56,8 +61,8 @@ public class GameLocateObjective : GameObjective {
     public override Objectives ToDataContract()
     {
         var objectiveContract = new Assets.DataContracts.Objectives();
-        objectiveContract.StartTime = StartTime.ToString("s");
-        objectiveContract.EndTime = EndTime.ToString("s");
+        objectiveContract.StartTime = _startTime.ToString("s");
+        objectiveContract.EndTime = _endTime.ToString("s");
         objectiveContract.AudioSnapshots = AudioSnapshots.ToArray();
         objectiveContract.BodySnapshots = BodySnapshots.ToArray();
         objectiveContract.kind = kind;
