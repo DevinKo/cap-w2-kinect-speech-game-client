@@ -14,7 +14,7 @@ public class GameDescribeObjective : GameObjective {
     [JsonProperty]
     public string kind = "DescribeObjective";
     [JsonProperty]
-    public List<Distance2Snapshot> Distance2Snapshots = new List<Distance2Snapshot>();
+    public List<Distance2Snapshot> Distances = new List<Distance2Snapshot>();
 
     public GameDescribeObjective(Toolbox toolbox)
         : base(toolbox)
@@ -29,7 +29,7 @@ public class GameDescribeObjective : GameObjective {
     public override void Start()
     {
         base.Start();
-        _toolbox.Distance2Collector.StartCollectDistance2Snapshot(this, Distance2Snapshots);
+        _toolbox.Distance2Collector.StartCollectDistance2Snapshot(this, Distances);
     }
 
     public override void End()

@@ -8,6 +8,7 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
+    public bool _testing = false;
 
     public static GameManager instance = null;
 

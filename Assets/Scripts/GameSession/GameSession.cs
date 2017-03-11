@@ -14,9 +14,9 @@ public class GameSession {
     private Toolbox _toolbox;
 
     [JsonProperty]
-    public string Email { get; set; }
+    public string email { get; set; }
     [JsonProperty]
-    public string Password { get; set; }
+    public string password { get; set; }
     [JsonProperty]
     public System.DateTime StartTime;
     [JsonProperty]
@@ -31,8 +31,8 @@ public class GameSession {
     public GameSession(string email, string password, Toolbox toolbox)
     {
         _toolbox = toolbox;
-        Email = email;
-        Password = password;
+        this.email = email;
+        this.password = password;
         StartTime = System.DateTime.Now;
 
         CalibrationData = new GameCalibrationData(_toolbox);

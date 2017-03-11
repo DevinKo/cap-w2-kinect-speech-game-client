@@ -17,7 +17,7 @@ public class GameLocateObjective : GameObjective {
     public DateTime ActivationTime;
 
     [JsonProperty]
-    public List<LocateDistanceSnapshot> DistanceSnapshots = new List<LocateDistanceSnapshot>();
+    public List<LocateDistanceSnapshot> Distances = new List<LocateDistanceSnapshot>();
 
     public GameLocateObjective(Toolbox toolbox)
         : base(toolbox)
@@ -33,7 +33,7 @@ public class GameLocateObjective : GameObjective {
     public override void Start()
     {
         base.Start();
-        _toolbox.DistanceCollector.StartCollectDistanceSnapshot(this, DistanceSnapshots);
+        _toolbox.DistanceCollector.StartCollectDistanceSnapshot(this, Distances);
     }
 
     public override void End()

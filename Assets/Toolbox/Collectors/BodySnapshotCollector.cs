@@ -86,9 +86,9 @@ namespace Assets.Toolbox
                     joints.Add(new DataContracts.Joint()
                     {
                         JointType = jointType.ToString(),
-                        X = pos.X,
-                        Y = pos.Y,
-                        Z = pos.Z
+                        X = pos.x,
+                        Y = pos.y,
+                        Z = pos.z
                     });
                 }
 
@@ -135,15 +135,15 @@ namespace Assets.Toolbox
 
             var handLeftVec = new Vector3
             {
-                x = handLeft.Position.X,
-                y = handLeft.Position.Y,
-                z = handLeft.Position.Z
+                x = handLeft.Position.x,
+                y = handLeft.Position.y,
+                z = handLeft.Position.z
             };
             var handRightVec = new Vector3
             {
-                x = handRight.Position.X,
-                y = handRight.Position.Y,
-                z = handRight.Position.Z,
+                x = handRight.Position.x,
+                y = handRight.Position.y,
+                z = handRight.Position.z,
             };
             
             return Vector3.Distance(handLeftVec, handRightVec);

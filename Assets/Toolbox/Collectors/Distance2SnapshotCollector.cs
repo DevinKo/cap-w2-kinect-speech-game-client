@@ -57,9 +57,9 @@ namespace Assets.Toolbox
                 var leftHand = body.Joints[Windows.Kinect.JointType.HandLeft];
                 var upperSpine = body.Joints[Windows.Kinect.JointType.SpineShoulder];
 
-                Vector3 rightHandPos = new Vector3(rightHand.Position.X, rightHand.Position.Y, rightHand.Position.Z);
-                Vector3 leftHandPos = new Vector3(leftHand.Position.X, leftHand.Position.Y, leftHand.Position.Z);
-                Vector3 upperSpinePos = new Vector3(upperSpine.Position.X, upperSpine.Position.Y, upperSpine.Position.Z);
+                Vector3 rightHandPos = new Vector3(rightHand.Position.x, rightHand.Position.y, rightHand.Position.z);
+                Vector3 leftHandPos = new Vector3(leftHand.Position.x, leftHand.Position.y, leftHand.Position.z);
+                Vector3 upperSpinePos = new Vector3(upperSpine.Position.x, upperSpine.Position.y, upperSpine.Position.z);
 
                 Vector3 handsMidpoint = Vector3.Lerp(rightHandPos, leftHandPos, 0.5f);
 

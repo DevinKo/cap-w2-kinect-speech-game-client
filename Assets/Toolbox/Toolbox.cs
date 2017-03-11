@@ -12,7 +12,7 @@ namespace Assets.Toolbox
         // Should use some sort of dependency injection here.
         protected AbstractAppDataManager _appDataManager;
         protected AbstractDataServerClient _dataServerClient;
-        protected BodySourceManager _bodySourceManager;
+        protected IBodySourceManager _bodySourceManager;
         protected BodySnapshotCollector _bodySnapshotCollector;
         protected VolumeSourceManager _volumeSourceManager;
         protected VolumeCollector _volumeCollector;
@@ -36,7 +36,7 @@ namespace Assets.Toolbox
             }
         }
 
-        public BodySourceManager BodySourceManager
+        public IBodySourceManager BodySourceManager
         {
             get
             {
@@ -100,7 +100,16 @@ namespace Assets.Toolbox
             //RegisterComponent<DataServerProxy>();
             _appDataManager = gameObject.AddComponent<AppDataManager>();
             _dataServerClient = gameObject.AddComponent<DataServerProxy>();
-            _bodySourceManager = gameObject.AddComponent<BodySourceManager>();
+
+            if (GameManager.instance._testing)
+            {
+                _bodySourceManager = gameObject.AddComponent<FakeBodySourceManager>();
+            }
+            else
+            {
+                _bodySourceManager = gameObject.AddComponent<BodySourceManager>();
+            }
+
             _bodySnapshotCollector = gameObject.AddComponent<BodySnapshotCollector>();
             _volumeSourceManager = gameObject.AddComponent<VolumeSourceManager>();
             _volumeCollector = gameObject.AddComponent<VolumeCollector>();
