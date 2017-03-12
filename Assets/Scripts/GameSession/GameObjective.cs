@@ -24,8 +24,6 @@ public class GameObjective {
     [JsonProperty]
     public List<AudioSnapshot> AudioSnapshots = new List<AudioSnapshot>();
 
-    public virtual Objectives ToDataContract() { return null; }
-
     public GameObjective(Toolbox toolBox)
     {
         _toolbox = toolBox;

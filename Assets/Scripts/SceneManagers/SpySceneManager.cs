@@ -17,7 +17,7 @@ public class SpySceneManager : BaseSceneManager
     private bool doneMoving = false;
     
     private Cursor _cursor;
-    private TaskList _taskList = new TaskList();
+
     private float _pointingZoneTimer = 5;
 
     // use to set cursor to mouse or hands
