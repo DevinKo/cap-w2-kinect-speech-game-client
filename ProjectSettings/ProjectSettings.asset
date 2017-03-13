@@ -464,7 +464,7 @@ PlayerSettings:
     Collab: 0
     ErrorHub: 0
     Hub: 0
-    UNet: 0
+    UNet: 1
   cloudProjectId: 57f874ed-f1c9-44b7-89fd-7c2318e85d5a
   projectName: HipsterHands
   organizationId: barton64
