@@ -6,7 +6,7 @@ using System.Text;
 using UnityEngine;
 
 
-public class FakeBodySourceManager : MonoBehaviour, IBodySourceManager
+public class FakeBodySourceManager : BaseBodySourceManager, IBodySourceManager
 {
     private Body _fakeBody;
 
@@ -30,7 +30,7 @@ public class FakeBodySourceManager : MonoBehaviour, IBodySourceManager
         return body;
     }
 
-    public Body GetFirstTrackedBody()
+    public override Body GetFirstTrackedBody()
     {
         return _fakeBody; 
     }

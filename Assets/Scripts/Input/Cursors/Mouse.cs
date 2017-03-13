@@ -29,4 +29,11 @@ public class Mouse : Cursor
     {
         return IsTouching(gameObject, out hit);
     }
+
+    public override bool IsOutsideOfX(GameObject objectLeft, GameObject objectRight)
+    {
+        // treat mouse as right hand
+        return objectRight.transform.position.x < Input.mousePosition.x;
+    }
+    
 }

@@ -34,7 +34,7 @@ public class AudioThresholdTracker : MonoBehaviour
     {
         if (_toolbox.BodySourceManager == null) { return; }
 
-        currentVolume = _toolbox.VolumeCollector.RawEnergy * 1000;
+        currentVolume = _toolbox.VolumeSourceManager.RawEnergy * 1000;
 
         if (currentVolume > lowestVolume)
         {

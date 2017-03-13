@@ -10,10 +10,12 @@ public class SpySceneManager : BaseSceneManager
 {
     // GameObject references
     GameObject _dialogManagerRef;
-    
+    public bool AreHandsOutside { get; set; }
     // Data collector instances
     Toolbox ToolBox;
-    
+
+    private bool _isDescribeCurrent;
+
     private bool doneMoving = false;
     
     private Cursor _cursor;
@@ -38,12 +40,7 @@ public class SpySceneManager : BaseSceneManager
 
         // init toolbox
         ToolBox = FindObjectOfType<Toolbox>();
-
-        // prompt user to point at obj
-        _dialogManagerRef.GetComponent<DialogManager>().updateDialogBox((int)DialogManager.PROMPT.Where);
-
-        ToolBox.EventHub.SpyScene.ZoneComplete += OnZoneCountDownComplete;
-
+        
         ToolBox.EventHub.SpyScene.RaiseLoadComplete();
     }
 
@@ -55,24 +52,17 @@ public class SpySceneManager : BaseSceneManager
         {
             ToolBox.EventHub.SpyScene.RaiseDescribeComplete();
         }
-    }
-    
-
-
-    public void OnZoneCountDownComplete(object sender, EventArgs e)
-    {
-        // prompt player to indicate size
-        _dialogManagerRef.GetComponent<DialogManager>().updateDialogBox((int)DialogManager.PROMPT.HowBig);
-    }
-    
-    public bool CheckIsDescribeComplete()
-    {
-        RaycastHit hit;
-        if (_cursor.IsTouchingPoints(null, out hit))
+        if (_isDescribeCurrent)
         {
-
+            var describeHandLeft = Instance.GetObjectWithName(GameObjectName.DescribeHandLeft);
+            var describeHandRight = Instance.GetObjectWithName(GameObjectName.DescribeHandRight);
+            if (describeHandLeft != null && describeHandRight != null)
+            {
+                AreHandsOutside = Cursor.Instance.IsOutsideOfX(describeHandLeft, describeHandRight);
+            }
         }
-        return true;
     }
+    
+    
 
 }

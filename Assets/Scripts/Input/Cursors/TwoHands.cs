@@ -29,4 +29,9 @@ public class TwoHands : Cursor
     {
         return handLeft.IsTouching(gameObject, out hit) && handRight.IsTouchingPoint(gameObject, out hit);
     }
+
+    public override bool IsOutsideOfX(GameObject objectLeft, GameObject objectRight)
+    {
+        return handRight.IsRightOfX(objectRight) && handLeft.IsLeftOfX(objectLeft);
+    }
 }

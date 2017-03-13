@@ -31,5 +31,7 @@ namespace Constants
         HandLeft,
         HandRight,
         Clue,
+        DescribeHandLeft,
+        DescribeHandRight,
     }
 }

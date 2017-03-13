@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using Assets.Toolbox;
+using Constants;
 
 public class DescribeTarget : MonoBehaviour
 {
+    public bool IsLeft;
+
     Ray rightRay;
     Ray leftRay;
 
@@ -13,6 +16,8 @@ public class DescribeTarget : MonoBehaviour
 
     Transform leftHand;
     Transform rightHand;
+
+    private Toolbox _toolbox;
 
     bool setup;
     bool isComplete;
@@ -23,6 +28,18 @@ public class DescribeTarget : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        var clueObject = BaseSceneManager.Instance.GetObjectWithName(GameObjectName.Clue);
+
+        var renderer = clueObject.GetComponent<MeshRenderer>();
+        var extent = IsLeft ? -renderer.bounds.extents.x : renderer.bounds.extents.x;
+        var position = new Vector3(clueObject.transform.position.x + extent,
+            clueObject.transform.position.y, clueObject.transform.position.z);
+
+        gameObject.transform.position = position;
+
+        BaseSceneManager.Instance.AddGameObject(IsLeft ? GameObjectName.DescribeHandLeft: GameObjectName.DescribeHandRight, 
+            gameObject);
+        /*
         leftHand = transform.FindChild("LeftDescribeHand");
         rightHand = transform.FindChild("RightDescribeHand");
         setup = false;
@@ -30,11 +47,13 @@ public class DescribeTarget : MonoBehaviour
         describeActive = false;
         rightRay = Camera.main.ScreenPointToRay(rightHand.position);
         leftRay = Camera.main.ScreenPointToRay(leftHand.position);
+    */
     }
 
     // Update is called once per frame
     void Update()
     {
+
         rightRay = Camera.main.ScreenPointToRay(rightHand.position);
         leftRay = Camera.main.ScreenPointToRay(leftHand.position);
         if (setup)
