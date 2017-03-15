@@ -9,4 +9,5 @@ public interface IBodySourceManager
 {
     Assets.Models.Body GetFirstTrackedBody();
     Vector3 GetRelativeJointPosition(JointType originJointType, JointType jointType);
+    Assets.Models.Joint GetJoint(JointType jointType);
 }

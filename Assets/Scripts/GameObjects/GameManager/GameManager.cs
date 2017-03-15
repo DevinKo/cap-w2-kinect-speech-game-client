@@ -8,6 +8,8 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
+    // use to set cursor to mouse or hands
+    public Constants.CursorTypes CursorType;
     public bool _testing = false;
 
     public static GameManager instance = null;
@@ -32,8 +34,7 @@ public class GameManager : MonoBehaviour
         }
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
-
-        InitTestScene();
+        
     }
 
     public void Start()
@@ -41,17 +42,17 @@ public class GameManager : MonoBehaviour
         // create new session track game data
         var session = new GameSession("p.mcpatientface@email.com", "mFjDhCdzCw", Toolbox);
         Toolbox.AppDataManager.Save(session);
-        Toolbox.EventHub.SpyScene.DescribeComplete += OnSessionComplete;
-    }
 
-    public void InitTestScene()
-    {
-        TestSceneManager.OnSceneEnd += LoadSpyScene;
+        // Set game settings
+        Toolbox.AppDataManager.Save(new GameSettings() { CursorType = this.CursorType });
+
+        Toolbox.EventHub.CalibrationScene.SceneEnd += OnCalibrationSceneEnd;
+        Toolbox.EventHub.SpyScene.DescribeComplete += OnSessionComplete;
     }
 
     public void LoadSpyScene()
     {
-        SceneManager.LoadScene("template_Scene");
+        SceneManager.LoadScene("demo_Kenny");
     }
 
     //Update is called every frame.
@@ -65,6 +66,11 @@ public class GameManager : MonoBehaviour
     {
         var session = Toolbox.AppDataManager.GetSession();
         Toolbox.DataServerProxy.Send(session);
+    }
+
+    private void OnCalibrationSceneEnd(object sender, EventArgs e)
+    {
+        LoadSpyScene();
     }
     #endregion Event Handlers
 }

@@ -12,5 +12,7 @@ namespace Assets.Toolbox
         public abstract MaxReach GetMaxReach(JointType joint);
         public abstract GameSession GetSession();
         public abstract void Save(GameSession session);
+        public abstract GameSettings GetGameSettings();
+        public abstract void Save(GameSettings settings);
     }
 }

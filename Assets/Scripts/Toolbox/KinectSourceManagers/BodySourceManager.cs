@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Windows.Kinect;
+using Assets.Models;
+using System;
 
 public class BodySourceManager : BaseBodySourceManager, IBodySourceManager
 {
     private KinectSensor _Sensor;
     private BodyFrameReader _Reader;
-    private Body[] _Data = null;
+    private Windows.Kinect.Body[] _Data = null;
 
-    public Body[] GetData()
+    public Windows.Kinect.Body[] GetData()
     {
         return _Data;
     }
@@ -38,7 +40,7 @@ public class BodySourceManager : BaseBodySourceManager, IBodySourceManager
             {
                 if (_Data == null)
                 {
-                    _Data = new Body[_Sensor.BodyFrameSource.BodyCount];
+                    _Data = new Windows.Kinect.Body[_Sensor.BodyFrameSource.BodyCount];
                 }
 
                 frame.GetAndRefreshBodyData(_Data);
@@ -82,7 +84,7 @@ public class BodySourceManager : BaseBodySourceManager, IBodySourceManager
             return null;
         }*/
 
-        Body[] data = GetData();
+        Windows.Kinect.Body[] data = GetData();
         if (data == null)
         {
             return null;
@@ -102,5 +104,10 @@ public class BodySourceManager : BaseBodySourceManager, IBodySourceManager
             }
         }
         return null;
+    }
+
+    public override Assets.Models.Joint GetJoint(JointType jointType)
+    {
+        return GetFirstTrackedBody().Joints[jointType];
     }
 }

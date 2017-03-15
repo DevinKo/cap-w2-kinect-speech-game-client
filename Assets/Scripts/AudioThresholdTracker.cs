@@ -11,7 +11,7 @@ public class AudioThresholdTracker : MonoBehaviour
 	public Text testText;
 	public Text timerText;
 	public Text instructionText;
-	float maxTime = 15.0f; //change calibration time here
+	float maxTime = 5.0f; //change calibration time here
 	float timeLeft;
 
 	private Toolbox _toolbox;

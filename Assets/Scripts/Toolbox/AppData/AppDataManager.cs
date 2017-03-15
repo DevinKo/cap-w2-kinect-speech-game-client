@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Assets.DataContracts;
 using Windows.Kinect;
+using System;
 
 namespace Assets.Toolbox
 {
@@ -10,6 +11,8 @@ namespace Assets.Toolbox
         private List<BodySnapshot> _bodySnapshots = new List<BodySnapshot>();
         private List<AudioSnapshot> _audioSnapshots = new List<AudioSnapshot>();
         private Dictionary<JointType, MaxReach> _maxReach = new Dictionary<JointType, MaxReach>();
+
+        private GameSettings _gameSettings = new GameSettings();
 
         private GameSession _session;
 
@@ -57,6 +60,15 @@ namespace Assets.Toolbox
             _audioSnapshots.Add(data);
         }
 
+        public override GameSettings GetGameSettings()
+        {
+            return _gameSettings;
+        }
+
+        public override void Save(GameSettings settings)
+        {
+            _gameSettings = settings;
+        }
     }
 
 }

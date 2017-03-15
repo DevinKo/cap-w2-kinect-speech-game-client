@@ -22,9 +22,6 @@ public class SpySceneManager : BaseSceneManager
 
     private float _pointingZoneTimer = 5;
 
-    // use to set cursor to mouse or hands
-    public CursorTypes CursorType;
-
     public new void Awake()
     {
         base.Awake();
@@ -33,14 +30,15 @@ public class SpySceneManager : BaseSceneManager
     // Use this for initialization
     void Start()
     {
-        // initialize cursor object based on type
-        _cursor = CursorFactory.Create(CursorType);
-
         _dialogManagerRef = GameObject.FindGameObjectWithTag("DialogManager");
 
         // init toolbox
         ToolBox = FindObjectOfType<Toolbox>();
-        
+
+        // initialize cursor object based on type
+        var cursorType = ToolBox.AppDataManager.GetGameSettings().CursorType;
+        _cursor = CursorFactory.Create(cursorType);
+
         ToolBox.EventHub.SpyScene.RaiseLoadComplete();
     }
 
