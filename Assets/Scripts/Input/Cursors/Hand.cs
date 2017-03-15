@@ -34,7 +34,7 @@ public class Hand : Cursor
         }
         return false;
     }
-
+    
     public GameObject GetHandObject(CursorTypes type)
     {
         if (_hand != null) return _hand;
@@ -43,5 +43,27 @@ public class Hand : Cursor
             GameObjectName.HandLeft : GameObjectName.HandRight;
         _hand = BaseSceneManager.Instance.GetObjectWithName(name);
         return _hand;
+    }
+
+    public override bool IsOutsideOfX(GameObject objectLeft, GameObject objectRight)
+    {
+        if (_type == CursorTypes.LeftHand)
+        {
+            return IsLeftOfX(objectLeft);
+        }
+        else
+        {
+            return IsRightOfX(objectRight);
+        }
+    }
+
+    public bool IsLeftOfX(GameObject gameObject)
+    {
+        return gameObject.transform.position.x > GetHandObject(_type).transform.position.x;
+    }
+
+    public bool IsRightOfX(GameObject gameObject)
+    {
+        return gameObject.transform.position.x < GetHandObject(_type).transform.position.x;
     }
 }

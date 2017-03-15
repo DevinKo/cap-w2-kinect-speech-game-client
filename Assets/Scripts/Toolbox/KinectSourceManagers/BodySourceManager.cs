@@ -2,7 +2,7 @@
 using System.Collections;
 using Windows.Kinect;
 
-public class BodySourceManager : MonoBehaviour, IBodySourceManager
+public class BodySourceManager : BaseBodySourceManager, IBodySourceManager
 {
     private KinectSensor _Sensor;
     private BodyFrameReader _Reader;
@@ -68,7 +68,7 @@ public class BodySourceManager : MonoBehaviour, IBodySourceManager
         }
     }
 
-    public Assets.Models.Body GetFirstTrackedBody()
+    public override Assets.Models.Body GetFirstTrackedBody()
     {
         /*if (_bodySourceManager == null)
         {

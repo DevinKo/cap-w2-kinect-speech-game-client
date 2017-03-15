@@ -28,4 +28,6 @@ public abstract class Cursor
     {
         return IsTouching(leftObject, out hit);
     }
+
+    public abstract bool IsOutsideOfX(GameObject objectLeft, GameObject objectRight);
 }

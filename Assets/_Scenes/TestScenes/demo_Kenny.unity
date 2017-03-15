@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 247d6868fc923ae47a711ca7a160de9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _testing: 1
+  _testing: 0
   Toolbox: {fileID: 0}
 --- !u!1001 &98235584
 Prefab:
@@ -982,6 +982,16 @@ Prefab:
         type: 2}
       propertyPath: m_AnchoredPosition.x
       value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 114781302119156288, guid: f1b0724388df1264197e05defd396533,
+        type: 2}
+      propertyPath: _handType
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114341951122849820, guid: f1b0724388df1264197e05defd396533,
+        type: 2}
+      propertyPath: _handType
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f1b0724388df1264197e05defd396533, type: 2}
@@ -2219,7 +2229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ec5fec736e9a4479d0f0e315ca4f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CursorType: 3
+  CursorType: 2
 --- !u!1001 &1893979013
 Prefab:
   m_ObjectHideFlags: 0
