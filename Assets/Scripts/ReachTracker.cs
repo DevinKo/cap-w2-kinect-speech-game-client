@@ -11,7 +11,7 @@ public class ReachTracker : MonoBehaviour
 	public Text testText;
 	public Text timerText;
 	public Text instructionText;
-	float maxTime = 15.0f; //change calibration time per hand here
+	float maxTime = 5.0f; //change calibration time per hand here
 	float timeLeft;
 
 	private Toolbox _toolbox;
@@ -31,6 +31,15 @@ public class ReachTracker : MonoBehaviour
 	void Update()
 	{
 		if (_toolbox.BodySourceManager == null) { return; }
+
+        // Check if joint is being tracked
+        var joint = _toolbox.BodySourceManager.GetJoint(_jointType);
+        var shoulderJoint = _toolbox.BodySourceManager.GetJoint(JointType.SpineShoulder);
+        if (joint.TrackingState == TrackingState.NotTracked
+            || shoulderJoint.TrackingState == TrackingState.NotTracked)
+        {
+            return;
+        }
 
 		// find relative distane of joint from top of spine.
 		var relativePosition = _toolbox.BodySourceManager.GetRelativeJointPosition(JointType.SpineShoulder, _jointType);

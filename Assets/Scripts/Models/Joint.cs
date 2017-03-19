@@ -12,7 +12,7 @@ namespace Assets.Models
         public Vector3 Position { get; set; }
 
         public JointType JointType;
-
+        
         public TrackingState TrackingState { get; set; }
 
         public static implicit operator Joint(Windows.Kinect.Joint kinectJoint)

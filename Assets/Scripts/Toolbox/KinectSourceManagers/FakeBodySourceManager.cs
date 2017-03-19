@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-
+using Windows.Kinect;
 
 public class FakeBodySourceManager : BaseBodySourceManager, IBodySourceManager
 {
-    private Body _fakeBody;
+    private Assets.Models.Body _fakeBody;
 
     public void Awake()
     {
         _fakeBody = BuildFakeBody();
     }
 
-    public Body BuildFakeBody()
+    public Assets.Models.Body BuildFakeBody()
     {
-        var body = new Body();
+        var body = new Assets.Models.Body();
         var jointTypes = Enum.GetValues(typeof(Windows.Kinect.JointType)).Cast<Windows.Kinect.JointType>();
         foreach (var jointType in jointTypes)
         {
@@ -30,8 +30,13 @@ public class FakeBodySourceManager : BaseBodySourceManager, IBodySourceManager
         return body;
     }
 
-    public override Body GetFirstTrackedBody()
+    public override Assets.Models.Body GetFirstTrackedBody()
     {
         return _fakeBody; 
+    }
+
+    public override Assets.Models.Joint GetJoint(JointType jointType)
+    {
+        return _fakeBody.Joints[jointType];
     }
 }

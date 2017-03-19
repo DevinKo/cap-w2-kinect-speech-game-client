@@ -13,7 +13,7 @@ public class PointerZoneTracker : MonoBehaviour
 	public Text testText;
 	public Text timerText;
 	public Text instructionText;
-	float maxTime = 15.0f; //change calibration time here
+	float maxTime = 5.0f; //change calibration time here
 	float timeLeft;
 
 	private Toolbox _toolbox;
@@ -64,12 +64,12 @@ public class PointerZoneTracker : MonoBehaviour
 				// switch to left hand and reset timer
 				_jointType = JointType.HandLeft;
 				timeLeft = maxTime;
-
+                radius = 0;
 			}
 			else
 			{
-				//turn off PointerZoneTracker and procede to next part of the game
-				this.enabled = !this.enabled;
+                // End scene
+                _toolbox.EventHub.CalibrationScene.RaiseSceneEnd();
 			}
 		} 
 		printReach();

@@ -8,6 +8,7 @@ namespace Assets.Toolbox
     public class GameEventHub
     {
         public SpySceneEvents SpyScene = new SpySceneEvents();
+        public CalibrationSceneEvents CalibrationScene = new CalibrationSceneEvents();
 
         public class SpySceneEvents
         {
@@ -45,6 +46,18 @@ namespace Assets.Toolbox
             {
                 if (DescribeComplete != null)
                     DescribeComplete(this, new EventArgs());
+            }
+        }
+
+        public class CalibrationSceneEvents
+        {
+            // Gets raised  when Calibration scene ends
+            public delegate void SceneEndEventHandler(object sender, EventArgs e);
+            public event SceneEndEventHandler SceneEnd;
+            public void RaiseSceneEnd()
+            {
+                if (SceneEnd != null)
+                    SceneEnd(this, new EventArgs());
             }
         }
     }

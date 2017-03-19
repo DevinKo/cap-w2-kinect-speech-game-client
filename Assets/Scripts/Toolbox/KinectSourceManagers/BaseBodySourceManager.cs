@@ -10,6 +10,7 @@ public abstract class BaseBodySourceManager : MonoBehaviour
 {
     public abstract Assets.Models.Body GetFirstTrackedBody();
 
+    public abstract Assets.Models.Joint GetJoint(JointType jointType);
     /// <summary>
     /// Returns the position of joint relative to originJoint
     /// </summary>
