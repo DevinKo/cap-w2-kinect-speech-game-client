@@ -26,6 +26,10 @@ public class BarScript : MonoBehaviour {
 
     Image SoundBarImage;
 
+    Color contentColor;
+    Color maskColor;
+    Color grayColor = new Color(119, 136, 153);
+
 	// Use this for initialization
 	void Start ()
     {
@@ -39,15 +43,24 @@ public class BarScript : MonoBehaviour {
         SoundBarImage = GetComponent<Image>();
         mask = transform.FindChild("Mask").GetComponent<Image>();
 
+        maskColor = mask.color;
+        contentColor = content.color;
+
         SoundBarImage.enabled = false;
         mask.enabled = false;
         content.enabled = false;
+
+        soundBarOn = false;
+        SoundBarImage.color = grayColor;
+        content.color = grayColor;
+        mask.color = grayColor;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        HandleBar();
+        if(soundBarOn)
+            HandleBar();
 	}
 
     private void HandleBar()
@@ -74,10 +87,14 @@ public class BarScript : MonoBehaviour {
         if (isDescribing)
         {
             soundBarOn = true;
+            content.color = contentColor;
+            mask.color = maskColor;
         }
         else
         {
             soundBarOn = false;
+            content.color = grayColor;
+            mask.color = grayColor;
         }
     }
 }

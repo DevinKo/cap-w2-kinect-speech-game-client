@@ -46,15 +46,15 @@ public class DescribeTarget : MonoBehaviour
     {
         if (setupDone)
         {
-            if(leftUi.anchoredPosition.x > dleftUi.anchoredPosition.x && 
-                rightUi.anchoredPosition.x < drightUi.anchoredPosition.x && 
+            if(leftUi.anchoredPosition.x < dleftUi.anchoredPosition.x && 
+                rightUi.anchoredPosition.x > drightUi.anchoredPosition.x && 
                 !isDescribing)
             {
                 _toolbox.EventHub.SpyScene.RaiseDescribingSize(true);
                 isDescribing = true;
             }
-            else if(leftUi.anchoredPosition.x < dleftUi.anchoredPosition.x &&
-                rightUi.anchoredPosition.x > drightUi.anchoredPosition.x &&
+            else if(leftUi.anchoredPosition.x > dleftUi.anchoredPosition.x &&
+                rightUi.anchoredPosition.x < drightUi.anchoredPosition.x &&
                 isDescribing)
             {
                 _toolbox.EventHub.SpyScene.RaiseDescribingSize(false);
