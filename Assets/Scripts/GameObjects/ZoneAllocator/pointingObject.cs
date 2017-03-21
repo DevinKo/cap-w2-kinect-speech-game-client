@@ -42,6 +42,9 @@ public class PointingObject : MonoBehaviour
 
             if (gameObject.transform.position == targetPos)
             {
+                gameObject.transform.eulerAngles = new Vector3(0, -180, 0);
+                gameObject.transform.localScale = new Vector3(1.0F, 1.0F, 1.0F);
+                _toolbox.EventHub.SpyScene.RaiseClueMoved();
                 yield break;
             }
 

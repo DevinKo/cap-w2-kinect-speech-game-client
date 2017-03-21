@@ -10,9 +10,9 @@ TagManager:
   - DialogManager
   - GameDataCollector
   - DescribeController
-  - DescribeObject
   - UIHandLeft
   - UIHandRight
+  - DescribeUI
   layers:
   - Default
   - TransparentFX

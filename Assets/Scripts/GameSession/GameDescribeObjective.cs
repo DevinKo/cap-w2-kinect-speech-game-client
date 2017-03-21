@@ -22,7 +22,7 @@ public class GameDescribeObjective : GameObjective {
         objectiveType = OBJECTIVE.DESCRIBE;
 
         //Subscribe to events
-        _toolbox.EventHub.SpyScene.ZoneComplete += OnObjectiveStart;
+        _toolbox.EventHub.SpyScene.ClueMoved += OnObjectiveStart;
         _toolbox.EventHub.SpyScene.DescribeComplete += OnObjectiveEnd;
     }
 
