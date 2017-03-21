@@ -208,8 +208,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 247d6868fc923ae47a711ca7a160de9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CursorType: 3
-  _testing: 1
+  CursorType: 2
+  _testing: 0
   Toolbox: {fileID: 0}
 --- !u!1001 &98235584
 Prefab:

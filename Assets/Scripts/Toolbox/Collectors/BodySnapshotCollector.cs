@@ -94,7 +94,7 @@ namespace Assets.Toolbox
                 var snapshot = new BodySnapshot()
                 {
                     Joints = joints.ToArray(),
-                    Time = DateTime.Now.ToString("s"),
+                    Time = DateTime.Now,
                 };
 
                 foreach(var client in _clients)

@@ -22,6 +22,9 @@ public class SpySceneManager : BaseSceneManager
 
     private float _pointingZoneTimer = 5;
 
+    // is set to false during first update
+    private bool _firstUpdate = true;
+
     public new void Awake()
     {
         base.Awake();
@@ -39,13 +42,18 @@ public class SpySceneManager : BaseSceneManager
         var cursorType = ToolBox.AppDataManager.GetGameSettings().CursorType;
         _cursor = CursorFactory.Create(cursorType);
 
-        ToolBox.EventHub.SpyScene.RaiseLoadComplete();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        // This lets folks know that the scenes Start loop has finished.
+        if (_firstUpdate)
+        {
+            _firstUpdate = false;
+            ToolBox.EventHub.SpyScene.RaiseLoadComplete();
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ToolBox.EventHub.SpyScene.RaiseDescribeComplete();

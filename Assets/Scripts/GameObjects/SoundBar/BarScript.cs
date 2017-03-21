@@ -56,7 +56,7 @@ public class BarScript : MonoBehaviour {
         content.color = grayColor;
         mask.color = grayColor;
 
-        maxVolume = 2000;
+        maxVolume = 4000;
     }
 	
 	// Update is called once per frame
@@ -68,7 +68,8 @@ public class BarScript : MonoBehaviour {
 
     private void HandleBar()
     {
-        totalVolume += _toolbox.VolumeSourceManager.Decibel;
+        var minEnergyDb = -80f;
+        totalVolume += _toolbox.VolumeSourceManager.Decibel(minEnergyDb);
         fillAmount = Map(totalVolume, 0, maxVolume);
         content.fillAmount = fillAmount;
 

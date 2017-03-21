@@ -46,12 +46,16 @@ public class GameManager : MonoBehaviour
         // Set game settings
         Toolbox.AppDataManager.Save(new GameSettings() { CursorType = this.CursorType });
 
+        // Start a new trial here so 
+
         Toolbox.EventHub.CalibrationScene.SceneEnd += OnCalibrationSceneEnd;
-        Toolbox.EventHub.SpyScene.DescribeComplete += OnSessionComplete;
+        Toolbox.EventHub.SpyScene.Completed += OnSpySceneComplete;
     }
 
     public void LoadSpyScene()
     {
+        // This event must be called after session is instatiated and before scene's update loops start.
+        Toolbox.EventHub.GameManager.RaiseStartTrial();
         SceneManager.LoadScene("demo_Kenny");
     }
 
@@ -72,5 +76,19 @@ public class GameManager : MonoBehaviour
     {
         LoadSpyScene();
     }
+
+    private void OnSpySceneComplete(object sender, EventArgs e)
+    {
+        var session = Toolbox.AppDataManager.GetSession();
+        if (session.Trials.Count >= 3)
+        {
+            OnSessionComplete(this, new EventArgs());
+        }
+        else
+        {
+            LoadSpyScene();
+        }
+        
+    } 
     #endregion Event Handlers
 }

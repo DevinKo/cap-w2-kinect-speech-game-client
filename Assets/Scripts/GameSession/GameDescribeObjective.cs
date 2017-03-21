@@ -36,6 +36,10 @@ public class GameDescribeObjective : GameObjective {
     {
         base.End();
         _toolbox.Distance2Collector.StopCollectDistance2Snapshot(this);
+
+        // UnSubscribe to events
+        _toolbox.EventHub.SpyScene.ClueMoved -= OnObjectiveStart;
+        _toolbox.EventHub.SpyScene.DescribeComplete -= OnObjectiveEnd;
     }
 
     #region Event Handlers

@@ -34,4 +34,14 @@ public class TwoHands : Cursor
     {
         return handRight.IsRightOfX(objectRight) && handLeft.IsLeftOfX(objectLeft);
     }
+
+    public override Vector3 MidPosition()
+    {
+        return Vector3.Lerp(handRight.MidPosition(), handLeft.MidPosition(), 0.5f); 
+    }
+
+    public override Vector3 GetScale()
+    {
+        return handRight.GetScale();
+    }
 }

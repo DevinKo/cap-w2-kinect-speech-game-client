@@ -56,6 +56,10 @@ public class GameTrial {
     public void End()
     {
         EndTime = DateTime.Now;
+
+        // UnSubscribe to events
+        _toolbox.EventHub.SpyScene.LoadComplete -= OnTrialStart;
+        _toolbox.EventHub.SpyScene.DescribeComplete -= OnTrialEnd;
     }
 
     #region Event handlers

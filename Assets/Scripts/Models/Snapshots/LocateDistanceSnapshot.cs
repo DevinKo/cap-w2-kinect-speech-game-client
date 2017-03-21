@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,22 +11,13 @@ namespace Assets.DataContracts {
     public class LocateDistanceSnapshot
     {
         public float Distance;
-        public string Time;
+        public DateTime Time;
 
-        public Distances ToDataContract()
-        {
-            var dist = new Distances()
-            {
-                Distance = Distance,
-                Time = Time,
-            };
-            return dist;
-        }
 
         public void setSnapshot(float distance)
         {
             Distance = distance;
-            Time = System.DateTime.Now.ToString("s");
+            Time = System.DateTime.Now;
         }
     }
 

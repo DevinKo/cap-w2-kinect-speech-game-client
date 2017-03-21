@@ -37,9 +37,6 @@ public class GameSession {
 
         CalibrationData = new GameCalibrationData(_toolbox);
 
-        // add a new trial to current session
-        AddTrial();
-
         _toolbox.EventHub.SpyScene.DescribeComplete += OnSessionComplete;
     }
 
@@ -60,6 +57,12 @@ public class GameSession {
     private void OnSessionComplete(object sender, EventArgs e)
     {
         EndTime = DateTime.Now;
+    }
+
+    private void OnStartTrial(object sender, EventArgs e)
+    {
+        // add a new trial to current session
+        AddTrial();
     }
     #endregion Event Handlers
 }

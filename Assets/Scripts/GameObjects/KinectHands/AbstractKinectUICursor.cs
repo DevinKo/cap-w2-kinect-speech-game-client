@@ -13,6 +13,12 @@ public abstract class AbstractKinectUICursor : MonoBehaviour {
     protected JointType _handType;
     protected Image _image;
 
+    // A value for scaling kinect position to screen position
+    public Vector3 _reachScalar;
+
+    // holds the current tracking state for the hand
+    public TrackingState TrackingState = TrackingState.NotTracked;
+
     public virtual void Awake()
     {
 
