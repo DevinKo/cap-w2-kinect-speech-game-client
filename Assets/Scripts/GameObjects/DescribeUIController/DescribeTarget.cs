@@ -4,106 +4,83 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using Assets.Toolbox;
 using Constants;
+using System;
 
 public class DescribeTarget : MonoBehaviour
 {
-    public bool IsLeft;
-
-    Ray rightRay;
-    Ray leftRay;
-
-    RaycastHit hit;
-
     Transform leftHand;
     Transform rightHand;
 
     private Toolbox _toolbox;
 
-    bool setup;
-    bool isComplete;
-    bool describeActive;
+    private RectTransform leftUi, rightUi, dleftUi, drightUi;
 
-    public float shiftAmount = .01f;
+    private bool isDescribing = false;
+    private bool setupDone = false;
 
     // Use this for initialization
     void Start()
     {
-        var clueObject = BaseSceneManager.Instance.GetObjectWithName(GameObjectName.Clue);
+        _toolbox = FindObjectOfType<Toolbox>();
 
-        var renderer = clueObject.GetComponent<MeshRenderer>();
-        var extent = IsLeft ? -renderer.bounds.extents.x : renderer.bounds.extents.x;
-        var position = new Vector3(clueObject.transform.position.x + extent,
-            clueObject.transform.position.y, clueObject.transform.position.z);
+        // Subscribe to events
+        _toolbox.EventHub.SpyScene.ClueMoved += SetupDescribe;
 
-        gameObject.transform.position = position;
-
-        BaseSceneManager.Instance.AddGameObject(IsLeft ? GameObjectName.DescribeHandLeft: GameObjectName.DescribeHandRight, 
-            gameObject);
-        /*
         leftHand = transform.FindChild("LeftDescribeHand");
         rightHand = transform.FindChild("RightDescribeHand");
-        setup = false;
-        isComplete = false;
-        describeActive = false;
-        rightRay = Camera.main.ScreenPointToRay(rightHand.position);
-        leftRay = Camera.main.ScreenPointToRay(leftHand.position);
-    */
+
+        leftUi = GameObject.FindGameObjectWithTag("UIHandLeft").GetComponent<RectTransform>();
+        rightUi = GameObject.FindGameObjectWithTag("UIHandRight").GetComponent<RectTransform>();
+
+        foreach (var x in GameObject.FindGameObjectsWithTag("DescribeUI"))
+        {
+            if (x.GetComponent<DescribeUiController>().isLeft)
+                dleftUi = x.GetComponent<RectTransform>();
+            else
+                drightUi = x.GetComponent<RectTransform>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        rightRay = Camera.main.ScreenPointToRay(rightHand.position);
-        leftRay = Camera.main.ScreenPointToRay(leftHand.position);
-        if (setup)
+        if (setupDone)
         {
-            if (isComplete)
+            if(leftUi.anchoredPosition.x > dleftUi.anchoredPosition.x && 
+                rightUi.anchoredPosition.x < drightUi.anchoredPosition.x && 
+                !isDescribing)
             {
-                setup = false;
+                _toolbox.EventHub.SpyScene.RaiseDescribingSize(true);
+                isDescribing = true;
             }
-            else
+            else if(leftUi.anchoredPosition.x < dleftUi.anchoredPosition.x &&
+                rightUi.anchoredPosition.x > drightUi.anchoredPosition.x &&
+                isDescribing)
             {
-                bool leftTouch = false;
-                bool rightTouch = false;
-                if (Physics.Raycast(rightRay, out hit))
-                {
-                    if (hit.collider.tag == "pointing_object")
-                    {
-                        rightTouch = true;
-                    }
-                }
-
-                if (Physics.Raycast(leftRay, out hit))
-                {
-                    if (hit.collider.tag == "pointing_object")
-                    {
-                        leftTouch = true;
-                    }
-                }
-
-                if (rightTouch)
-                {
-                    rightHand.position = new Vector3(rightHand.position.x - shiftAmount, rightHand.position.y, rightHand.position.z);
-                }
-
-                if (leftTouch)
-                {
-                    leftHand.position = new Vector3(leftHand.position.x + shiftAmount, leftHand.position.y, leftHand.position.z);
-                }
-
-                if (!rightTouch && !leftTouch)
-                {
-                    isComplete = true;
-                    describeActive = true;
-                }
+                _toolbox.EventHub.SpyScene.RaiseDescribingSize(false);
+                isDescribing = false;
             }
         }
     }
 
-    public void setupDescribe()
+    public void SetupDescribe(object sender, EventArgs e)
     {
-        setup = true;
+        var clueObject = BaseSceneManager.Instance.GetObjectWithName(GameObjectName.Clue);
+
+        var renderer = clueObject.GetComponent<MeshRenderer>();
+        var extent = renderer.bounds.extents.x;
+        var position = new Vector3(clueObject.transform.position.x + extent,
+            clueObject.transform.position.y, clueObject.transform.position.z);
+
+        leftHand.position = new Vector3(clueObject.transform.position.x + extent,
+            clueObject.transform.position.y, clueObject.transform.position.z);
+        BaseSceneManager.Instance.AddGameObject(GameObjectName.DescribeHandLeft, gameObject);
+
+        rightHand.position = new Vector3(clueObject.transform.position.x - extent,
+            clueObject.transform.position.y, clueObject.transform.position.z);
+        BaseSceneManager.Instance.AddGameObject(GameObjectName.DescribeHandRight, gameObject);
+
+        setupDone = true;
     }
 
     public Vector3 getDHandPosition(bool isLeft)
