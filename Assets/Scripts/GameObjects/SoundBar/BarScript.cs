@@ -9,6 +9,7 @@ public class BarScript : MonoBehaviour {
 
     [SerializeField]
     private float fillAmount;
+    private int maxVolume;
 
     [SerializeField]
     private Image content;
@@ -54,6 +55,8 @@ public class BarScript : MonoBehaviour {
         SoundBarImage.color = grayColor;
         content.color = grayColor;
         mask.color = grayColor;
+
+        maxVolume = 2000;
     }
 	
 	// Update is called once per frame
@@ -66,8 +69,13 @@ public class BarScript : MonoBehaviour {
     private void HandleBar()
     {
         totalVolume += _toolbox.VolumeSourceManager.Decibel;
-        fillAmount = Map(totalVolume, 0, 2000);
+        fillAmount = Map(totalVolume, 0, maxVolume);
         content.fillAmount = fillAmount;
+
+        if (totalVolume >= maxVolume)
+        {
+            _toolbox.EventHub.SpyScene.RaiseDescribeComplete();
+        }
     }
 
     private float Map(float value, float inMin, float inMax)

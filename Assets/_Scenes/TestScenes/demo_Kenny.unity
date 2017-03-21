@@ -1035,22 +1035,22 @@ Prefab:
     - target: {fileID: 224948417596339984, guid: f1b0724388df1264197e05defd396533,
         type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 224691226989486978, guid: f1b0724388df1264197e05defd396533,
         type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 224988613693238364, guid: f1b0724388df1264197e05defd396533,
         type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 224904671967493594, guid: f1b0724388df1264197e05defd396533,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 60
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 224988613693238364, guid: f1b0724388df1264197e05defd396533,
         type: 2}
@@ -1060,7 +1060,7 @@ Prefab:
     - target: {fileID: 224988613693238364, guid: f1b0724388df1264197e05defd396533,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -60
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 114781302119156288, guid: f1b0724388df1264197e05defd396533,
         type: 2}
@@ -2685,7 +2685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2efc4630eeb2c80429f3d6b821ef73ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fillAmount: 0
+  fillAmount: 1000
   content: {fileID: 130974798}
   _mainCamera: {fileID: 1859794445}
 --- !u!114 &2099797945
