@@ -42,17 +42,24 @@ namespace Assets.Toolbox
         {
             while (true)
             {
-                if (_clients.Count == 0) yield return null;
+                if (_clients.Count == 0)
+                {
+                    yield return null;
+                    continue;
+                }
 
                 if (Cursor.Instance.TrackingState() == Windows.Kinect.TrackingState.NotTracked)
+                {
                     yield return null;
+                    continue;
+                }
 
                 var distSnap = new LocateDistanceSnapshot();
                 var midPosition = Cursor.Instance.MidPosition();
                 var clueObject = BaseSceneManager.Instance.GetObjectWithName(GameObjectName.Clue);
                 var cluePosition = clueObject.transform.position;
-
-                var inGameDistance = Vector3.Distance(midPosition, cluePosition);
+                
+                var inGameDistance = midPosition - cluePosition;
 
                 var scalar = Cursor.Instance.GetScale();
 

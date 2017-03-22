@@ -42,6 +42,12 @@ public class SpySceneManager : BaseSceneManager
         var cursorType = ToolBox.AppDataManager.GetGameSettings().CursorType;
         _cursor = CursorFactory.Create(cursorType);
 
+        ToolBox.EventHub.SpyScene.DescribeComplete += OnSceneComplete;
+    }
+
+    private void OnDestroy()
+    {
+        ToolBox.EventHub.SpyScene.DescribeComplete -= OnSceneComplete;
     }
 
     // Update is called once per frame
@@ -68,7 +74,13 @@ public class SpySceneManager : BaseSceneManager
             }
         }
     }
-    
-    
+
+    public void OnSceneComplete(object sender, EventArgs e)
+    {
+        ToolBox.EventHub.SpyScene.RaiseCompleted();
+    }
+
+
+
 
 }

@@ -108,6 +108,9 @@ public class BodySourceManager : BaseBodySourceManager, IBodySourceManager
 
     public override Assets.Models.Joint GetJoint(JointType jointType)
     {
+        var body = GetFirstTrackedBody();
+        if (body == null) { return null; }
+
         return GetFirstTrackedBody().Joints[jointType];
     }
 }

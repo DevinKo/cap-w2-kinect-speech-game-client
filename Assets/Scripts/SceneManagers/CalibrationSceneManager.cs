@@ -26,7 +26,7 @@ public class CalibrationSceneManager : BaseSceneManager
             if (_firstUpdate)
             {
                 _firstUpdate = false;
-                _toolbox.EventHub.SpyScene.RaiseLoadComplete();
+                _toolbox.EventHub.CalibrationScene.RaiseLoadComplete();
             }
         }
 }

@@ -37,7 +37,8 @@ public class GameSession {
 
         CalibrationData = new GameCalibrationData(_toolbox);
 
-        _toolbox.EventHub.SpyScene.DescribeComplete += OnSessionComplete;
+        _toolbox.EventHub.GameManager.SessionComplete += OnSessionComplete;
+        _toolbox.EventHub.GameManager.StartTrial += OnStartTrial;
     }
 
     public int GetCurrentTrial()

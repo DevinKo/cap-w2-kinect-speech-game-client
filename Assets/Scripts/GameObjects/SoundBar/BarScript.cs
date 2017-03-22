@@ -58,9 +58,16 @@ public class BarScript : MonoBehaviour {
 
         maxVolume = 4000;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    private void OnDestroy()
+    {
+        // Subscribe to events
+        _toolbox.EventHub.SpyScene.ClueMoved -= SetupDescribeSoundBar;
+        _toolbox.EventHub.SpyScene.DescribingSize -= describingSizeEventHandler;
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
         if(soundBarOn)
             HandleBar();
@@ -76,6 +83,7 @@ public class BarScript : MonoBehaviour {
         if (totalVolume >= maxVolume)
         {
             _toolbox.EventHub.SpyScene.RaiseDescribeComplete();
+            this.enabled = !this.enabled;
         }
     }
 

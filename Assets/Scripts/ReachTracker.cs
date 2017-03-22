@@ -36,6 +36,8 @@ public class ReachTracker : MonoBehaviour
         // Check if joint is being tracked
         var joint = _toolbox.BodySourceManager.GetJoint(_jointType);
         var shoulderJoint = _toolbox.BodySourceManager.GetJoint(JointType.SpineShoulder);
+        if (joint == null) { return; }
+
         if (joint.TrackingState == TrackingState.NotTracked
             || shoulderJoint.TrackingState == TrackingState.NotTracked)
         {

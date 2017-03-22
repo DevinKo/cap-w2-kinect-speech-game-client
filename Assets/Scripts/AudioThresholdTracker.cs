@@ -68,9 +68,6 @@ public class AudioThresholdTracker : MonoBehaviour
 	// For testing
 	void printReach()
 	{
-		// Display reach distance
-		testText.text = "Lowest Volume: " + lowestVolume; 
-
 		// Display instructions
 		instructionText.text = "Please be as quiet as possible for the remaining time.";
 	}

@@ -22,6 +22,15 @@ namespace Assets.Toolbox
                 if (StartTrial != null)
                     StartTrial(this, new EventArgs());
             }
+
+            // Gets raised when session is complete.
+            public delegate void SessionCompleteEventHandler(object sender, EventArgs e);
+            public event SessionCompleteEventHandler SessionComplete;
+            public void RaiseSessionComplete()
+            {
+                if (SessionComplete != null)
+                    SessionComplete(this, new EventArgs());
+            }
         }
 
         #region SpyScene

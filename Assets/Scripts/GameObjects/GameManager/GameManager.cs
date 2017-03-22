@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
         var session = Toolbox.AppDataManager.GetSession();
         if (session.Trials.Count >= 3)
         {
+            Toolbox.EventHub.GameManager.RaiseSessionComplete();
             OnSessionComplete(this, new EventArgs());
         }
         else
