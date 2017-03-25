@@ -6,6 +6,9 @@ using Assets.DataContracts;
 using Assets.Toolbox;
 using Windows.Kinect;
 using System;
+using Constants;
+using System.Linq;
+using Assets.Scripts.Utility;
 
 public class PointerZoneTracker : MonoBehaviour
 {
@@ -22,6 +25,7 @@ public class PointerZoneTracker : MonoBehaviour
 	private float radius; //radius to be stored to calibration contract
 	private float pointerTime; //maxTime to be sent to calibration contract
 	GameObject sphere;
+    private List<float> radiusSamples = new List<float>();
 
 	// Use this for initialization
 	void Start ()
@@ -44,35 +48,49 @@ public class PointerZoneTracker : MonoBehaviour
 	{
 		if (_toolbox.BodySourceManager == null) { return; }
 
-		timeLeft -= Time.deltaTime;
+        var handLeftObject = BaseSceneManager.Instance.GetObjectWithName(GameObjectName.HandLeft);
+        var handRightObject = BaseSceneManager.Instance.GetObjectWithName(GameObjectName.HandRight);
+        if (handLeftObject == null || handRightObject == null) { return; }
+
+        var handLeft = handLeftObject.GetComponent<KinectUICursor>();
+        var handRight = handRightObject.GetComponent<KinectUICursor>();
+        if (handLeft == null || handRight == null) { return; }
+        else if (handLeft.TrackingState == TrackingState.NotTracked || handRight.TrackingState == TrackingState.NotTracked) { return; }
+
+        // convert to absolute values
+        var scalar = Cursor.Instance.GetScale();
+
+        var relativePosRight = sphere.transform.position - handLeft.transform.position;
+        var relativePosLeft = sphere.transform.position - handRight.transform.position;
+
+        var kinectPosRight = new Vector3(relativePosRight.x / scalar.x, relativePosRight.y / scalar.y, 0);
+        var kinectPosLeft = new Vector3(relativePosLeft.x / scalar.x, relativePosLeft.y / scalar.y, 0);
+
+        var kinectDistanceRight = kinectPosRight.magnitude;
+        var kinectDistanceLeft = kinectPosLeft.magnitude;
+        
+        var maxDistance = kinectDistanceLeft > kinectDistanceRight ? kinectDistanceLeft : kinectDistanceRight;
+
+        radiusSamples.Add(maxDistance);
+
+        timeLeft -= Time.deltaTime;
 		timerText.text = "Time left: " + timeLeft.ToString("f0");
-
-		var relativePosition = _toolbox.BodySourceManager.GetRelativeJointPosition(JointType.SpineShoulder, _jointType);
-		distance = Vector3.Distance(relativePosition, sphere.transform.position);
-		if (Math.Abs(radius) < distance)
-		{
-			radius = distance;
-		}
-
+        
 		if (timeLeft <= 0)
 		{
-			//store distance into radius
-			// ... need to change radius into variable pointing to calibration contract
-			//radiusSendToContract = radius;
-			if (_jointType == JointType.HandRight)
-			{
-				// switch to left hand and reset timer
-				_jointType = JointType.HandLeft;
-				timeLeft = maxTime;
-                radius = 0;
-			}
-			else
-			{
-                // End scene
-                _toolbox.EventHub.CalibrationScene.RaiseSceneEnd();
-			}
-		} 
-		printReach();
+            var averageRadius = radiusSamples.Average();
+            var stdDev = MathExt.CalculateStdDev(radiusSamples);
+
+
+            // Send radius info to listeners
+            _toolbox.EventHub.CalibrationScene.RaiseRadiusCaptured(averageRadius + stdDev);
+            // Send timer zone duration infor to listeners
+            _toolbox.EventHub.CalibrationScene.RaisePointerZoneDurationCaptured(5f);
+            // End scene
+            _toolbox.EventHub.CalibrationScene.RaiseSceneEnd();
+
+        }
+        printReach();
 	}
 
 	// For testing

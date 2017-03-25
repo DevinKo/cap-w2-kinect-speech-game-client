@@ -52,8 +52,8 @@ namespace Assets.Toolbox
                 }
                 var audioSnapshot = new AudioSnapshot()
                 {
-                    Intensity = _toolbox.VolumeSourceManager.Decibel,
-                    Time = DateTime.Now.ToString("s"),
+                    Intensity = _toolbox.VolumeSourceManager.Decibel(-80f),
+                    Time = DateTime.Now,
                 };
 
                 foreach(var client in _clients)

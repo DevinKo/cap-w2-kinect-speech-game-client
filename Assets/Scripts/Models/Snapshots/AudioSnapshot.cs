@@ -9,6 +9,6 @@ namespace Assets.DataContracts
     public class AudioSnapshot
     {
         public float Intensity;
-        public string Time;
+        public DateTime Time;
     }
 }

@@ -17,6 +17,7 @@ public class ReachTracker : MonoBehaviour
 	private Toolbox _toolbox;
 	private JointType _jointType;
 	private Vector3 _maxReach = new Vector2();
+    private Vector3 _maxReachRight = new Vector3();
 
 	// Use this for initialization
 	void Start()
@@ -35,6 +36,8 @@ public class ReachTracker : MonoBehaviour
         // Check if joint is being tracked
         var joint = _toolbox.BodySourceManager.GetJoint(_jointType);
         var shoulderJoint = _toolbox.BodySourceManager.GetJoint(JointType.SpineShoulder);
+        if (joint == null) { return; }
+
         if (joint.TrackingState == TrackingState.NotTracked
             || shoulderJoint.TrackingState == TrackingState.NotTracked)
         {
@@ -62,9 +65,11 @@ public class ReachTracker : MonoBehaviour
 			_toolbox.AppDataManager.Save(
 				new MaxReach { X = _maxReach.x, Y = _maxReach.y }, _jointType);
 
+
 			// transition from right hand to left hand
 			if (_jointType == JointType.HandRight)
 			{
+                _maxReachRight = _maxReach;
 				// switch to left hand and reset timer
 				_jointType = JointType.HandLeft;
 				_maxReach.x = 0;
@@ -74,6 +79,9 @@ public class ReachTracker : MonoBehaviour
 			// transition to next calibration manager
 			else
 			{
+                // Give max reach values to listeners
+                _toolbox.EventHub.CalibrationScene.RaiseMaxReachCaptured(_maxReach, _maxReachRight);
+
 				timeLeft = 0.5f;
 				//turn off ReachManager object and activate AudioThresholdManager
 				GetComponent<AudioThresholdTracker> ().enabled = !GetComponent<AudioThresholdTracker> ().enabled;

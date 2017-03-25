@@ -15,3 +15,7 @@ EditorBuildSettings:
     path: Assets/_Scenes/TestScenes/mouse_cursor_test.unity
   - enabled: 1
     path: Assets/_Scenes/GameScenes/Calibration.unity
+  - enabled: 1
+    path: Assets/_Scenes/TestScenes/demo_Kenny.unity
+  - enabled: 1
+    path: Assets/_Scenes/GameScenes/LevelSelectMenu.unity

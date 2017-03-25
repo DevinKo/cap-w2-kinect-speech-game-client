@@ -55,13 +55,18 @@ namespace Assets.Toolbox
         // The most recent collected decibel
         private float _decibel = 0;
 
-        // The most recent collected decibel
-        public float Decibel
+        // The most recent collected decibel relative to a min energy value.
+        // 0 will be returned if the decibel value is less than min energy.
+        public float Decibel(float minEnergyDb)
         {
-            get
-            {
-                return _decibel;
-            }
+            var decibel = _decibel - minEnergyDb;
+            return decibel < 0 ? 0 : decibel;
+        }
+
+        // The most recent collected decibel
+        public float Decibel()
+        {
+            return _decibel;
         }
 
         /// <summary>

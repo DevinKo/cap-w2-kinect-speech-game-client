@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Windows.Kinect;
 
 public class Hand : Cursor
 {
@@ -65,5 +66,32 @@ public class Hand : Cursor
     public bool IsRightOfX(GameObject gameObject)
     {
         return gameObject.transform.position.x < GetHandObject(_type).transform.position.x;
+    }
+
+    public override Vector3 MidPosition()
+    {
+        return GetHandObject(_type).transform.position;
+    }
+
+    public override Vector3 GetScale()
+    {
+        var hand = GetHandObject(_type);
+        if (hand == null) return new Vector3();
+
+        var uiHand = hand.GetComponent<KinectUICursor>();
+        if (uiHand == null) return new Vector3();
+
+        return uiHand._reachScalar;
+    }
+
+    public override TrackingState TrackingState()
+    {
+        var handObject = GetHandObject(_type);
+        if (handObject == null) return Windows.Kinect.TrackingState.NotTracked;
+
+        var hand = handObject.GetComponent<KinectUICursor>();
+        if (hand == null) return Windows.Kinect.TrackingState.NotTracked;
+
+        return hand.TrackingState;
     }
 }

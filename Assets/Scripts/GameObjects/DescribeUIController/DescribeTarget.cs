@@ -41,6 +41,12 @@ public class DescribeTarget : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        // Subscribe to events
+        _toolbox.EventHub.SpyScene.ClueMoved -= SetupDescribe;
+    }
+
     // Update is called once per frame
     void Update()
     {

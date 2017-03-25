@@ -11,18 +11,29 @@ public class ZoneAllocator : MonoBehaviour {
 	void Start () {
 
         var listOfPointObjects = GameObject.FindGameObjectsWithTag("pointing_object");
-        for (int i=0; i<listOfPointObjects.Length; i++)
+        foreach (var pointingObject in listOfPointObjects)
         {
-            listOfPointObjects[i].AddComponent<PointingObject>();
-            var zone = (GameObject)Instantiate(sphereZonePrefab, listOfPointObjects[i].transform.position, listOfPointObjects[i].transform.rotation);
-            zone.transform.parent = listOfPointObjects[i].transform;
-            zone.transform.localScale = listOfPointObjects[i].transform.localScale + largerBy;
-        }
+            pointingObject.AddComponent<PointingObject>();
+            var zone = (GameObject)Instantiate(sphereZonePrefab, pointingObject.transform.position, pointingObject.transform.rotation);
+            zone.transform.parent = pointingObject.transform;
+            zone.transform.localScale = pointingObject.transform.localScale + largerBy;
 
+
+
+        }
     }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    void DrawQuad(Rect position, Color color)
+    {
+        Texture2D texture = new Texture2D(1, 1);
+        texture.SetPixel(0, 0, color);
+        texture.Apply();
+        GUI.skin.box.normal.background = texture;
+        GUI.Box(position, GUIContent.none);
+    }
 }
