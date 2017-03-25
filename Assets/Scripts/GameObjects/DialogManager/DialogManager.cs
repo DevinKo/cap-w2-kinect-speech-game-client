@@ -35,14 +35,21 @@ public class DialogManager : MonoBehaviour {
         _toolbox.EventHub.SpyScene.LoadComplete += OnSpySceneStart;
         _toolbox.EventHub.SpyScene.ZoneComplete += OnDescribeStart;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    public void OnDestroy()
+    {
+        _toolbox.EventHub.SpyScene.LoadComplete -= OnSpySceneStart;
+        _toolbox.EventHub.SpyScene.ZoneComplete -= OnDescribeStart;
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
     public void updateDialogBox(string text)
     {
+        if (textObj == null) { return; }
         textObj.text = text;
     }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Assets.DataContracts;
+using Constants;
 
 namespace Assets.Toolbox
 {
@@ -41,9 +42,32 @@ namespace Assets.Toolbox
         {
             while (true)
             {
-                var distSnap = new LocateDistanceSnapshot();
+                if (_clients.Count == 0)
+                {
+                    yield return null;
+                    continue;
+                }
 
-                distSnap.setSnapshot(0f);
+                if (Cursor.Instance.TrackingState() == Windows.Kinect.TrackingState.NotTracked)
+                {
+                    yield return null;
+                    continue;
+                }
+
+                var distSnap = new LocateDistanceSnapshot();
+                var midPosition = Cursor.Instance.MidPosition();
+                var clueObject = BaseSceneManager.Instance.GetObjectWithName(GameObjectName.Clue);
+                var cluePosition = clueObject.transform.position;
+                
+                var inGameDistance = midPosition - cluePosition;
+
+                var scalar = Cursor.Instance.GetScale();
+
+                var absoluteDistance = new Vector3(inGameDistance.x / scalar.x, inGameDistance.y / scalar.y, 0);
+
+                distSnap.Distance = absoluteDistance.magnitude;
+
+                distSnap.Time = DateTime.Now;
 
                 foreach(var client in _clients)
                 {

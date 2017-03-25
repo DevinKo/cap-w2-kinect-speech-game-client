@@ -20,8 +20,6 @@ public class KinectUICursor : AbstractKinectUICursor
     // meters from hand to shoulder spine joint.
     private float _maxReachX = 0.6f;
     private float _maxReachY = 0.5f;
-    // A value for scaling kinect position to screen position
-    private Vector3 _reachScalar;
 
     private Vector3 _currentPosition;
     public Vector3 CurrentPosition
@@ -63,6 +61,8 @@ public class KinectUICursor : AbstractKinectUICursor
         if (body == null) return;
         var hand = body.Joints[_handType];
         var centerJoint = body.Joints[JointType.SpineShoulder];
+
+        TrackingState = hand.TrackingState;
 
         // calculate hand position relative to shoulder spine joint
         var distanceX = hand.Position.x - centerJoint.Position.x;

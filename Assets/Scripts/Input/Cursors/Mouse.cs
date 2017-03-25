@@ -35,5 +35,14 @@ public class Mouse : Cursor
         // treat mouse as right hand
         return objectRight.transform.position.x < Input.mousePosition.x;
     }
-    
+
+    public override Vector3 MidPosition()
+    {
+        return Input.mousePosition;
+    }
+
+    public override Vector3 GetScale()
+    {
+        throw new NotImplementedException();
+    }
 }

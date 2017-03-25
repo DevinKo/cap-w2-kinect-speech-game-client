@@ -56,11 +56,18 @@ public class BarScript : MonoBehaviour {
         content.color = grayColor;
         mask.color = grayColor;
 
-        maxVolume = 2000;
+        maxVolume = 4000;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    private void OnDestroy()
+    {
+        // Subscribe to events
+        _toolbox.EventHub.SpyScene.ClueMoved -= SetupDescribeSoundBar;
+        _toolbox.EventHub.SpyScene.DescribingSize -= describingSizeEventHandler;
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
         if(soundBarOn)
             HandleBar();
@@ -68,13 +75,15 @@ public class BarScript : MonoBehaviour {
 
     private void HandleBar()
     {
-        totalVolume += _toolbox.VolumeSourceManager.Decibel;
+        var minEnergyDb = -80f;
+        totalVolume += _toolbox.VolumeSourceManager.Decibel(minEnergyDb);
         fillAmount = Map(totalVolume, 0, maxVolume);
         content.fillAmount = fillAmount;
 
         if (totalVolume >= maxVolume)
         {
             _toolbox.EventHub.SpyScene.RaiseDescribeComplete();
+            this.enabled = !this.enabled;
         }
     }
 

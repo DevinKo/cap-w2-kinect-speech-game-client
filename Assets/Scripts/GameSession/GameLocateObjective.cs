@@ -40,6 +40,11 @@ public class GameLocateObjective : GameObjective {
     {
         base.End();
         _toolbox.DistanceCollector.StopCollectDistanceSnapshot(this);
+
+        // unsubscribe to events.
+        _toolbox.EventHub.SpyScene.LoadComplete -= OnObjectiveStart;
+        _toolbox.EventHub.SpyScene.ZoneActivated -= OnZoneActivated;
+        _toolbox.EventHub.SpyScene.ZoneComplete -= OnObjectiveEnd;
     }
 
     #region Event Handlers

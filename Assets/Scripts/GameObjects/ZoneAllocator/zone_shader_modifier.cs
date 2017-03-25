@@ -29,9 +29,15 @@ public class zone_shader_modifier : MonoBehaviour {
 
         _toolbox.EventHub.SpyScene.ZoneComplete += OnZoneCountDownComplete;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void OnDestroy()
+    {
+        // unsubscribe
+        _toolbox.EventHub.SpyScene.ZoneComplete -= OnZoneCountDownComplete;
+    }
+
+    // Update is called once per frame
+    void Update () {
         RaycastHit hit;
         if (Cursor.Instance.IsTouchingPoint(gameObject, out hit))
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Windows.Kinect;
 
 public abstract class Cursor
 {
@@ -30,4 +31,17 @@ public abstract class Cursor
     }
 
     public abstract bool IsOutsideOfX(GameObject objectLeft, GameObject objectRight);
+
+    // Gets the position of the mid point between two hands, or just the postion of the
+    // single cursor object in the case of one hand or mouse
+    public abstract Vector3 MidPosition();
+
+    // The scalar used to convert kinect distance (m) to unity distance
+    public abstract Vector3 GetScale();
+
+    // Return the tracking state of the cursor object.
+    public virtual TrackingState TrackingState()
+    {
+        return Windows.Kinect.TrackingState.Tracked;
+    }
 }

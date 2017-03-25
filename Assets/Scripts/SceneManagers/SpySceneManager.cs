@@ -22,6 +22,9 @@ public class SpySceneManager : BaseSceneManager
 
     private float _pointingZoneTimer = 5;
 
+    // is set to false during first update
+    private bool _firstUpdate = true;
+
     public new void Awake()
     {
         base.Awake();
@@ -39,13 +42,27 @@ public class SpySceneManager : BaseSceneManager
         var cursorType = ToolBox.AppDataManager.GetGameSettings().CursorType;
         _cursor = CursorFactory.Create(cursorType);
 
-        ToolBox.EventHub.SpyScene.RaiseLoadComplete();
+        // This event must be called after session is instatiated and before scene's update loops start.
+        ToolBox.EventHub.GameManager.RaiseStartTrial();
+
+        ToolBox.EventHub.SpyScene.DescribeComplete += OnSceneComplete;
+    }
+
+    private void OnDestroy()
+    {
+        ToolBox.EventHub.SpyScene.DescribeComplete -= OnSceneComplete;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        // This lets folks know that the scenes Start loop has finished.
+        if (_firstUpdate)
+        {
+            _firstUpdate = false;
+            ToolBox.EventHub.SpyScene.RaiseLoadComplete();
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ToolBox.EventHub.SpyScene.RaiseDescribeComplete();
@@ -60,7 +77,22 @@ public class SpySceneManager : BaseSceneManager
             }
         }
     }
-    
-    
+
+    public void OnSceneComplete(object sender, EventArgs e)
+    {
+        StartCoroutine("EndSceneCelebration");
+    }
+
+    private IEnumerator EndSceneCelebration()
+    {
+        // provide some time for the celebration to finish before ending scene
+        yield return new WaitForSeconds(5f);
+
+        // Now end the scene
+        ToolBox.EventHub.SpyScene.RaiseCompleted();
+    }
+
+
+
 
 }

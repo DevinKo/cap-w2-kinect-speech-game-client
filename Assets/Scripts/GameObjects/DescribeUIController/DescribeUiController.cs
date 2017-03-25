@@ -32,6 +32,12 @@ public class DescribeUiController : MonoBehaviour {
         DescribeImage.enabled = false;
     }
 
+    private void OnDestroy()
+    {
+        // Subscribe to events
+        _toolbox.EventHub.SpyScene.ClueMoved -= SetupDescribeUI;
+    }
+
     // Update is called once per frame
     void Update()
     {

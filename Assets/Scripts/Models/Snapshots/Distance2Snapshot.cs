@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,24 +13,14 @@ namespace Assets.DataContracts
     {
         public float HandToHandDistance;
         public  float HandsToSpineDistance;
-        public string Time;
+        public DateTime Time;
 
-        public Distances ToDataContract()
-        {
-            var dist = new Distances()
-            {
-                HandsToSpineDistance = HandsToSpineDistance,
-                HandToHandDistance = HandToHandDistance,
-                Time = Time,
-            };
-            return dist;
-        }
 
         public void setSnapshot(float handToHandDist, float handToSpineDist)
         {
             HandToHandDistance = handToHandDist;
             HandsToSpineDistance = handToSpineDist;
-            Time = System.DateTime.Now.ToString("s");
+            Time = System.DateTime.Now;
         }
     }
 

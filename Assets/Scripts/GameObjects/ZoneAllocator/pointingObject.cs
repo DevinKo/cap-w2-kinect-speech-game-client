@@ -58,5 +58,11 @@ public class PointingObject : MonoBehaviour
         // bring pointing object to the camera
         StartCoroutine(bringPointingObjToCam());
     }
+
+    public void OnDestroy()
+    {
+        // UnSubscribe to events
+        _toolbox.EventHub.SpyScene.ZoneComplete -= MoveParent;
+    }
 }
 
