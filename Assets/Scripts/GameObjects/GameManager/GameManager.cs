@@ -89,17 +89,8 @@ public class GameManager : MonoBehaviour
 
     private void OnSpySceneComplete(object sender, EventArgs e)
     {
-        var session = Toolbox.AppDataManager.GetSession();
-        if (session.Trials.Count >= 3)
-        {
-
-        }
-        else
-        {
-            GMK.LevelManager.CompleteLevel(0, "");
-            LoadLevelSelect();
-        }
-        
+        GMK.LevelManager.CompleteLevel(0, "");
+        LoadLevelSelect();
     } 
     #endregion Event Handlers
 }

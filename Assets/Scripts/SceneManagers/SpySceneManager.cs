@@ -80,6 +80,15 @@ public class SpySceneManager : BaseSceneManager
 
     public void OnSceneComplete(object sender, EventArgs e)
     {
+        StartCoroutine("EndSceneCelebration");
+    }
+
+    private IEnumerator EndSceneCelebration()
+    {
+        // provide some time for the celebration to finish before ending scene
+        yield return new WaitForSeconds(5f);
+
+        // Now end the scene
         ToolBox.EventHub.SpyScene.RaiseCompleted();
     }
 
