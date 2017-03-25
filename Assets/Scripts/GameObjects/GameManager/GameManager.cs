@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;       //Allows us to use Lists. 
 using Assets.Toolbox;
 using System;
+using GameMenuKit;
 
 public class GameManager : MonoBehaviour
 {
@@ -54,9 +55,18 @@ public class GameManager : MonoBehaviour
 
     public void LoadSpyScene()
     {
-        // This event must be called after session is instatiated and before scene's update loops start.
-        Toolbox.EventHub.GameManager.RaiseStartTrial();
         SceneManager.LoadScene("demo_Kenny");
+    }
+
+    public void LoadLevelSelect()
+    {
+        SceneManager.LoadScene("LevelSelectMenu");
+    }
+
+    public void CompleteAndSendSession()
+    {
+        Toolbox.EventHub.GameManager.RaiseSessionComplete();
+        OnSessionComplete(this, new EventArgs());
     }
 
     //Update is called every frame.
@@ -74,7 +84,7 @@ public class GameManager : MonoBehaviour
 
     private void OnCalibrationSceneEnd(object sender, EventArgs e)
     {
-        LoadSpyScene();
+        LoadLevelSelect();
     }
 
     private void OnSpySceneComplete(object sender, EventArgs e)
@@ -82,12 +92,12 @@ public class GameManager : MonoBehaviour
         var session = Toolbox.AppDataManager.GetSession();
         if (session.Trials.Count >= 3)
         {
-            Toolbox.EventHub.GameManager.RaiseSessionComplete();
-            OnSessionComplete(this, new EventArgs());
+
         }
         else
         {
-            LoadSpyScene();
+            GMK.LevelManager.CompleteLevel(0, "");
+            LoadLevelSelect();
         }
         
     } 

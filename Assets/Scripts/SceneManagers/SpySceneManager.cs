@@ -42,6 +42,9 @@ public class SpySceneManager : BaseSceneManager
         var cursorType = ToolBox.AppDataManager.GetGameSettings().CursorType;
         _cursor = CursorFactory.Create(cursorType);
 
+        // This event must be called after session is instatiated and before scene's update loops start.
+        ToolBox.EventHub.GameManager.RaiseStartTrial();
+
         ToolBox.EventHub.SpyScene.DescribeComplete += OnSceneComplete;
     }
 

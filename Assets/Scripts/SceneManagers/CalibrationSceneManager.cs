@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 public class CalibrationSceneManager : BaseSceneManager
 {
@@ -28,5 +29,10 @@ public class CalibrationSceneManager : BaseSceneManager
                 _firstUpdate = false;
                 _toolbox.EventHub.CalibrationScene.RaiseLoadComplete();
             }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _toolbox.EventHub.CalibrationScene.RaiseSceneEnd();
         }
+    }
 }
