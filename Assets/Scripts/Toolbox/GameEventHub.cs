@@ -36,6 +36,24 @@ namespace Assets.Toolbox
         #region SpyScene
         public class SpySceneEvents
         {
+            // Gets raised when cursor leaves zone. Can be raised many times in one scene
+            public delegate void ZoneExitedEventHandler(object sender, EventArgs e);
+            public event ZoneExitedEventHandler ZoneExited;
+            public void RaiseZoneExited()
+            {
+                if (ZoneExited != null)
+                    ZoneExited(this, new EventArgs());
+            }
+
+            // Gets raised when cursor enters zone. Can be raised many times in one scene
+            public delegate void ZoneEnteredEventHandler(object sender, EventArgs e);
+            public event ZoneEnteredEventHandler ZoneEntered;
+            public void RaiseZoneEntered()
+            {
+                if (ZoneEntered != null)
+                    ZoneEntered(this, new EventArgs());
+            }
+
             // Gets raised when zone over clue is activated.
             public delegate void ZoneActivatedEventHandler(object sender, EventArgs e);
             public event ZoneActivatedEventHandler ZoneActivated;
