@@ -8,6 +8,7 @@ public class zone_shader_modifier : MonoBehaviour {
     Vector3 targetPos;
     private Toolbox _toolbox;
     GameObject pointObjRef;
+    private bool _wasOutsideOfZone = true;
 
     private float _pointingZoneTimer = 5;
     private bool _clueFound = false;
@@ -41,6 +42,10 @@ public class zone_shader_modifier : MonoBehaviour {
         RaycastHit hit;
         if (Cursor.Instance.IsTouchingPoint(gameObject, out hit))
         {
+            if (_wasOutsideOfZone)
+                _toolbox.EventHub.SpyScene.RaiseZoneEntered();
+
+            _wasOutsideOfZone = false;
             if (!_clueFound)
             {
                 _clueFound = true;
@@ -60,6 +65,11 @@ public class zone_shader_modifier : MonoBehaviour {
                     GetComponent<MeshRenderer>().enabled = false;
                 }
             }
+        }
+        else if (!_wasOutsideOfZone)
+        {
+            _toolbox.EventHub.SpyScene.RaiseZoneExited();
+            _wasOutsideOfZone = true;
         }
     }
 

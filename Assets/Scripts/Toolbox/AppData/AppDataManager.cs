@@ -21,6 +21,9 @@ namespace Assets.Toolbox
         private void Start()
         {
             toolbox = gameObject.GetComponent<Toolbox>();
+
+            toolbox.EventHub.CalibrationScene.RadiusCaptured += OnRadiusCaptured;
+            toolbox.EventHub.CalibrationScene.PointerZoneDurationCaptured += OnPointerZoneDurationCaptured;
         }
 
         public void Update()
@@ -62,13 +65,36 @@ namespace Assets.Toolbox
 
         public override GameSettings GetGameSettings()
         {
+            _gameSettings.PointingZoneDuration = PlayerPrefs.GetFloat("PointerZoneDuration", 5);
+            _gameSettings.PointingZoneDuration = _gameSettings.PointingZoneDuration == 0 ? 5 : _gameSettings.PointingZoneDuration;
+            _gameSettings.PointingZoneRadius = PlayerPrefs.GetFloat("PointerZoneRadius");
+
             return _gameSettings;
         }
 
         public override void Save(GameSettings settings)
         {
             _gameSettings = settings;
+
+            PlayerPrefs.SetFloat("PointerZoneDuration", settings.PointingZoneDuration);
+            PlayerPrefs.SetFloat("PointerZoneRadius", settings.PointingZoneRadius);
         }
+
+        #region EventHandlers
+        private void OnRadiusCaptured(object sender, EventArgs e, float radius)
+        {
+            var settings = GetGameSettings();
+            settings.PointingZoneRadius = radius;
+            Save(settings);
+        }
+
+        private void OnPointerZoneDurationCaptured(object sender, EventArgs e, float duration)
+        {
+            var settings = GetGameSettings();
+            settings.PointingZoneDuration = duration;
+            Save(settings);
+        }
+        #endregion EventHandlers
     }
 
 }
