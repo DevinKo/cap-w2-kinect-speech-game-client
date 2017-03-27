@@ -100,6 +100,6 @@ public class PointerZoneTracker : MonoBehaviour
 		testText.text = _jointType + " Radius: " + radius;
 
 		// Display instructions
-		instructionText.text = "Keep " + _jointType + " on the circle.";
+		instructionText.text = "Keep hands on the circle.";
 	}
 }
