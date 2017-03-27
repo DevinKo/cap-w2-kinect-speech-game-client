@@ -10,8 +10,10 @@ public class zone_shader_modifier : MonoBehaviour {
     GameObject pointObjRef;
 
     private float _pointingZoneTimer = 5;
-    private bool _clueFound = false;
+    public bool _clueFound = false;
     private bool _countDownComplete = false;
+    
+    
 
     // Use this for initialization
     void Start () {
