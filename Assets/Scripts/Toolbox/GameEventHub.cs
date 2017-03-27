@@ -11,6 +11,54 @@ namespace Assets.Toolbox
         public SpySceneEvents SpyScene = new SpySceneEvents();
         public CalibrationSceneEvents CalibrationScene = new CalibrationSceneEvents();
         public GameManagerEvents GameManager = new GameManagerEvents();
+        public MainMenuEvents MainMenu = new MainMenuEvents();
+        public LevelSelectEvents LevelSelect = new LevelSelectEvents();
+
+        #region Main Menu
+        public class MainMenuEvents
+        {
+            // Gets raised when a new trial is started. Should be called before loading a scene.
+            public delegate void LevelLoadedEventHandler(object sender, EventArgs e);
+            public event LevelLoadedEventHandler LevelLoaded;
+            public void RaiseLevelLoaded()
+            {
+                if (LevelLoaded != null)
+                    LevelLoaded(this, new EventArgs());
+            }
+
+            // Gets raised when a new trial is started. Should be called before loading a scene.
+            public delegate void LevelEndEventHandler(object sender, EventArgs e);
+            public event LevelEndEventHandler LevelEnd;
+            public void RaiseLevelEnd()
+            {
+                if (LevelEnd != null)
+                    LevelEnd(this, new EventArgs());
+            }
+        }
+        #endregion Main Menu
+
+        #region Level Select
+        public class LevelSelectEvents
+        {
+            // Gets raised when a new trial is started. Should be called before loading a scene.
+            public delegate void LevelLoadedEventHandler(object sender, EventArgs e);
+            public event LevelLoadedEventHandler LevelLoaded;
+            public void RaiseLevelLoaded()
+            {
+                if (LevelLoaded != null)
+                    LevelLoaded(this, new EventArgs());
+            }
+
+            // Gets raised when a new trial is started. Should be called before loading a scene.
+            public delegate void LevelEndEventHandler(object sender, EventArgs e);
+            public event LevelEndEventHandler LevelEnd;
+            public void RaiseLevelEnd()
+            {
+                if (LevelEnd != null)
+                    LevelEnd(this, new EventArgs());
+            }
+        }
+        #endregion Level Select
 
         public class GameManagerEvents
         {
