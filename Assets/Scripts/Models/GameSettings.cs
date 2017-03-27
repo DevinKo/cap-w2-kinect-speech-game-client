@@ -7,4 +7,6 @@ public class GameSettings
 {
     // use to set cursor to mouse or hands
     public Constants.CursorTypes CursorType;
+    public float PointingZoneDuration;
+    public float PointingZoneRadius;
 }

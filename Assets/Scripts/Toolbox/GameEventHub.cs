@@ -11,6 +11,54 @@ namespace Assets.Toolbox
         public SpySceneEvents SpyScene = new SpySceneEvents();
         public CalibrationSceneEvents CalibrationScene = new CalibrationSceneEvents();
         public GameManagerEvents GameManager = new GameManagerEvents();
+        public MainMenuEvents MainMenu = new MainMenuEvents();
+        public LevelSelectEvents LevelSelect = new LevelSelectEvents();
+
+        #region Main Menu
+        public class MainMenuEvents
+        {
+            // Gets raised when a new trial is started. Should be called before loading a scene.
+            public delegate void LevelLoadedEventHandler(object sender, EventArgs e);
+            public event LevelLoadedEventHandler LevelLoaded;
+            public void RaiseLevelLoaded()
+            {
+                if (LevelLoaded != null)
+                    LevelLoaded(this, new EventArgs());
+            }
+
+            // Gets raised when a new trial is started. Should be called before loading a scene.
+            public delegate void LevelEndEventHandler(object sender, EventArgs e);
+            public event LevelEndEventHandler LevelEnd;
+            public void RaiseLevelEnd()
+            {
+                if (LevelEnd != null)
+                    LevelEnd(this, new EventArgs());
+            }
+        }
+        #endregion Main Menu
+
+        #region Level Select
+        public class LevelSelectEvents
+        {
+            // Gets raised when a new trial is started. Should be called before loading a scene.
+            public delegate void LevelLoadedEventHandler(object sender, EventArgs e);
+            public event LevelLoadedEventHandler LevelLoaded;
+            public void RaiseLevelLoaded()
+            {
+                if (LevelLoaded != null)
+                    LevelLoaded(this, new EventArgs());
+            }
+
+            // Gets raised when a new trial is started. Should be called before loading a scene.
+            public delegate void LevelEndEventHandler(object sender, EventArgs e);
+            public event LevelEndEventHandler LevelEnd;
+            public void RaiseLevelEnd()
+            {
+                if (LevelEnd != null)
+                    LevelEnd(this, new EventArgs());
+            }
+        }
+        #endregion Level Select
 
         public class GameManagerEvents
         {
@@ -36,6 +84,24 @@ namespace Assets.Toolbox
         #region SpyScene
         public class SpySceneEvents
         {
+            // Gets raised when cursor leaves zone. Can be raised many times in one scene
+            public delegate void ZoneExitedEventHandler(object sender, EventArgs e);
+            public event ZoneExitedEventHandler ZoneExited;
+            public void RaiseZoneExited()
+            {
+                if (ZoneExited != null)
+                    ZoneExited(this, new EventArgs());
+            }
+
+            // Gets raised when cursor enters zone. Can be raised many times in one scene
+            public delegate void ZoneEnteredEventHandler(object sender, EventArgs e);
+            public event ZoneEnteredEventHandler ZoneEntered;
+            public void RaiseZoneEntered()
+            {
+                if (ZoneEntered != null)
+                    ZoneEntered(this, new EventArgs());
+            }
+
             // Gets raised when zone over clue is activated.
             public delegate void ZoneActivatedEventHandler(object sender, EventArgs e);
             public event ZoneActivatedEventHandler ZoneActivated;
