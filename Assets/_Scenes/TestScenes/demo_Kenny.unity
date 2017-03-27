@@ -318,6 +318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 112430128}
   - component: {fileID: 112430127}
+  - component: {fileID: 112430129}
   m_Layer: 0
   m_Name: ClockCamera
   m_TagString: Untagged
@@ -374,6 +375,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &112430129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 112430126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0a8895033d20e41b4e5d314a42b261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CountdownTimer: {fileID: 1885758517}
+  Background: {fileID: 966126118}
 --- !u!1 &126512402
 GameObject:
   m_ObjectHideFlags: 0
@@ -1073,6 +1087,14 @@ Prefab:
     - target: {fileID: 11400000, guid: 904f2607ebfe84fdd99219aff58af283, type: 2}
       propertyPath: secondsRemaining
       value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 904f2607ebfe84fdd99219aff58af283, type: 2}
+      propertyPath: timerSteps
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 904f2607ebfe84fdd99219aff58af283, type: 2}
+      propertyPath: bouncePerc
+      value: 110
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 904f2607ebfe84fdd99219aff58af283, type: 2}
@@ -2828,7 +2850,7 @@ Transform:
   m_Children:
   - {fileID: 974514150}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1859794441
 GameObject:
@@ -2929,6 +2951,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ec5fec736e9a4479d0f0e315ca4f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1885758517 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100004, guid: 904f2607ebfe84fdd99219aff58af283, type: 2}
+  m_PrefabInternal: {fileID: 662663285}
 --- !u!1001 &1893979013
 Prefab:
   m_ObjectHideFlags: 0
