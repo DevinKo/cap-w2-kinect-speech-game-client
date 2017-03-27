@@ -13,6 +13,8 @@ TagManager:
   - UIHandLeft
   - UIHandRight
   - DescribeUI
+  - BackgroundMusic
+  - SFX
   layers:
   - Default
   - TransparentFX
