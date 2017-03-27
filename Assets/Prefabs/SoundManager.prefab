@@ -35,6 +35,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4497659669102328}
   - component: {fileID: 82092936292208710}
+  - component: {fileID: 114634406293689764}
   m_Layer: 0
   m_Name: BackgroundMusic
   m_TagString: BackgroundMusic
@@ -260,6 +261,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114634406293689764
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1692792535792662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a07a4e315f36c4d8bc3d8f90207675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114841874613770962
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -273,5 +285,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SfxSamples:
   - {fileID: 8300000, guid: a5aecf2456afa16449e5cbe856879dbd, type: 3}
-  - {fileID: 8300000, guid: 8b5105faf3cdca54eaad0adf3c628d82, type: 3}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: bdd7a1ef2f53c314f87f01c92518c522, type: 3}
+  - {fileID: 8300000, guid: d484253bb1c902746a5b6262d6418229, type: 3}
+  - {fileID: 8300000, guid: a16643bb15e862f45aced164fdfc7616, type: 3}
