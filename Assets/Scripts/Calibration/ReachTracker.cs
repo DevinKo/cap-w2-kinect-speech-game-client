@@ -11,7 +11,7 @@ public class ReachTracker : MonoBehaviour
 	public Text testText;
 	public Text timerText;
 	public Text instructionText;
-	float maxTime = 5.0f; //change calibration time per hand here
+	public float maxTime = 5.0f; //change calibration time per hand here
 	float timeLeft;
 
 	private Toolbox _toolbox;
@@ -114,6 +114,6 @@ public class ReachTracker : MonoBehaviour
 		}
 
 		// Display instructions
-		instructionText.text = "Instructions: Draw a circle with your " + whichHand;
+		instructionText.text = "Draw a circle with your " + whichHand;
 	}
 }

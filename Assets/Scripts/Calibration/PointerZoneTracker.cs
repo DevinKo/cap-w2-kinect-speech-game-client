@@ -12,11 +12,10 @@ using Assets.Scripts.Utility;
 
 public class PointerZoneTracker : MonoBehaviour
 {
-	// Used for displaying audio threshold (testing only)
-	public Text testText;
+	public Text testText; // Used for displaying audio threshold (testing only)
 	public Text timerText;
 	public Text instructionText;
-	float maxTime = 5.0f; //change calibration time here
+	public float maxTime = 5.0f; //change calibration time here
 	float timeLeft;
 
 	private Toolbox _toolbox;
@@ -102,6 +101,6 @@ public class PointerZoneTracker : MonoBehaviour
 		*/
 
 		// Display instructions
-		instructionText.text = "Keep both hands on the circle.";
+		instructionText.text = "  Keep both hands on the circle.";
 	}
 }
