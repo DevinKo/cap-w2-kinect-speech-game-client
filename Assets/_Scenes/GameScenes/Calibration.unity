@@ -100,7 +100,6 @@ GameObject:
   m_Component:
   - component: {fileID: 385767173}
   - component: {fileID: 385767176}
-  - component: {fileID: 385767175}
   - component: {fileID: 385767174}
   m_Layer: 0
   m_Name: CalibrationManager
@@ -131,20 +130,6 @@ MonoBehaviour:
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20a15b9594c23e34f94dd1a3628e7c76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  testText: {fileID: 1749112508}
-  timerText: {fileID: 1721740688}
-  instructionText: {fileID: 1549526525}
---- !u!114 &385767175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 385767172}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f7ba68a5e36a3743b1d883de02f6cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   testText: {fileID: 1749112508}
@@ -546,8 +531,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 55, y: 134.1}
-  m_SizeDelta: {x: 600, y: 30}
+  m_AnchoredPosition: {x: 101.9, y: 59.9}
+  m_SizeDelta: {x: 618, y: 79.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1549526525
 MonoBehaviour:
@@ -569,8 +554,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 536419a7930a747209dbe0947a6d1f70, type: 3}
-    m_FontSize: 26
+    m_Font: {fileID: 12800000, guid: f5468cc4efdd99640b7d684ddfa3d3c6, type: 3}
+    m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -581,7 +566,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Instructions: Draw a circle with your ...'
+  m_Text: Draw a circle with your hand
 --- !u!222 &1549526526
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -824,8 +809,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 11.1, y: 84.2}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 195.1, y: 130.4}
+  m_SizeDelta: {x: 161.5, y: 42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1721740688
 MonoBehaviour:
@@ -847,8 +832,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 536419a7930a747209dbe0947a6d1f70, type: 3}
-    m_FontSize: 26
+    m_Font: {fileID: 12800000, guid: f5468cc4efdd99640b7d684ddfa3d3c6, type: 3}
+    m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -884,7 +869,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1749112507
 RectTransform:
   m_ObjectHideFlags: 0
@@ -923,7 +908,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 536419a7930a747209dbe0947a6d1f70, type: 3}
+    m_Font: {fileID: 12800000, guid: 607bc9486ec000c499f413e1d101076b, type: 3}
     m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 0
