@@ -100,7 +100,18 @@ public class ReachTracker : MonoBehaviour
 			"Max X Reach = " + _maxReach.x + "\n" +
 			"Max Y Reach = " + _maxReach.y;
 
+		string whichHand = "hand.";
+
+		if (_jointType == JointType.HandRight) 
+		{
+			whichHand = "right hand.";
+		}
+		else if (_jointType == JointType.HandLeft)
+		{
+			whichHand = "left hand.";
+		}
+
 		// Display instructions
-		instructionText.text = "Instructions: Draw a circle with your " + _jointType.ToString();
+		instructionText.text = "Instructions: Draw a circle with your " + whichHand;
 	}
 }
