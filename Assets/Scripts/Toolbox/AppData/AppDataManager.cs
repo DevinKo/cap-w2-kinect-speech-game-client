@@ -24,6 +24,7 @@ namespace Assets.Toolbox
 
             toolbox.EventHub.CalibrationScene.RadiusCaptured += OnRadiusCaptured;
             toolbox.EventHub.CalibrationScene.PointerZoneDurationCaptured += OnPointerZoneDurationCaptured;
+            toolbox.EventHub.CalibrationScene.AudioThresholdCaptured += OnAudioThresholdCaptured;
         }
 
         public void Update()
@@ -65,9 +66,14 @@ namespace Assets.Toolbox
 
         public override GameSettings GetGameSettings()
         {
+            /*
             _gameSettings.PointingZoneDuration = PlayerPrefs.GetFloat("PointerZoneDuration", 5);
-            _gameSettings.PointingZoneDuration = _gameSettings.PointingZoneDuration == 0 ? 5 : _gameSettings.PointingZoneDuration;
             _gameSettings.PointingZoneRadius = PlayerPrefs.GetFloat("PointerZoneRadius");
+            _gameSettings.AudioThreshold = PlayerPrefs.GetFloat("AudioThreshold");
+            */
+            
+            _gameSettings.PointingZoneDuration = _gameSettings.PointingZoneDuration == 0 ? 5 : _gameSettings.PointingZoneDuration;
+            _gameSettings.AudioThreshold = _gameSettings.AudioThreshold == 0 ? -80f : _gameSettings.AudioThreshold;
 
             return _gameSettings;
         }
@@ -76,6 +82,7 @@ namespace Assets.Toolbox
         {
             _gameSettings = settings;
 
+            PlayerPrefs.GetFloat("AudioThreshold", settings.AudioThreshold);
             PlayerPrefs.SetFloat("PointerZoneDuration", settings.PointingZoneDuration);
             PlayerPrefs.SetFloat("PointerZoneRadius", settings.PointingZoneRadius);
         }
@@ -94,6 +101,13 @@ namespace Assets.Toolbox
             settings.PointingZoneDuration = duration;
             Save(settings);
         }
+
+        private void OnAudioThresholdCaptured(object sender, EventArgs e, float threshold)
+        {
+            var settings = GetGameSettings();
+            settings.AudioThreshold = threshold;
+            Save(settings);
+        } 
         #endregion EventHandlers
     }
 

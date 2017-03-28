@@ -29,6 +29,14 @@ public class SfxManager : MonoBehaviour {
         _toolbox.EventHub.SpyScene.DescribeComplete += PlayLevelCompleteSound;
     }
 
+    private void OnDestroy()
+    {
+        // assign sounds to events in EventHub
+        _toolbox.EventHub.SpyScene.ZoneActivated -= PlayZoneActivatedSound;
+        _toolbox.EventHub.SpyScene.ZoneComplete -= PlayZoneCompleteSound;
+        _toolbox.EventHub.SpyScene.DescribeComplete -= PlayLevelCompleteSound;
+    }
+
     public void PlayZoneActivatedSound(object sender, EventArgs e)
     {
         GetComponent<AudioSource>().PlayOneShot(SfxSamples[(int)SFX.OBJECT_FOUND]);

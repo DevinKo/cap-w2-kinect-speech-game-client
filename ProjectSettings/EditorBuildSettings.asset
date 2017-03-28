@@ -19,3 +19,5 @@ EditorBuildSettings:
     path: Assets/_Scenes/TestScenes/demo_Kenny.unity
   - enabled: 1
     path: Assets/_Scenes/GameScenes/LevelSelectMenu.unity
+  - enabled: 1
+    path: Assets/_Scenes/GameScenes/Levels/SchoolScene_Easy.unity

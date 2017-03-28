@@ -15,7 +15,8 @@ public class ClueBoxGenerator : MonoBehaviour
     public void Start()
     {
         gameObject.transform.rotation = Camera.main.transform.rotation;
-        backgroundObject.GetComponent<MeshRenderer>().material.color = Color.white;
+        var mesh = backgroundObject.GetComponent<Renderer>();
+        mesh.material.color = Color.white;
         GameObject pointingObjectOriginal = GameObject.FindGameObjectsWithTag("pointing_object").First();
         
         // Copy clue object

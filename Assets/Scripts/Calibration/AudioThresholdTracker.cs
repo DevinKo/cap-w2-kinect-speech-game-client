@@ -55,7 +55,7 @@ public class AudioThresholdTracker : MonoBehaviour
             var stdDev = MathExt.CalculateStdDev(volumeSamples);
 
             // This allows any listeners to save the audio threshold
-            _toolbox.EventHub.CalibrationScene.RaiseAudioThresholdCaptured(averageVolume + stdDev);
+            _toolbox.EventHub.CalibrationScene.RaiseAudioThresholdCaptured(averageVolume - stdDev);
 			
             // end audio threshold calibration and enter pointer zone calibration
 			GetComponent<PointerZoneTracker> ().enabled = !GetComponent<PointerZoneTracker> ().enabled;
