@@ -135,6 +135,7 @@ MonoBehaviour:
   testText: {fileID: 1749112508}
   timerText: {fileID: 1721740688}
   instructionText: {fileID: 1549526525}
+  maxTime: 5
 --- !u!114 &385767176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +150,7 @@ MonoBehaviour:
   testText: {fileID: 1749112508}
   timerText: {fileID: 1721740688}
   instructionText: {fileID: 1549526525}
+  maxTime: 5
 --- !u!1 &613009625
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,7 +695,7 @@ TrailRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 1f16052dfd5f6f54e94e97ecedd4c86b, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -774,7 +776,7 @@ TrailRenderer:
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
-    textureMode: 0
+    textureMode: 1
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
 --- !u!1 &1721740686
@@ -1047,7 +1049,7 @@ TrailRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 1f16052dfd5f6f54e94e97ecedd4c86b, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1128,6 +1130,6 @@ TrailRenderer:
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
-    textureMode: 0
+    textureMode: 1
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
