@@ -96,10 +96,12 @@ public class PointerZoneTracker : MonoBehaviour
 	// For testing
 	void printReach()
 	{
-		// Display pointing zone distance
+		// Display pointing zone distance - TEST ONLY
+		/*
 		testText.text = _jointType + " Radius: " + radius;
+		*/
 
 		// Display instructions
-		instructionText.text = "Keep hands on the circle.";
+		instructionText.text = "Keep both hands on the circle.";
 	}
 }

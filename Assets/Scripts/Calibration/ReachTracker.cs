@@ -83,8 +83,8 @@ public class ReachTracker : MonoBehaviour
                 _toolbox.EventHub.CalibrationScene.RaiseMaxReachCaptured(_maxReach, _maxReachRight);
 
 				timeLeft = 0.5f;
-				//turn off ReachManager object and activate AudioThresholdManager
-				GetComponent<AudioThresholdTracker> ().enabled = !GetComponent<AudioThresholdTracker> ().enabled;
+				// turn off ReachManager object and activate PointerZoneTracker
+				GetComponent<PointerZoneTracker> ().enabled = !GetComponent<PointerZoneTracker> ().enabled;
 				this.enabled = !this.enabled;
 			}
 		}
@@ -95,10 +95,12 @@ public class ReachTracker : MonoBehaviour
 	// For testing
 	void printReach()
 	{
-		// Display reach distance
+		// Display reach distance - TEST ONLY
+		/*
 		testText.text = "HandType = " + _jointType.ToString() + "\n" +
 			"Max X Reach = " + _maxReach.x + "\n" +
 			"Max Y Reach = " + _maxReach.y;
+		*/
 
 		string whichHand = "hand.";
 
