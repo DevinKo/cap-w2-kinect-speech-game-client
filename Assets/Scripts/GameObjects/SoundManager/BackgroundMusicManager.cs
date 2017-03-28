@@ -20,6 +20,13 @@ public class BackgroundMusicManager : MonoBehaviour {
 
     }
 
+    private void OnDestroy()
+    {
+        _toolbox.EventHub.SpyScene.LoadComplete -= StartSpyMusic;
+        _toolbox.EventHub.SpyScene.DescribeComplete -= StopSpyMusic;
+
+    }
+
     public void StartSpyMusic(object sender, EventArgs e)
     {
         _music.Stop();

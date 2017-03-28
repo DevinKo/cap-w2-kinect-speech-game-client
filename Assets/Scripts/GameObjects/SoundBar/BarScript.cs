@@ -24,7 +24,7 @@ public class BarScript : MonoBehaviour {
     private bool soundBarOn = false;
 
     Image mask;
-
+    private float _minEnergyDb;
     Image SoundBarImage;
 
     Color contentColor;
@@ -55,6 +55,7 @@ public class BarScript : MonoBehaviour {
         SoundBarImage.color = grayColor;
         content.color = grayColor;
         mask.color = grayColor;
+        _minEnergyDb = _toolbox.AppDataManager.GetGameSettings().AudioThreshold;
 
         maxVolume = 4000;
     }
@@ -75,8 +76,7 @@ public class BarScript : MonoBehaviour {
 
     private void HandleBar()
     {
-        var minEnergyDb = -80f;
-        totalVolume += _toolbox.VolumeSourceManager.Decibel(minEnergyDb);
+        totalVolume += _toolbox.VolumeSourceManager.Decibel(_minEnergyDb);
         fillAmount = Map(totalVolume, 0, maxVolume);
         content.fillAmount = fillAmount;
 

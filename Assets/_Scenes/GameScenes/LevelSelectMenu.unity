@@ -2160,7 +2160,7 @@ MonoBehaviour:
   NeedCompleted: {fileID: 0}
   Levels:
   - ID: 1
-    SceneName: demo_Kenny
+    SceneName: SchoolScene_Easy
     Score: 0
     Optional: 
     IsPassed: 0

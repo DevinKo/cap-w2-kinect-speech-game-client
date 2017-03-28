@@ -9,4 +9,5 @@ public class GameSettings
     public Constants.CursorTypes CursorType;
     public float PointingZoneDuration;
     public float PointingZoneRadius;
+    public float AudioThreshold;
 }
