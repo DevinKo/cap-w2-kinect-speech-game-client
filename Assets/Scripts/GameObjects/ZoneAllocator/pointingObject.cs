@@ -38,12 +38,12 @@ public class PointingObject : MonoBehaviour
         
         while (true)
         {
-            float step = .5f * Time.deltaTime;
+            float step = Time.deltaTime;
 
             if (gameObject.transform.position == targetPos)
             {
-                gameObject.transform.eulerAngles = new Vector3(0, -180, 0);
-                gameObject.transform.localScale = new Vector3(1.0F, 1.0F, 1.0F);
+                gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
+                //gameObject.transform.localScale = new Vector3(1.0F, 1.0F, 1.0F);
                 _toolbox.EventHub.SpyScene.RaiseClueMoved();
                 yield break;
             }
