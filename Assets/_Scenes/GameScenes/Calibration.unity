@@ -99,6 +99,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 385767173}
+  - component: {fileID: 385767175}
   - component: {fileID: 385767176}
   - component: {fileID: 385767174}
   m_Layer: 0
@@ -136,6 +137,21 @@ MonoBehaviour:
   timerText: {fileID: 1721740688}
   instructionText: {fileID: 1549526525}
   maxTime: 10
+--- !u!114 &385767175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 385767172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3bef52bd89b04fe295c75e9f5623611, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testText: {fileID: 1749112508}
+  timerText: {fileID: 1721740688}
+  instructionText: {fileID: 1549526525}
+  maxTime: 3
 --- !u!114 &385767176
 MonoBehaviour:
   m_ObjectHideFlags: 0
