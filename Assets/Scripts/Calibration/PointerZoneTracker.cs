@@ -19,10 +19,8 @@ public class PointerZoneTracker : MonoBehaviour
 	float timeLeft;
 
 	private Toolbox _toolbox;
-	private JointType _jointType;
 	private float distance; //current distance from center
 	private float radius; //radius to be stored to calibration contract
-	private float pointerTime; //maxTime to be sent to calibration contract
 	GameObject sphere;
     private List<float> radiusSamples = new List<float>();
 
@@ -31,9 +29,6 @@ public class PointerZoneTracker : MonoBehaviour
 	{
 		_toolbox = FindObjectOfType<Toolbox>();
 		timeLeft = maxTime;
-		pointerTime = maxTime;
-		//Start calibration with right hand
-		_jointType = JointType.HandRight;
 
 		//spawn primitive object sphere for testing
 		GameObject sphere1 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -97,7 +92,7 @@ public class PointerZoneTracker : MonoBehaviour
 	{
 		// Display pointing zone distance - TEST ONLY
 		/*
-		testText.text = _jointType + " Radius: " + radius;
+		testText.text = " Radius: " + radius;
 		*/
 
 		// Display instructions
