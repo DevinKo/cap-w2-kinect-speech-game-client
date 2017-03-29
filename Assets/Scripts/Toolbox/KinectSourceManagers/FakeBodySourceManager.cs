@@ -39,4 +39,9 @@ public class FakeBodySourceManager : BaseBodySourceManager, IBodySourceManager
     {
         return _fakeBody.Joints[jointType];
     }
+
+    public Assets.Models.Joint GetJointRelative(JointType type)
+    {
+        return GetJoint(type);
+    }
 }

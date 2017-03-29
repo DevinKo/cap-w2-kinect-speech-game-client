@@ -16,6 +16,7 @@ namespace Assets.Toolbox
     {
         private Toolbox _toolbox;
         private string url = "http://localhost:3000/api/v1/sessions";
+        private float _timeOutTimer;
 
         public void Start()
         {
@@ -53,14 +54,24 @@ namespace Assets.Toolbox
             postHeader.Add("Content-Type", "application/json");
 
             var request = new WWW(url, bytes, postHeader);
-            StartCoroutine("WaitAsync", request);
+            StartCoroutine("WaitLoginAsync", request);
             
         }
 
         public IEnumerator WaitAsync(WWW request)
         {
+            yield return request;
+        }
+
+        public IEnumerator WaitLoginAsync(WWW request)
+        {
+            SetTimeout(30);
             while (!request.isDone)
             {
+                if (CheckTimeout())
+                {
+                    break;
+                }
                 yield return null;
             }
             var response = new LoginResponse();
@@ -73,6 +84,21 @@ namespace Assets.Toolbox
             }
             _toolbox.EventHub.ServerEvents.RaiseLoginComplete(response);
             yield return request;
+        }
+
+        public void SetTimeout(float seconds)
+        {
+            _timeOutTimer = seconds;
+        }
+
+        public bool CheckTimeout()
+        {
+            _timeOutTimer -= Time.deltaTime;
+            if (_timeOutTimer <= 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 

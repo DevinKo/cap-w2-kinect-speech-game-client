@@ -24,7 +24,13 @@ public class ConfettiManager : MonoBehaviour
     private void Update()
     {
         var clue = BaseSceneManager.Instance.GetObjectWithName(GameObjectName.Clue);
-        gameObject.transform.position = clue.transform.position;
+        if (clue != null)
+            gameObject.transform.position = clue.transform.position;
+    }
+
+    private void OnDestroy()
+    {
+        _toolbox.EventHub.SpyScene.DescribeComplete -= OnDescribeComplete;
     }
 
     #region Event Handlers
