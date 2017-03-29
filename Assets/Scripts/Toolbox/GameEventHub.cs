@@ -13,6 +13,30 @@ namespace Assets.Toolbox
         public GameManagerEvents GameManager = new GameManagerEvents();
         public MainMenuEvents MainMenu = new MainMenuEvents();
         public LevelSelectEvents LevelSelect = new LevelSelectEvents();
+        public ServerProxy ServerEvents = new ServerProxy(); 
+
+        #region Server Proxy
+        public class ServerProxy
+        {
+            // Gets raised when Login has returned.
+            public delegate void LoginCompleteEventHandler(object sender, EventArgs e, LoginResponse response);
+            public event LoginCompleteEventHandler LoginComplete;
+            public void RaiseLoginComplete(LoginResponse response)
+            {
+                if (LoginComplete != null)
+                    LoginComplete(this, new EventArgs(), response);
+            }
+
+            // Gets raised when Logout has returned.
+            public delegate void LogoutCompleteEventHandler(object sender, EventArgs e);
+            public event LogoutCompleteEventHandler LogoutComplete;
+            public void RaiseLogoutComplete()
+            {
+                if (LogoutComplete != null)
+                    LogoutComplete(this, new EventArgs());
+            }
+        }
+        #endregion Server Proxy
 
         #region Main Menu
         public class MainMenuEvents

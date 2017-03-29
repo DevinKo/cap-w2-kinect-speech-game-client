@@ -48,9 +48,14 @@ public class GameManager : MonoBehaviour
         Toolbox.AppDataManager.Save(new GameSettings() { CursorType = this.CursorType });
 
         // Start a new trial here so 
-
+        Toolbox.EventHub.ServerEvents.LogoutComplete += OnLogoutComplete;
         Toolbox.EventHub.CalibrationScene.SceneEnd += OnCalibrationSceneEnd;
         Toolbox.EventHub.SpyScene.Completed += OnSpySceneComplete;
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void LoadSpyScene()
@@ -75,6 +80,11 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void Logout()
+    {
+        Toolbox.AppAuth.Logout();
+    }
+
     #region Event Handlers
     private void OnSessionComplete(object sender, EventArgs e)
     {
@@ -92,5 +102,10 @@ public class GameManager : MonoBehaviour
         GMK.LevelManager.CompleteLevel(0, "");
         LoadLevelSelect();
     } 
+
+    private void OnLogoutComplete(object sender, EventArgs e)
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
     #endregion Event Handlers
 }

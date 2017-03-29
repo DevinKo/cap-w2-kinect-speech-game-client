@@ -12,6 +12,12 @@ namespace Constants
         NONE
     }
 
+    public static class ServerResponses
+    {
+        public static int Ok = 200;
+        public static int Unauthorized = 401;
+    }
+
     public enum CursorTypes
     {
         LeftHand,
