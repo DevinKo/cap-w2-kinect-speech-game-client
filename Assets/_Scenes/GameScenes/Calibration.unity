@@ -583,13 +583,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1038787809}
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 279.99, y: 156.4, z: 1.637}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1269272238
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,6 +875,7 @@ MonoBehaviour:
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
   clickColor: {r: 0.5294118, g: 0.7858013, b: 1, a: 1}
   clickScale: {x: -0.8, y: 0.8, z: 0.8}
+  IsSnappedTo: 0
 --- !u!225 &1685153296
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1180,6 +1181,7 @@ MonoBehaviour:
   hoverColor: {r: 1, g: 1, b: 1, a: 1}
   clickColor: {r: 0.5294118, g: 0.7858013, b: 1, a: 1}
   clickScale: {x: 0.8, y: 0.8, z: 0.8}
+  IsSnappedTo: 0
 --- !u!225 &2061996491
 CanvasGroup:
   m_ObjectHideFlags: 0
