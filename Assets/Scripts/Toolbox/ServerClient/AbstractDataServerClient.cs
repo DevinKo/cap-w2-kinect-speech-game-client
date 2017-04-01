@@ -6,5 +6,6 @@ namespace Assets.Toolbox
     public abstract class AbstractDataServerClient : MonoBehaviour
     {
         public abstract void Send(GameSession session);
+        public abstract void Login(LoginRequest request);
     }
 }

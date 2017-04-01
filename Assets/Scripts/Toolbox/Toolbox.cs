@@ -18,6 +18,15 @@ namespace Assets.Toolbox
         protected DistanceCollector _distanceCollector;
         protected Distance2SnapshotCollector _distance2Collector;
         protected GameEventHub _gameEventHub;
+        protected AppAuth _appAuth;
+
+        public AppAuth AppAuth
+        {
+            get
+            {
+                return _appAuth;
+            }
+        }
 
         public AbstractAppDataManager AppDataManager
         {
@@ -115,6 +124,7 @@ namespace Assets.Toolbox
             _distanceCollector = gameObject.AddComponent<DistanceCollector>();
             _distance2Collector = gameObject.AddComponent<Distance2SnapshotCollector>();
             _gameEventHub = new GameEventHub();
+            _appAuth = gameObject.AddComponent<AppAuth>();
         }
 
         // allow runtime registration of global objects

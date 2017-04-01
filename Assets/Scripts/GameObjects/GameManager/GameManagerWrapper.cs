@@ -25,4 +25,14 @@ public class GameManagerWrapper : MonoBehaviour
     {
         _gameManager.CompleteAndSendSession();
     }
+
+    public void Logout()
+    {
+        _gameManager.Logout();
+    }
+
+    public void LoadMainMenu()
+    {
+        _gameManager.LoadMainMenu();
+    }
 }
