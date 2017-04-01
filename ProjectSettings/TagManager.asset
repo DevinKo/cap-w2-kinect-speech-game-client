@@ -15,6 +15,7 @@ TagManager:
   - DescribeUI
   - BackgroundMusic
   - SFX
+  - clues
   layers:
   - Default
   - TransparentFX
