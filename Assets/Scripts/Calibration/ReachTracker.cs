@@ -11,7 +11,7 @@ public class ReachTracker : MonoBehaviour
 	public Text testText;
 	public Text timerText;
 	public Text instructionText;
-	float maxTime = 5.0f; //change calibration time per hand here
+	public float maxTime = 5.0f; //change calibration time per hand here
 	float timeLeft;
 
 	private Toolbox _toolbox;
@@ -83,8 +83,8 @@ public class ReachTracker : MonoBehaviour
                 _toolbox.EventHub.CalibrationScene.RaiseMaxReachCaptured(_maxReach, _maxReachRight);
 
 				timeLeft = 0.5f;
-				//turn off ReachManager object and activate AudioThresholdManager
-				GetComponent<AudioThresholdTracker> ().enabled = !GetComponent<AudioThresholdTracker> ().enabled;
+				// turn off ReachManager object and activate PointerZoneTracker
+				GetComponent<PointerZoneTracker> ().enabled = !GetComponent<PointerZoneTracker> ().enabled;
 				this.enabled = !this.enabled;
 			}
 		}
@@ -95,10 +95,12 @@ public class ReachTracker : MonoBehaviour
 	// For testing
 	void printReach()
 	{
-		// Display reach distance
+		// Display reach distance - TEST ONLY
+		/*
 		testText.text = "HandType = " + _jointType.ToString() + "\n" +
 			"Max X Reach = " + _maxReach.x + "\n" +
 			"Max Y Reach = " + _maxReach.y;
+		*/
 
 		string whichHand = "hand.";
 
@@ -112,6 +114,6 @@ public class ReachTracker : MonoBehaviour
 		}
 
 		// Display instructions
-		instructionText.text = "Instructions: Draw a circle with your " + whichHand;
+		instructionText.text = "Draw a circle with your " + whichHand;
 	}
 }

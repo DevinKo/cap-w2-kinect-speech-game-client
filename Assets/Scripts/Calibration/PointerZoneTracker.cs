@@ -12,19 +12,16 @@ using Assets.Scripts.Utility;
 
 public class PointerZoneTracker : MonoBehaviour
 {
-	// Used for displaying audio threshold (testing only)
-	public Text testText;
+	public Text testText; // Used for displaying audio threshold (testing only)
 	public Text timerText;
 	public Text instructionText;
-	float maxTime = 5.0f; //change calibration time here
+	public float maxTime = 5.0f; //change calibration time here
 	float timeLeft;
 
 	private Toolbox _toolbox;
-	private JointType _jointType;
 	private float distance; //current distance from center
 	private float radius; //radius to be stored to calibration contract
-	private float pointerTime; //maxTime to be sent to calibration contract
-	public GameObject sphere;
+	GameObject sphere;
     private List<float> radiusSamples = new List<float>();
 
 	// Use this for initialization
@@ -32,11 +29,12 @@ public class PointerZoneTracker : MonoBehaviour
 	{
 		_toolbox = FindObjectOfType<Toolbox>();
 		timeLeft = maxTime;
-		pointerTime = maxTime;
-		//Start calibration with right hand
-		_jointType = JointType.HandRight;
 
-        sphere.SetActive(true);
+		//spawn primitive object sphere for testing
+		GameObject sphere1 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+		sphere1.transform.position = new Vector3(-0.01F, -0.01F, -0.01F);
+		sphere1.transform.localScale = new Vector3(.2F, .2F, .2F);
+		sphere = sphere1;
 	}
 
 	// Update is called once per frame
@@ -92,10 +90,12 @@ public class PointerZoneTracker : MonoBehaviour
 	// For testing
 	void printReach()
 	{
-		// Display pointing zone distance
-		testText.text = _jointType + " Radius: " + radius;
+		// Display pointing zone distance - TEST ONLY
+		/*
+		testText.text = " Radius: " + radius;
+		*/
 
 		// Display instructions
-		instructionText.text = "Keep hands on the circle.";
+		instructionText.text = "  Keep both hands on the circle.";
 	}
 }
